@@ -181,104 +181,82 @@ const Home = () => {
     <div className="w-full">
 
       {/* ── Hero ───────────────────────────────────────────── */}
-      <section className="relative overflow-hidden pt-4 pb-8 lg:py-14 lg:flex lg:items-center"
-        style={{ backgroundColor: '#f5f0eb' }}>
+      <section className="relative flex items-center overflow-hidden" style={{ minHeight: '88vh', backgroundColor: '#172632' }}>
 
-        {/* BG image */}
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ backgroundImage: `url(${heroBg})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.45 }} />
-
-        {/* White overlay — keeps text legible while image shows through */}
-        <div className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `
-              radial-gradient(ellipse 120% 55% at 50% 15%, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.25) 55%, transparent 80%),
-              radial-gradient(ellipse 60% 90% at 22% 52%, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.3) 45%, transparent 72%)
-            `,
+        {/* Full-bleed background image */}
+        <div className="absolute inset-0 pointer-events-none">
+          <img
+            src={heroImage1}
+            alt=""
+            aria-hidden="true"
+            className="w-full h-full object-cover object-center"
+            style={{ opacity: 0.55 }}
+          />
+          {/* Dark gradient — heavy navy on left, fades to near-transparent on right */}
+          <div className="absolute inset-0" style={{
+            background: 'linear-gradient(to right, #172632 0%, rgba(23,38,50,0.93) 35%, rgba(23,38,50,0.65) 62%, rgba(23,38,50,0.18) 100%)',
           }} />
+          {/* Decorative concentric circles on right */}
+          <div className="absolute pointer-events-none" style={{ right: '-6rem', top: '50%', transform: 'translateY(-50%)' }}>
+            <div className="rounded-full border-[90px] border-white/[0.04]" style={{ width: 700, height: 700 }} />
+          </div>
+          <div className="absolute pointer-events-none" style={{ right: '4rem', top: '50%', transform: 'translateY(-44%)' }}>
+            <div className="rounded-full border-[60px] border-white/[0.05]" style={{ width: 500, height: 500 }} />
+          </div>
+        </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 lg:px-6 w-full">
-          {/*
-            Mobile:  flex-col with CSS order → h1(1), collage(2), p(3), buttons(4)
-            Desktop: 2-col grid → col1: h1/p/buttons, col2: collage spanning all rows
-          */}
-          <div className="flex flex-col lg:grid lg:gap-x-8 lg:gap-y-2 lg:items-center"
-            style={{ gridTemplateColumns: '50fr 50fr' }}>
+        {/* Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 lg:px-10 w-full py-20 lg:py-28">
+          <motion.div
+            className="max-w-2xl"
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65 }}>
 
-            {/* ── H1 ── order-1 on mobile, grid col-1 row-1 on desktop */}
-            <motion.h1
-              className="font-semibold order-1 lg:order-none mb-4 lg:mb-2"
-              initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55 }}
-              style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(2rem, 4.2vw, 3.6rem)', lineHeight: 1.15 }}>
-              <span className="text-navy-900 block" style={{ marginBottom: '0.2em' }}>{content?.heroLine1 ?? 'We deliver'}</span>
-              <span style={{ position: 'relative', display: 'block', height: '1.15em', overflow: 'visible', marginBottom: '0.2em' }}>
-                <span
-                  className="font-semibold"
-                  style={{ position: 'absolute', left: 0, top: 0, color: '#fda102', whiteSpace: 'nowrap', fontSize: 'inherit', lineHeight: 1.15 }}>
-                  {typewriterText}<span className="typewriter-cursor">|</span>
-                </span>
+            {/* Headline */}
+            <h1
+              className="font-bold text-white mb-5 lg:mb-6"
+              style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(2.4rem, 5vw, 4.2rem)', lineHeight: 1.1 }}>
+              <span className="block mb-1">{content?.heroLine1 ?? 'We deliver'}</span>
+              <span className="block mb-1" style={{ color: '#fda102', minHeight: '1.1em' }}>
+                {typewriterText}<span className="typewriter-cursor">|</span>
               </span>
-              <span className="text-navy-900 block">{content?.heroLine2 ?? 'for business growth'}</span>
-            </motion.h1>
+              <span className="block">{content?.heroLine2 ?? 'for business growth'}</span>
+            </h1>
 
-            {/* ── Collage ── order-2 on mobile, grid col-2 row-span-3 on desktop */}
-            <motion.div
-              className="w-full order-2 lg:order-none lg:col-start-2 lg:row-start-1 lg:row-span-3 my-5 lg:my-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.15 }}>
-              <div className="flex gap-2.5 h-[280px] sm:h-[340px] lg:h-[620px]">
-                {/* Left column: tall video */}
-                <div className="flex flex-col" style={{ width: '58%' }}>
-                  <div className="rounded-xl lg:rounded-2xl overflow-hidden shadow-sm" style={{ flex: 1 }}>
-                    <video src={heroVideo} autoPlay loop muted playsInline aria-hidden="true"
-                      className="w-full h-full object-cover" style={{ display: 'block' }} />
-                  </div>
-                </div>
-                {/* Right column: two stacked images */}
-                <div className="flex flex-col gap-2.5" style={{ width: '42%' }}>
-                  <div className="rounded-xl lg:rounded-2xl overflow-hidden shadow-sm" style={{ flex: '0 0 42%' }}>
-                    <img src={heroImage1} alt="" aria-hidden="true" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="rounded-xl lg:rounded-2xl overflow-hidden shadow-sm" style={{ flex: 1 }}>
-                    <img src={heroImage2} alt="" aria-hidden="true" className="w-full h-full object-cover" />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* ── Paragraph ── order-3 on mobile, grid col-1 row-2 on desktop */}
+            {/* Subtitle */}
             <motion.p
-              className="order-3 lg:order-none text-sm lg:text-base leading-relaxed mb-4 lg:mb-0"
-              initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.1 }}
-              style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 400, color: '#444444', textAlign: 'justify' }}>
-              {content?.heroDescription ?? "India's labour laws are complex, constantly evolving, and unforgiving of errors. We take that burden off your shoulders — handling everything from PF, ESIC and statutory filings to payroll processing, HR advisory, and the New Wage Code transition, so your business stays protected and your teams stay focused on growth."}
+              className="mb-8 lg:mb-10 text-base lg:text-lg leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(255,255,255,0.82)', maxWidth: '30rem' }}>
+              {content?.heroDescription ?? "India's labour laws are complex, constantly evolving, and unforgiving of errors. We take that burden off your shoulders — PF, ESIC, statutory filings, payroll, HR advisory, and the New Wage Code transition."}
             </motion.p>
 
-            {/* ── Buttons ── order-4 on mobile, grid col-1 row-3 on desktop */}
+            {/* CTA Buttons */}
             <motion.div
-              className="order-4 lg:order-none flex flex-nowrap gap-2 lg:gap-3 items-center justify-center lg:justify-start w-full"
-              initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.2 }}>
+              className="flex flex-wrap gap-3 lg:gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.28 }}>
               <Link to="/contact"
-                className="inline-flex items-center justify-center gap-1 lg:gap-1.5 text-white rounded-full transition-all shadow-lg hover:scale-[1.02] whitespace-nowrap text-[0.78rem] lg:text-[1rem] px-3.5 py-2.5 lg:px-7 lg:py-3.5 flex-1 lg:flex-initial"
-                style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 600, letterSpacing: '0.01em', backgroundColor: 'var(--primary)', border: '2px solid #fda102' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#fda102'; (e.currentTarget as HTMLElement).style.color = '#111111'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--primary)'; (e.currentTarget as HTMLElement).style.color = '#ffffff'; }}>
-                {content?.ctaPrimaryText ?? 'Book a Consultation'} <ArrowRight size={13} />
+                className="inline-flex items-center justify-center gap-2 rounded-full font-bold text-sm lg:text-base transition-all duration-200 whitespace-nowrap"
+                style={{ fontFamily: 'Poppins, sans-serif', backgroundColor: '#fda102', color: '#111111', padding: '0.85rem 2rem' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#ffffff'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#fda102'; }}>
+                {content?.ctaPrimaryText ?? 'Book a Consultation'}
               </Link>
               <Link to="/services"
-                className="inline-flex items-center justify-center gap-1 lg:gap-1.5 rounded-full transition-all shadow-lg hover:scale-[1.02] whitespace-nowrap text-[0.78rem] lg:text-[1rem] px-3.5 py-2.5 lg:px-7 lg:py-3.5 flex-1 lg:flex-initial"
-                style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 600, letterSpacing: '0.01em', backgroundColor: '#ffffff', color: '#111111', border: '2px solid #fda102' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#fda102'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#ffffff'; }}>
+                className="inline-flex items-center justify-center gap-2 rounded-full font-bold text-sm lg:text-base border-2 border-white text-white transition-all duration-200 whitespace-nowrap"
+                style={{ fontFamily: 'Poppins, sans-serif', padding: '0.85rem 2rem' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.12)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}>
                 {content?.ctaSecondaryText ?? 'Compliance Solutions'}
               </Link>
             </motion.div>
 
-          </div>
+          </motion.div>
         </div>
       </section>
 

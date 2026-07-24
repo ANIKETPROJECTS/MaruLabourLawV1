@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, ArrowUp } from 'lucide-react';
+import { Menu, X, ChevronDown, ArrowUp, Phone, Mail } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import iconLocation from '@assets/placeholder_1783488477011.png';
 import iconCall from '@assets/call_1783488542810.png';
@@ -72,99 +72,136 @@ const Layout = () => {
     <div className="min-h-screen flex flex-col font-sans">
 
       {/* Sticky Header */}
-      <header className={`sticky top-0 z-50 transition-shadow duration-300 ${scrolled ? 'shadow-xl' : 'shadow-lg'}`} style={{ backgroundColor: '#172632' }}>
-        <div className="max-w-7xl mx-auto px-4 lg:px-10 h-[56px] lg:h-[76px] flex justify-between items-center">
+      <header className={`sticky top-0 z-50 transition-shadow duration-300 ${scrolled ? 'shadow-xl' : 'shadow-md'}`}>
 
-          {/* Logo */}
-          <Link to="/" className="self-stretch flex items-center lg:-ml-10">
-            <img
-              src="/assets/maru-logo-new.png"
-              alt="Maru Labour Laws — Consultants & Practitioners"
-              className="w-auto object-contain block h-[46px] lg:h-[68px]"
-            />
-          </Link>
-
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-0.5">
-            {navLinks.map((link) => {
-              const active = isActive(link.path);
-              const highlighted = active || hoveredLink === link.name;
-              return link.hasDropdown ? (
-                <div
-                  key={link.name}
-                  className="relative group"
-                  onMouseEnter={() => setHoveredLink(link.name)}
-                  onMouseLeave={() => setHoveredLink(null)}
-                >
-                  <Link
-                    to={link.path}
-                    className="flex items-center gap-1 font-semibold text-[1.05rem] px-4 py-2.5 transition-colors duration-200"
-                    style={{ fontFamily: 'Poppins, sans-serif', color: highlighted ? '#fda102' : '#ffffff' }}
-                  >
-                    {link.name}
-                    <ChevronDown size={13} className="group-hover:rotate-180 transition-transform duration-200" />
-                  </Link>
-                  {/* Hover underline */}
-                  <span
-                    className="absolute bottom-1 left-4 right-4 h-[2px] transition-transform duration-300 pointer-events-none"
-                    style={{ backgroundColor: '#fda102', transform: highlighted ? 'scaleX(1)' : 'scaleX(0)', transformOrigin: 'left' }}
-                  />
-                  <div className="absolute top-full left-0 mt-1 w-60 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                    {serviceLinks.map((s) => (
-                      <Link key={s.slug} to={`/services/${s.slug}`}
-                        className="block px-5 py-2.5 text-sm text-gray-700 font-medium transition-colors duration-150"
-                        style={{ fontFamily: 'Poppins, sans-serif' }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fda102'; }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = ''; }}>
-                        {s.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <div
-                  key={link.name}
-                  className="relative"
-                  onMouseEnter={() => setHoveredLink(link.name)}
-                  onMouseLeave={() => setHoveredLink(null)}
-                >
-                  <Link
-                    to={link.path}
-                    className="font-semibold text-[1.05rem] px-4 py-2.5 block transition-colors duration-200"
-                    style={{ fontFamily: 'Poppins, sans-serif', color: highlighted ? '#fda102' : '#ffffff' }}
-                  >
-                    {link.name}
-                  </Link>
-                  {/* Hover underline */}
-                  <span
-                    className="absolute bottom-1 left-4 right-4 h-[2px] transition-transform duration-300 pointer-events-none"
-                    style={{ backgroundColor: '#fda102', transform: highlighted ? 'scaleX(1)' : 'scaleX(0)', transformOrigin: 'left' }}
-                  />
-                </div>
-              );
-            })}
-          </nav>
-
-          <div className="hidden lg:flex items-center gap-3">
-
-            <Link to="/contact"
-              className="px-7 py-2.5 rounded-full font-bold text-[0.9rem] transition-all duration-200 shadow-sm whitespace-nowrap"
-              style={{ fontFamily: 'Poppins, sans-serif', backgroundColor: '#fda102', color: '#ffffff', border: '2px solid #fda102' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#fda102'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#fda102'; (e.currentTarget as HTMLElement).style.color = '#ffffff'; }}>
-              Contact Us
-            </Link>
+        {/* ── Top utility bar ── */}
+        <div style={{ backgroundColor: '#172632' }}>
+          <div className="max-w-7xl mx-auto px-4 lg:px-10 h-9 hidden lg:flex justify-between items-center">
+            <div className="flex items-center gap-6">
+              <a href="tel:+919876543210" className="flex items-center gap-1.5 text-xs transition-colors duration-200"
+                style={{ color: 'rgba(255,255,255,0.75)', fontFamily: 'Poppins, sans-serif' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fda102'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.75)'; }}>
+                <Phone size={11} /> +91 98765 43210
+              </a>
+              <a href="mailto:contact@labourcodes.in" className="flex items-center gap-1.5 text-xs transition-colors duration-200"
+                style={{ color: 'rgba(255,255,255,0.75)', fontFamily: 'Poppins, sans-serif' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fda102'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.75)'; }}>
+                <Mail size={11} /> contact@labourcodes.in
+              </a>
+            </div>
+            <div className="flex items-center gap-5">
+              <Link to="/resources" className="text-xs transition-colors duration-200"
+                style={{ color: 'rgba(255,255,255,0.75)', fontFamily: 'Poppins, sans-serif' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fda102'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.75)'; }}>
+                Resources &amp; Updates
+              </Link>
+              <Link to="/careers" className="text-xs transition-colors duration-200"
+                style={{ color: 'rgba(255,255,255,0.75)', fontFamily: 'Poppins, sans-serif' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fda102'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.75)'; }}>
+                Careers
+              </Link>
+            </div>
           </div>
-
-          {/* Mobile Hamburger */}
-          <button
-            className="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg transition-colors"
-            style={{ color: '#ffffff' }}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Menu">
-            <Menu size={22} />
-          </button>
         </div>
+
+        {/* ── Main nav bar (white) ── */}
+        <div className="bg-white border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 lg:px-10 h-[56px] lg:h-[72px] flex justify-between items-center">
+
+            {/* Logo */}
+            <Link to="/" className="self-stretch flex items-center lg:-ml-10 shrink-0">
+              <img
+                src="/assets/maru-logo-new.png"
+                alt="Maru Labour Laws — Consultants & Practitioners"
+                className="w-auto object-contain block h-[40px] lg:h-[58px]"
+              />
+            </Link>
+
+            {/* Desktop Nav */}
+            <nav className="hidden lg:flex items-center gap-0.5">
+              {navLinks.map((link) => {
+                const active = isActive(link.path);
+                const highlighted = active || hoveredLink === link.name;
+                return link.hasDropdown ? (
+                  <div
+                    key={link.name}
+                    className="relative group"
+                    onMouseEnter={() => setHoveredLink(link.name)}
+                    onMouseLeave={() => setHoveredLink(null)}
+                  >
+                    <Link
+                      to={link.path}
+                      className="flex items-center gap-1 font-semibold text-[0.82rem] px-3.5 py-2.5 transition-colors duration-200 uppercase tracking-wide"
+                      style={{ fontFamily: 'Poppins, sans-serif', color: highlighted ? '#fda102' : '#172632' }}
+                    >
+                      {link.name}
+                      <ChevronDown size={12} className="group-hover:rotate-180 transition-transform duration-200" />
+                    </Link>
+                    {/* Active/hover underline */}
+                    <span
+                      className="absolute bottom-1 left-3.5 right-3.5 h-[2px] transition-transform duration-300 pointer-events-none"
+                      style={{ backgroundColor: '#fda102', transform: highlighted ? 'scaleX(1)' : 'scaleX(0)', transformOrigin: 'left' }}
+                    />
+                    <div className="absolute top-full left-0 mt-1 w-60 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                      {serviceLinks.map((s) => (
+                        <Link key={s.slug} to={`/services/${s.slug}`}
+                          className="block px-5 py-2.5 text-sm font-medium transition-colors duration-150"
+                          style={{ fontFamily: 'Poppins, sans-serif', color: '#172632' }}
+                          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fda102'; }}
+                          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#172632'; }}>
+                          {s.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    key={link.name}
+                    className="relative"
+                    onMouseEnter={() => setHoveredLink(link.name)}
+                    onMouseLeave={() => setHoveredLink(null)}
+                  >
+                    <Link
+                      to={link.path}
+                      className="font-semibold text-[0.82rem] px-3.5 py-2.5 block transition-colors duration-200 uppercase tracking-wide"
+                      style={{ fontFamily: 'Poppins, sans-serif', color: highlighted ? '#fda102' : '#172632' }}
+                    >
+                      {link.name}
+                    </Link>
+                    {/* Active/hover underline */}
+                    <span
+                      className="absolute bottom-1 left-3.5 right-3.5 h-[2px] transition-transform duration-300 pointer-events-none"
+                      style={{ backgroundColor: '#fda102', transform: highlighted ? 'scaleX(1)' : 'scaleX(0)', transformOrigin: 'left' }}
+                    />
+                  </div>
+                );
+              })}
+            </nav>
+
+            <div className="hidden lg:flex items-center gap-3">
+              <Link to="/contact"
+                className="px-6 py-2.5 rounded-full font-bold text-[0.82rem] uppercase tracking-wide transition-all duration-200 shadow-sm whitespace-nowrap"
+                style={{ fontFamily: 'Poppins, sans-serif', backgroundColor: '#fda102', color: '#111111', border: '2px solid #fda102' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#172632'; (e.currentTarget as HTMLElement).style.borderColor = '#172632'; (e.currentTarget as HTMLElement).style.color = '#ffffff'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#fda102'; (e.currentTarget as HTMLElement).style.borderColor = '#fda102'; (e.currentTarget as HTMLElement).style.color = '#111111'; }}>
+                Contact Us
+              </Link>
+            </div>
+
+            {/* Mobile Hamburger */}
+            <button
+              className="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg transition-colors"
+              style={{ color: '#172632' }}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Menu">
+              <Menu size={22} />
+            </button>
+          </div>
+        </div>{/* end white nav bar */}
 
         {/* Mobile Nav — slides in from the RIGHT */}
         <AnimatePresence>
