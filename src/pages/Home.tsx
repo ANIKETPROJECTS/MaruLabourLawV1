@@ -181,82 +181,93 @@ const Home = () => {
     <div className="w-full">
 
       {/* ── Hero ───────────────────────────────────────────── */}
-      <section className="relative flex items-center overflow-hidden" style={{ minHeight: '88vh', backgroundColor: '#172632' }}>
+      <section className="relative flex items-stretch overflow-hidden" style={{ minHeight: '88vh', backgroundColor: '#172632' }}>
 
-        {/* Full-bleed background image */}
-        <div className="absolute inset-0 pointer-events-none">
-          <img
-            src={heroImage1}
-            alt=""
-            aria-hidden="true"
-            className="w-full h-full object-cover object-center"
-            style={{ opacity: 0.55 }}
-          />
-          {/* Dark gradient — heavy navy on left, fades to near-transparent on right */}
-          <div className="absolute inset-0" style={{
-            background: 'linear-gradient(to right, #172632 0%, rgba(23,38,50,0.93) 35%, rgba(23,38,50,0.65) 62%, rgba(23,38,50,0.18) 100%)',
-          }} />
-          {/* Decorative concentric circles on right */}
-          <div className="absolute pointer-events-none" style={{ right: '-6rem', top: '50%', transform: 'translateY(-50%)' }}>
-            <div className="rounded-full border-[90px] border-white/[0.04]" style={{ width: 700, height: 700 }} />
-          </div>
-          <div className="absolute pointer-events-none" style={{ right: '4rem', top: '50%', transform: 'translateY(-44%)' }}>
-            <div className="rounded-full border-[60px] border-white/[0.05]" style={{ width: 500, height: 500 }} />
-          </div>
-        </div>
+        {/* Subtle dot-pattern texture on left panel */}
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
 
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 lg:px-10 w-full py-20 lg:py-28">
-          <motion.div
-            className="max-w-2xl"
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65 }}>
+        {/* Two-column layout */}
+        <div className="relative z-10 w-full flex flex-col lg:flex-row">
 
-            {/* Headline */}
-            <h1
-              className="font-bold text-white mb-5 lg:mb-6"
-              style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(2.4rem, 5vw, 4.2rem)', lineHeight: 1.1 }}>
-              <span className="block mb-1">{content?.heroLine1 ?? 'We deliver'}</span>
-              <span className="block mb-1" style={{ color: '#fda102', minHeight: '1.1em' }}>
-                {typewriterText}<span className="typewriter-cursor">|</span>
-              </span>
-              <span className="block">{content?.heroLine2 ?? 'for business growth'}</span>
-            </h1>
-
-            {/* Subtitle */}
-            <motion.p
-              className="mb-8 lg:mb-10 text-base lg:text-lg leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(255,255,255,0.82)', maxWidth: '30rem' }}>
-              {content?.heroDescription ?? "India's labour laws are complex, constantly evolving, and unforgiving of errors. We take that burden off your shoulders — PF, ESIC, statutory filings, payroll, HR advisory, and the New Wage Code transition."}
-            </motion.p>
-
-            {/* CTA Buttons */}
+          {/* ── LEFT: text content ── */}
+          <div className="flex items-center w-full lg:w-[55%] px-6 lg:px-14 xl:px-20 py-20 lg:py-28">
             <motion.div
-              className="flex flex-wrap gap-3 lg:gap-4"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.28 }}>
-              <Link to="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full font-bold text-sm lg:text-base transition-all duration-200 whitespace-nowrap"
-                style={{ fontFamily: 'Poppins, sans-serif', backgroundColor: '#fda102', color: '#111111', padding: '0.85rem 2rem' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#ffffff'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#fda102'; }}>
-                {content?.ctaPrimaryText ?? 'Book a Consultation'}
-              </Link>
-              <Link to="/services"
-                className="inline-flex items-center justify-center gap-2 rounded-full font-bold text-sm lg:text-base border-2 border-white text-white transition-all duration-200 whitespace-nowrap"
-                style={{ fontFamily: 'Poppins, sans-serif', padding: '0.85rem 2rem' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.12)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}>
-                {content?.ctaSecondaryText ?? 'Compliance Solutions'}
-              </Link>
-            </motion.div>
+              transition={{ duration: 0.65 }}>
 
+              {/* Headline */}
+              <h1
+                className="font-bold text-white mb-5 lg:mb-6"
+                style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(2.4rem, 4.2vw, 4.2rem)', lineHeight: 1.1 }}>
+                <span className="block mb-1">{content?.heroLine1 ?? 'We deliver'}</span>
+                <span className="block mb-1" style={{ color: '#fda102', minHeight: '1.1em' }}>
+                  {typewriterText}<span className="typewriter-cursor">|</span>
+                </span>
+                <span className="block">{content?.heroLine2 ?? 'for business growth'}</span>
+              </h1>
+
+              {/* Subtitle */}
+              <motion.p
+                className="mb-8 lg:mb-10 text-base lg:text-lg leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.15 }}
+                style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(255,255,255,0.82)', maxWidth: '30rem' }}>
+                {content?.heroDescription ?? "India's labour laws are complex, constantly evolving, and unforgiving of errors. We take that burden off your shoulders — PF, ESIC, statutory filings, payroll, HR advisory, and the New Wage Code transition."}
+              </motion.p>
+
+              {/* CTA Buttons */}
+              <motion.div
+                className="flex flex-wrap gap-3 lg:gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.28 }}>
+                <Link to="/contact"
+                  className="inline-flex items-center justify-center gap-2 rounded-full font-bold text-sm lg:text-base transition-all duration-200 whitespace-nowrap"
+                  style={{ fontFamily: 'Poppins, sans-serif', backgroundColor: '#fda102', color: '#111111', padding: '0.85rem 2rem' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#ffffff'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#fda102'; }}>
+                  {content?.ctaPrimaryText ?? 'Book a Consultation'}
+                </Link>
+                <Link to="/services"
+                  className="inline-flex items-center justify-center gap-2 rounded-full font-bold text-sm lg:text-base border-2 border-white text-white transition-all duration-200 whitespace-nowrap"
+                  style={{ fontFamily: 'Poppins, sans-serif', padding: '0.85rem 2rem' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.12)'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}>
+                  {content?.ctaSecondaryText ?? 'Compliance Solutions'}
+                </Link>
+              </motion.div>
+
+            </motion.div>
+          </div>
+
+          {/* ── RIGHT: image panel ── */}
+          <motion.div
+            className="hidden lg:block lg:w-[45%] relative"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}>
+            {/* Decorative concentric circles behind image */}
+            <div className="absolute pointer-events-none z-0" style={{ right: '-5rem', top: '50%', transform: 'translateY(-50%)' }}>
+              <div className="rounded-full border-[80px] border-white/[0.05]" style={{ width: 640, height: 640 }} />
+            </div>
+            <div className="absolute pointer-events-none z-0" style={{ right: '3rem', top: '50%', transform: 'translateY(-44%)' }}>
+              <div className="rounded-full border-[55px] border-white/[0.06]" style={{ width: 460, height: 460 }} />
+            </div>
+            {/* Image */}
+            <div className="relative z-10 h-full flex items-center justify-center py-10 pr-10 pl-4">
+              <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl" style={{ maxHeight: '72vh' }}>
+                <img
+                  src={heroImage1}
+                  alt="Maru Labour Laws — HR & Compliance Consulting"
+                  className="w-full h-full object-cover object-center"
+                />
+              </div>
+            </div>
           </motion.div>
+
         </div>
       </section>
 
