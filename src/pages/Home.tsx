@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import heroBg from '@assets/image_1784877058703.png';
 import heroVideoDefault from '@assets/7552418-hd_1080_1920_25fps_1783420764090.mp4';
 import heroImageDefault from '@assets/pexels-vlada-karpovich-7433855_1783420874088.jpg';
 import customerReviewIcon from '@assets/customer-review_1783487769231.png';
