@@ -75,33 +75,33 @@ const Layout = () => {
       <header className={`sticky top-0 z-50 transition-shadow duration-300 ${scrolled ? 'shadow-xl' : 'shadow-md'}`}>
 
         {/* ── Top utility bar ── */}
-        <div style={{ backgroundColor: '#172632' }}>
+        <div style={{ backgroundColor: '#fda102' }}>
           <div className="max-w-7xl mx-auto px-4 lg:px-10 h-9 hidden lg:flex justify-between items-center">
             <div className="flex items-center gap-6">
               <a href="tel:+919876543210" className="flex items-center gap-1.5 text-xs transition-colors duration-200"
-                style={{ color: 'rgba(255,255,255,0.75)', fontFamily: 'Poppins, sans-serif' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fda102'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.75)'; }}>
+                style={{ color: '#ffffff', fontFamily: 'Poppins, sans-serif' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#172632'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#ffffff'; }}>
                 <Phone size={11} /> +91 98765 43210
               </a>
               <a href="mailto:contact@labourcodes.in" className="flex items-center gap-1.5 text-xs transition-colors duration-200"
-                style={{ color: 'rgba(255,255,255,0.75)', fontFamily: 'Poppins, sans-serif' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fda102'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.75)'; }}>
+                style={{ color: '#ffffff', fontFamily: 'Poppins, sans-serif' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#172632'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#ffffff'; }}>
                 <Mail size={11} /> contact@labourcodes.in
               </a>
             </div>
             <div className="flex items-center gap-5">
               <Link to="/resources" className="text-xs transition-colors duration-200"
-                style={{ color: 'rgba(255,255,255,0.75)', fontFamily: 'Poppins, sans-serif' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fda102'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.75)'; }}>
+                style={{ color: '#ffffff', fontFamily: 'Poppins, sans-serif' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#172632'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#ffffff'; }}>
                 Resources &amp; Updates
               </Link>
               <Link to="/careers" className="text-xs transition-colors duration-200"
-                style={{ color: 'rgba(255,255,255,0.75)', fontFamily: 'Poppins, sans-serif' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fda102'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.75)'; }}>
+                style={{ color: '#ffffff', fontFamily: 'Poppins, sans-serif' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#172632'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#ffffff'; }}>
                 Careers
               </Link>
             </div>
