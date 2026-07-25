@@ -258,12 +258,14 @@ const Home = () => {
             </div>
             {/* Image */}
             <div className="relative z-10 h-full flex items-center justify-center py-10 pr-10 pl-4">
-              <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl" style={{ maxHeight: '72vh' }}>
+              <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl" style={{ maxHeight: '72vh' }}>
                 <img
                   src={heroImage1}
                   alt="Maru Labour Laws — HR & Compliance Consulting"
                   className="w-full h-full object-cover object-center"
                 />
+                {/* Blue-white tint overlay */}
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(23,38,50,0.55) 0%, rgba(23,38,50,0.25) 60%, rgba(100,140,180,0.18) 100%)' }} />
               </div>
             </div>
           </motion.div>
