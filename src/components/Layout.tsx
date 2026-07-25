@@ -55,10 +55,11 @@ const Layout = () => {
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
+    { name: 'About Us', path: '/about' },
+    { name: 'Labour Codes', path: '/labour-codes' },
     { name: 'Services', path: '/services', hasDropdown: true },
-    { name: 'Clientele', path: '/clientele' },
-    { name: 'Resources', path: '/resources' },
+    { name: 'Industries', path: '/industries' },
+    { name: 'Knowledge Centre', path: '/resources' },
     { name: 'Careers', path: '/careers' },
   ];
 
@@ -78,17 +79,17 @@ const Layout = () => {
         <div style={{ backgroundColor: '#fda102' }}>
           <div className="max-w-7xl mx-auto px-4 lg:px-10 h-9 hidden lg:flex justify-between items-center">
             <div className="flex items-center gap-6">
-              <a href="tel:+919876543210" className="flex items-center gap-1.5 text-xs transition-colors duration-200"
+              <a href="tel:+912235725001" className="flex items-center gap-1.5 text-xs transition-colors duration-200"
                 style={{ color: '#ffffff', fontFamily: 'Poppins, sans-serif' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#172632'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#ffffff'; }}>
-                <Phone size={11} /> +91 98765 43210
+                <Phone size={11} /> 022-35725001
               </a>
-              <a href="mailto:contact@labourcodes.in" className="flex items-center gap-1.5 text-xs transition-colors duration-200"
+              <a href="mailto:info@labourlaws.co.in" className="flex items-center gap-1.5 text-xs transition-colors duration-200"
                 style={{ color: '#ffffff', fontFamily: 'Poppins, sans-serif' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#172632'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#ffffff'; }}>
-                <Mail size={11} /> contact@labourcodes.in
+                <Mail size={11} /> info@labourlaws.co.in
               </a>
             </div>
             <div className="flex items-center gap-5">
@@ -267,11 +268,11 @@ const Layout = () => {
 
                 {/* Bottom contacts */}
                 <div className="p-5 border-t border-gray-100 shrink-0 flex flex-col gap-3">
-                  <a href="tel:+919876543210" className="flex items-center gap-2 text-sm text-gray-600">
-                    <img src={iconCall} alt="" className="w-4 h-4 object-contain" /> +91 98765 43210
+                  <a href="tel:+912235725001" className="flex items-center gap-2 text-sm text-gray-600">
+                    <img src={iconCall} alt="" className="w-4 h-4 object-contain" /> 022-35725001
                   </a>
-                  <a href="mailto:contact@labourcodes.in" className="flex items-center gap-2 text-sm text-gray-600">
-                    <img src={iconMail} alt="" className="w-4 h-4 object-contain" /> contact@labourcodes.in
+                  <a href="mailto:info@labourlaws.co.in" className="flex items-center gap-2 text-sm text-gray-600">
+                    <img src={iconMail} alt="" className="w-4 h-4 object-contain" /> info@labourlaws.co.in
                   </a>
                   <Link to="/contact"
                     className="mt-1 block w-full text-center text-white px-6 py-3 rounded-full font-semibold text-sm transition-colors"

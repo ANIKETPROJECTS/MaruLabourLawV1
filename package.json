@@ -10,6 +10,7 @@
     "build": "tsc -b && vite build",
     "start": "cross-env NODE_ENV=production node server/index.js",
     "seed": "node server/seed.js",
+    "migrate:content": "node server/migrateContent.js",
     "lint": "oxlint",
     "preview": "vite preview"
   },

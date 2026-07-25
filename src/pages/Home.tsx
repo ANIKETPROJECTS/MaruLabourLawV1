@@ -91,12 +91,10 @@ function StatCounter({ target, decimals = 0, suffix = '' }: { target: number; de
 
 
 const defaultPhrases = [
-  'HR Excellence',
-  'Legal Mastery',
-  'Payroll Clarity',
-  'Tax Compliance',
-  'Workforce Peace',
-  'Statutory Ease',
+  'Labour Laws',
+  'Labour Codes',
+  'Industrial Relations',
+  'Statutory Compliance',
 ];
 
 const defaultTestimonials = [
@@ -111,9 +109,9 @@ const defaultTestimonials = [
 ];
 
 const defaultWhyUs = [
-  { title: "Pan-India Presence", desc: "Deep expertise across state-specific regulations and all central labour legislations from Kashmir to Kanyakumari." },
-  { title: "Proactive Risk Mitigation", desc: "We identify vulnerabilities before they become liabilities — our audits are proactive, not reactive." },
-  { title: "Technology-Driven Approach", desc: "Proprietary compliance tracking tools give you real-time dashboards and automated deadline reminders." },
+  { title: "Experience Since 1979", desc: "Decades of practical exposure to labour laws, statutory compliance and workforce-related regulatory matters." },
+  { title: "Practical Compliance Solutions", desc: "We translate legislation and regulatory requirements into implementable HR, payroll and compliance processes." },
+  { title: "Risk-Based Approach", desc: "We examine whether compliance can be demonstrated through reliable records and processes, not merely whether a document exists." },
 ];
 
 const defaultOneStopCards = [
@@ -127,10 +125,10 @@ const defaultOneStopCards = [
 const oneStopAnims = [animStatutory, animLabourActs, animEstablishment, animPayrollPlanning, animPayrollRecords, animHr];
 
 const defaultStats = [
-  { target: 500, decimals: 0, suffix: '+', label: 'Clients Served' },
-  { target: 4.9, decimals: 1, suffix: '★', label: 'Average Rating' },
-  { target: 15, decimals: 0, suffix: '+', label: 'Years of Expertise' },
-  { target: 98, decimals: 0, suffix: '%', label: 'Retention Rate' },
+  { target: 1979, decimals: 0, suffix: '', label: 'Serving Since' },
+  { target: 45, decimals: 0, suffix: '+', label: 'Years of Experience' },
+  { target: 4, decimals: 0, suffix: '', label: 'Labour Codes' },
+  { target: 300, decimals: 0, suffix: '+', label: 'Clients Served' },
 ];
 
 const Home = () => {
@@ -216,11 +214,11 @@ const Home = () => {
             <h1
               className="font-bold text-white mb-5 lg:mb-6"
               style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(2.4rem, 5vw, 4.2rem)', lineHeight: 1.1 }}>
-              <span className="block mb-1">{content?.heroLine1 ?? 'We deliver'}</span>
+              <span className="block mb-1">{content?.heroLine1 ?? 'Five Decades of Experience.'}</span>
               <span className="block mb-1" style={{ color: '#fda102', minHeight: '1.1em' }}>
                 {typewriterText}<span className="typewriter-cursor">|</span>
               </span>
-              <span className="block">{content?.heroLine2 ?? 'for business growth'}</span>
+              <span className="block">{content?.heroLine2 ?? 'A New Era of Labour Laws.'}</span>
             </h1>
 
             {/* Subtitle */}
@@ -230,7 +228,7 @@ const Home = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
               style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(255,255,255,0.82)', maxWidth: '30rem' }}>
-              {content?.heroDescription ?? "India's labour laws are complex, constantly evolving, and unforgiving of errors. We take that burden off your shoulders — PF, ESIC, statutory filings, payroll, HR advisory, and the New Wage Code transition."}
+              {content?.heroDescription ?? 'Since 1979, Maru Consultancy Services has helped businesses navigate India’s labour and employment regulatory environment. Today, we bring that experience to the four Labour Codes—helping organisations move from understanding the law to implementing it.'}
             </motion.p>
 
             {/* CTA Buttons */}

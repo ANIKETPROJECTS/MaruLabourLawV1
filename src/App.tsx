@@ -10,6 +10,8 @@ import Clientele from './pages/Clientele';
 import Careers from './pages/Careers';
 import CareerDetail from './pages/CareerDetail';
 import Contact from './pages/Contact';
+import LabourCodes from './pages/LabourCodes';
+import Industries from './pages/Industries';
 import { AdminAuthProvider } from './context/AdminAuthContext';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 import AdminLayout from './components/admin/AdminLayout';
@@ -32,11 +34,13 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
+        <Route path="labour-codes" element={<LabourCodes />} />
         <Route path="services" element={<Services />} />
         <Route path="services/:slug" element={<ServiceDetail />} />
         <Route path="resources" element={<Resources />} />
         <Route path="resources/:slug" element={<ResourceDetail />} />
         <Route path="clientele" element={<Clientele />} />
+        <Route path="industries" element={<Industries />} />
         <Route path="careers" element={<Careers />} />
         <Route path="careers/:slug" element={<CareerDetail />} />
         <Route path="contact" element={<Contact />} />

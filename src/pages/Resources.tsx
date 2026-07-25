@@ -31,9 +31,9 @@ function forceDownloadUrl(url: string) {
 }
 
 const HERO_DEFAULTS: ResourcesPageContent = {
-  heroEyebrow: 'Knowledge Hub',
-  heroHeading: 'Insights, Blogs & Downloads',
-  heroSubtext: 'Expert insights, regulatory updates, and practical compliance resources to keep your business protected.',
+  heroEyebrow: 'Knowledge Centre',
+  heroHeading: 'Compliance Knowledge That Helps You Act',
+  heroSubtext: 'Practical updates, articles, compliance alerts and employer resources covering Labour Codes, PF, ESI, minimum wages and employment compliance.',
   heroBgType: 'color',
   heroImageUrl: '',
   heroVideoUrl: '',
