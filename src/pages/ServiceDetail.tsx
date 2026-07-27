@@ -45,6 +45,10 @@ const ServiceDetail = () => {
   const title = detail?.title || slug?.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') || 'Service';
   const otherServices = allServices.filter((s) => s.slug !== slug);
   const related = otherServices.slice(0, 3).map((s) => ({ name: s.title, slug: s.slug }));
+  const currentParentSlug = detail?.parentSlug || detail?.slug;
+  const recommendedServices = allServices
+    .filter((service) => !service.parentSlug && service.slug !== currentParentSlug)
+    .slice(0, 4);
 
   if (status === 'loading') {
     return <div className="min-h-screen" style={{ fontFamily: PP }} />;
@@ -292,10 +296,10 @@ const ServiceDetail = () => {
                 <h4
                   className="font-bold mb-4 lg:mb-5 uppercase tracking-widest text-xs"
                   style={{ fontFamily: PP, color: 'var(--primary)' }}>
-                  Other Services
+                  Recommended Services
                 </h4>
                 <ul className="space-y-0.5">
-                  {otherServices.map((s) => (
+                  {recommendedServices.map((s) => (
                     <li key={s._id}>
                       <Link
                         to={`/services/${s.slug}`}

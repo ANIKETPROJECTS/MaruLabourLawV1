@@ -22,11 +22,12 @@ const Layout = () => {
   const [scrolled, setScrolled] = useState(false);
   const [, setServicesOpen] = useState(false);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+  const [hoveredServiceParent, setHoveredServiceParent] = useState<string | null>(null);
   const [services, setServices] = useState<ServiceContent[]>([]);
   const location = useLocation();
 
   const fetchServices = () => {
-    api.get<ServiceContent[]>('/services').then((data) => setServices(data.filter((service) => !service.parentSlug))).catch(() => {});
+    api.get<ServiceContent[]>('/services').then(setServices).catch(() => {});
   };
   useEffect(fetchServices, []);
   useLiveContent(fetchServices);
@@ -40,6 +41,7 @@ const Layout = () => {
   useEffect(() => {
     setIsMenuOpen(false);
     setServicesOpen(false);
+    setHoveredServiceParent(null);
     if (location.hash) {
       const el = document.getElementById(location.hash.slice(1));
       if (el) {
@@ -64,7 +66,19 @@ const Layout = () => {
   ];
 
   // Live from the CMS (Admin → Services), already sorted by rank via the API.
-  const serviceLinks = services.map((s) => ({ name: s.title, slug: s.slug }));
+  // Parent categories power the navigation; child services appear in the
+  // adjacent panel when a parent is hovered.
+  const serviceLinks = services
+    .filter((s) => !s.parentSlug)
+    .map((s) => ({ name: s.title, slug: s.slug }));
+  const serviceGroups = serviceLinks.map((parent) => ({
+    ...parent,
+    children: services
+      .filter((service) => service.parentSlug === parent.slug)
+      .map((service) => ({ name: service.title, slug: service.slug })),
+  }));
+  const activeServiceGroup = serviceGroups.find((group) => group.slug === hoveredServiceParent)
+    ?? serviceGroups[0];
 
   const isActive = (path: string) =>
     path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
@@ -131,8 +145,14 @@ const Layout = () => {
                   <div
                     key={link.name}
                     className="relative group"
-                    onMouseEnter={() => setHoveredLink(link.name)}
-                    onMouseLeave={() => setHoveredLink(null)}
+                    onMouseEnter={() => {
+                      setHoveredLink(link.name);
+                      setHoveredServiceParent(activeServiceGroup?.slug ?? null);
+                    }}
+                    onMouseLeave={() => {
+                      setHoveredLink(null);
+                      setHoveredServiceParent(null);
+                    }}
                   >
                     <Link
                       to={link.path}
@@ -147,16 +167,42 @@ const Layout = () => {
                       className="absolute bottom-1 left-4 right-4 h-[2px] transition-transform duration-300 pointer-events-none"
                       style={{ backgroundColor: '#fda102', transform: highlighted ? 'scaleX(1)' : 'scaleX(0)', transformOrigin: 'left' }}
                     />
-                    <div className="absolute top-full left-0 mt-1 w-60 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                      {serviceLinks.map((s) => (
-                        <Link key={s.slug} to={`/services/${s.slug}`}
-                          className="block px-5 py-2.5 text-sm text-gray-700 font-medium transition-colors duration-150"
-                          style={{ fontFamily: 'Poppins, sans-serif' }}
-                          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fda102'; }}
-                          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = ''; }}>
-                          {s.name}
-                        </Link>
-                      ))}
+                    <div className="absolute top-full left-0 mt-1 w-[560px] bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                      <div className="grid grid-cols-[230px_1fr] min-h-[220px]">
+                        <div className="border-r border-gray-100 bg-gray-50/80 py-2">
+                          {serviceGroups.map((parent) => (
+                            <Link
+                              key={parent.slug}
+                              to={`/services/${parent.slug}`}
+                              onMouseEnter={() => setHoveredServiceParent(parent.slug)}
+                              className="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold transition-colors duration-150"
+                              style={{
+                                fontFamily: 'Poppins, sans-serif',
+                                color: activeServiceGroup?.slug === parent.slug ? '#fda102' : '#374151',
+                                backgroundColor: activeServiceGroup?.slug === parent.slug ? '#fff8ed' : 'transparent',
+                              }}>
+                              <span>{parent.name}</span>
+                              <span aria-hidden="true" className="text-base leading-none">›</span>
+                            </Link>
+                          ))}
+                        </div>
+                        <div className="py-4 px-5">
+                          <p className="mb-3 text-[0.68rem] font-bold uppercase tracking-[0.16em]" style={{ color: 'var(--primary)', fontFamily: 'Poppins, sans-serif' }}>
+                            {activeServiceGroup?.name}
+                          </p>
+                          <div className="grid grid-cols-1 gap-0.5">
+                            {(activeServiceGroup?.children ?? []).map((child) => (
+                              <Link
+                                key={child.slug}
+                                to={`/services/${child.slug}`}
+                                className="rounded-lg px-2.5 py-2 text-sm text-gray-600 font-medium transition-colors duration-150 hover:bg-[#fff8ed] hover:text-[#fda102]"
+                                style={{ fontFamily: 'Poppins, sans-serif' }}>
+                                {child.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -252,13 +298,23 @@ const Layout = () => {
                       </Link>
                       {link.hasDropdown && (
                         <div className="bg-gray-50">
-                          {serviceLinks.map((s) => (
-                            <Link key={s.slug} to={`/services/${s.slug}`}
-                              className="block pl-9 pr-5 py-3 border-b border-gray-100 text-sm font-semibold transition-colors"
-                              style={{ fontFamily: 'Poppins, sans-serif', color: '#555555' }}
-                              onClick={() => setIsMenuOpen(false)}>
-                              › {s.name}
-                            </Link>
+                          {serviceGroups.map((parent) => (
+                            <div key={parent.slug}>
+                              <Link to={`/services/${parent.slug}`}
+                                className="block pl-9 pr-5 py-3 border-b border-gray-100 text-sm font-semibold transition-colors"
+                                style={{ fontFamily: 'Poppins, sans-serif', color: '#555555' }}
+                                onClick={() => setIsMenuOpen(false)}>
+                                › {parent.name}
+                              </Link>
+                              {parent.children.map((child) => (
+                                <Link key={child.slug} to={`/services/${child.slug}`}
+                                  className="block pl-14 pr-5 py-2.5 border-b border-gray-100 text-xs font-medium transition-colors"
+                                  style={{ fontFamily: 'Poppins, sans-serif', color: '#777777' }}
+                                  onClick={() => setIsMenuOpen(false)}>
+                                  {child.name}
+                                </Link>
+                              ))}
+                            </div>
                           ))}
                         </div>
                       )}
