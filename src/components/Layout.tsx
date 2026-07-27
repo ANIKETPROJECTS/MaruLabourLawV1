@@ -26,7 +26,7 @@ const Layout = () => {
   const location = useLocation();
 
   const fetchServices = () => {
-    api.get<ServiceContent[]>('/services').then(setServices).catch(() => {});
+    api.get<ServiceContent[]>('/services').then((data) => setServices(data.filter((service) => !service.parentSlug))).catch(() => {});
   };
   useEffect(fetchServices, []);
   useLiveContent(fetchServices);

@@ -132,7 +132,18 @@ export default function AdminServices() {
             <Field label="Title"><TextInput value={editing.title} onChange={(e) => set('title', e.target.value)} /></Field>
             <Field label="Slug (URL)"><TextInput value={editing.slug} onChange={(e) => set('slug', e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'))} /></Field>
           </div>
-          <Field label="Short description"><TextArea rows={2} value={editing.desc} onChange={(e) => set('desc', e.target.value)} /></Field>
+            <Field label="Short description"><TextArea rows={2} value={editing.desc} onChange={(e) => set('desc', e.target.value)} /></Field>
+            <Field label="Parent category (optional)">
+              <select
+                value={editing.parentSlug || ''}
+                onChange={(e) => set('parentSlug', e.target.value || undefined)}
+                className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[var(--primary)]">
+                <option value="">This is a parent service</option>
+                {services.filter((service) => !service.parentSlug && service.slug !== editing.slug).map((service) => (
+                  <option key={service.slug} value={service.slug}>{service.title}</option>
+                ))}
+              </select>
+            </Field>
           <ImageUploader label="Card image" value={editing.img} onChange={(v) => set('img', v)} section="services" hint="Landscape 16:9, min 1200 × 500 px — also used as full-width banner on the service detail page" />
         </Section>
 
@@ -206,7 +217,9 @@ export default function AdminServices() {
               {s.img && <img src={s.img} className="w-full h-full object-cover" alt="" />}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-semibold text-sm truncate" style={{ fontFamily: PP, color: '#111' }}>{s.title}</p>
+              <p className="font-semibold text-sm truncate" style={{ fontFamily: PP, color: '#111' }}>
+                {s.parentSlug ? '↳ ' : ''}{s.title}
+              </p>
               <p className="text-gray-400 text-xs truncate">/services/{s.slug}</p>
             </div>
             <SecondaryButton onClick={() => startEdit(s)}><Pencil size={13} /> Edit</SecondaryButton>

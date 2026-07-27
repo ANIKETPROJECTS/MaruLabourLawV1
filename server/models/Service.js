@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const Deliverable = new mongoose.Schema({
   title: String,
   desc: String,
+  slug: String,
 }, { _id: false });
 
 const ServiceSchema = new mongoose.Schema({
@@ -10,6 +11,8 @@ const ServiceSchema = new mongoose.Schema({
   title: { type: String, required: true },
   img: String,
   desc: String,
+  // Parent services have no parentSlug. Child services link back to a parent.
+  parentSlug: { type: String, trim: true, index: true },
 
   // Detail-page fields (all optional; ServiceDetail falls back gracefully)
   headline: String,

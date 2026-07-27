@@ -140,15 +140,16 @@ const Home = () => {
       api.get<HomeContent>('/home'),
       api.get<ServiceContent[]>('/services'),
     ]).then(([home, services]) => {
+      const parentServices = services.filter((service) => !service.parentSlug);
       setContent(home);
       if (home.featuredServiceSlugs?.length) {
-        const map = new Map(services.map(s => [s.slug, s]));
+        const map = new Map(parentServices.map(s => [s.slug, s]));
         const ordered = home.featuredServiceSlugs
           .map(slug => map.get(slug))
           .filter(Boolean) as ServiceContent[];
         setPreviewServices(ordered.slice(0, 8));
       } else {
-        setPreviewServices(services.slice(0, 8));
+        setPreviewServices(parentServices.slice(0, 8));
       }
     }).catch(() => {});
   };

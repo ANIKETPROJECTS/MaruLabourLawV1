@@ -16,7 +16,7 @@ const Services = () => {
 
   const fetchServices = () => {
     api.get<ServiceContent[]>('/services')
-      .then((data) => { setServices(data); setStatus('ready'); })
+      .then((data) => { setServices(data.filter((service) => !service.parentSlug)); setStatus('ready'); })
       .catch(() => setStatus('error'));
   };
   useEffect(fetchServices, []);

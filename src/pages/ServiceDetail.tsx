@@ -188,10 +188,14 @@ const ServiceDetail = () => {
 
                     {/* Content */}
                     <div className="flex-1 pb-4 border-b border-gray-100 last:border-0">
-                      <h4
+                        <h4
                         className="font-semibold mb-1 text-sm lg:text-[1.05rem]"
                         style={{ fontFamily: PP, color: '#111' }}>
-                        {item.title}
+                          {item.slug ? (
+                            <Link to={`/services/${item.slug}`} className="hover:text-[var(--primary)] transition-colors">
+                              {item.title}
+                            </Link>
+                          ) : item.title}
                       </h4>
                       <p
                         className="text-gray-500 leading-relaxed text-xs lg:text-[0.92rem]"

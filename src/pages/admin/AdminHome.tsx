@@ -38,11 +38,12 @@ export default function AdminHome() {
       api.get<ResourceItem[]>('/resources?tab=articles'),
     ])
       .then(([home, services, articles]) => {
-        setAllServices(services);
+        const parentServices = services.filter((service) => !service.parentSlug);
+        setAllServices(parentServices);
         setAllArticles(articles);
         const merged = { ...home, featuredServiceSlugs: home.featuredServiceSlugs ?? [], latestInsights: home.latestInsights ?? [] };
-        if (!merged.featuredServiceSlugs.length && services.length > 0) {
-          merged.featuredServiceSlugs = services.slice(0, 8).map(s => s.slug);
+        if (!merged.featuredServiceSlugs.length && parentServices.length > 0) {
+          merged.featuredServiceSlugs = parentServices.slice(0, 8).map(s => s.slug);
         }
         // Pre-populate insights with first 3 articles so admin sees what's live
         if (!merged.latestInsights.length && articles.length > 0) {

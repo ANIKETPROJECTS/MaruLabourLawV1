@@ -68,7 +68,7 @@ export type HomeContent = {
   latestInsights: InsightCard[];
 };
 
-export type Deliverable = { title: string; desc: string };
+export type Deliverable = { title: string; desc: string; slug?: string };
 
 export type ServiceContent = {
   _id: string;
@@ -76,6 +76,7 @@ export type ServiceContent = {
   title: string;
   img: string;
   desc: string;
+  parentSlug?: string;
   headline?: string;
   subhead?: string;
   intro?: string;
