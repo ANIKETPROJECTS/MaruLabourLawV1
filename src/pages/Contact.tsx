@@ -168,12 +168,11 @@ const Contact = () => {
             {apiData.heroHeading}
           </h1>
           <p style={{
-            fontFamily: PP, fontWeight: 300, fontSize: 'clamp(1rem, 1.6vw, 1.25rem)',
-            color: 'rgba(255,255,255,0.88)', maxWidth: '560px', margin: '0 auto', lineHeight: 1.7,
-            paddingLeft: 'clamp(1.5rem, 6vw, 4rem)', paddingRight: 'clamp(1.5rem, 6vw, 4rem)',
+            fontFamily: PP, fontWeight: 300, fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)',
+            color: 'rgba(255,255,255,0.88)', maxWidth: '1000px', width: '100%', margin: '0 auto', lineHeight: 1.7,
+            paddingLeft: '2rem', paddingRight: '2rem',
           }}>
-            Labour Code implementation, payroll structuring, contractor compliance
-            &amp; inspection readiness — our experts deliver clear, confident guidance.
+            Labour Code implementation, payroll structuring, contractor compliance &amp; inspection readiness — our experts deliver clear, confident guidance.
           </p>
         </motion.div>
       </section>
