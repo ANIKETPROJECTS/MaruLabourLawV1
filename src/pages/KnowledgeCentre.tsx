@@ -1,10 +1,17 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronDown, ChevronUp, BookOpen, Download, Clock, Calendar, User, ArrowRight } from 'lucide-react';
+import {
+  ChevronDown, ChevronUp, BookOpen, Download,
+  Clock, Calendar, User, ArrowRight, ChevronRight, FileText,
+} from 'lucide-react';
 import { api } from '../lib/api';
 import { useLiveContent } from '../hooks/useLiveContent';
-import type { KnowledgeCentrePageContent, KnowledgeArticleType } from '../types/content';
+import type {
+  KnowledgeCentrePageContent,
+  KnowledgeArticleType,
+  ResourceItem,
+} from '../types/content';
 import { KNOWLEDGE_CATEGORIES } from '../types/content';
 import heroVideo from '@assets/7683053-hd_1920_1080_24fps_1783584828907.mp4';
 
@@ -23,6 +30,8 @@ const PAGE_DEFAULTS: KnowledgeCentrePageContent = {
   faqs: [],
 };
 
+const ARTICLE_CATEGORIES = ['All', 'New Labour Codes', 'Compliance', 'Labour Audit', 'POSH', 'ESI & PF', 'Payroll'];
+
 const CATEGORY_ICONS: Record<string, string> = {
   'labour-codes':      '⚖️',
   'compliance-alerts': '🔔',
@@ -33,7 +42,8 @@ const CATEGORY_ICONS: Record<string, string> = {
   'downloads':         '📥',
 };
 
-function ArticleCard({ article }: { article: KnowledgeArticleType }) {
+/* ── KB Article card (for the lower section) ── */
+function KBArticleCard({ article }: { article: KnowledgeArticleType }) {
   const isDownload = article.category === 'downloads';
   const catLabel = KNOWLEDGE_CATEGORIES.find(c => c.value === article.category)?.label ?? article.category;
 
@@ -86,13 +96,12 @@ function ArticleCard({ article }: { article: KnowledgeArticleType }) {
     <motion.div
       initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
       className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow cursor-pointer group">
-      {article.img && (
+      {article.img ? (
         <div className="aspect-[16/7] overflow-hidden">
           <img src={article.img} alt={article.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
         </div>
-      )}
-      {!article.img && (
+      ) : (
         <div className="aspect-[16/7] flex items-center justify-center text-4xl"
           style={{ backgroundColor: 'var(--p-a09)' }}>
           {CATEGORY_ICONS[article.category] ?? '📄'}
@@ -147,6 +156,7 @@ function ArticleCard({ article }: { article: KnowledgeArticleType }) {
   return inner;
 }
 
+/* ── FAQ Item ── */
 function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
   return (
@@ -180,32 +190,46 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   );
 }
 
+/* ── Main page ── */
 export default function KnowledgeCentre() {
-  const [page, setPage]         = useState<KnowledgeCentrePageContent>(PAGE_DEFAULTS);
-  const [articles, setArticles] = useState<KnowledgeArticleType[]>([]);
-  const [activeTab, setActiveTab] = useState<string>('all');
+  const [page, setPage]             = useState<KnowledgeCentrePageContent>(PAGE_DEFAULTS);
+  const [kbArticles, setKbArticles] = useState<KnowledgeArticleType[]>([]);
+  const [blogPosts, setBlogPosts]   = useState<ResourceItem[]>([]);
+
+  // Articles & Insights UI state
+  const [catFilter, setCatFilter] = useState('All');
+
+  // Knowledge section tab
+  const [kbTab, setKbTab] = useState<string>('all');
 
   const fetchPage = () => {
     api.get<KnowledgeCentrePageContent>('/knowledge-centre/page')
       .then(res => setPage({ ...PAGE_DEFAULTS, ...res }))
       .catch(() => {});
   };
-  const fetchArticles = () => {
+  const fetchKbArticles = () => {
     api.get<KnowledgeArticleType[]>('/knowledge-centre/articles')
-      .then(setArticles)
+      .then(setKbArticles)
+      .catch(() => {});
+  };
+  const fetchBlogPosts = () => {
+    api.get<ResourceItem[]>('/resources')
+      .then(data => setBlogPosts(data.filter(r => r.tab === 'articles').sort((a, b) => (a.order ?? 0) - (b.order ?? 0))))
       .catch(() => {});
   };
 
-  useEffect(() => { fetchPage(); fetchArticles(); }, []);
-  useLiveContent(() => { fetchPage(); fetchArticles(); });
+  useEffect(() => { fetchPage(); fetchKbArticles(); fetchBlogPosts(); }, []);
+  useLiveContent(() => { fetchPage(); fetchKbArticles(); fetchBlogPosts(); });
 
-  const tabs = [
+  const filteredBlogs = catFilter === 'All'
+    ? blogPosts
+    : blogPosts.filter(p => p.category === catFilter);
+
+  const kbTabs = [
     { value: 'all', label: 'All' },
     ...KNOWLEDGE_CATEGORIES,
   ];
-
-  const filtered = activeTab === 'all' ? articles : articles.filter(a => a.category === activeTab);
-  const featured = articles.filter(a => a.featured).slice(0, 3);
+  const filteredKb = kbTab === 'all' ? kbArticles : kbArticles.filter(a => a.category === kbTab);
 
   return (
     <div className="w-full" style={{ fontFamily: PP }}>
@@ -216,16 +240,11 @@ export default function KnowledgeCentre() {
         {page.heroBgType === 'image' && page.heroImageUrl ? (
           <img src={page.heroImageUrl} alt=""
             className="absolute inset-0 w-full h-full object-cover" />
-        ) : page.heroBgType === 'video' && page.heroVideoUrl ? (
-          <video autoPlay muted loop playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-            src={page.heroVideoUrl} />
         ) : page.heroBgType === 'video' ? (
           <video autoPlay muted loop playsInline
             className="absolute inset-0 w-full h-full object-cover"
-            src={heroVideo} />
+            src={page.heroVideoUrl || heroVideo} />
         ) : (
-          /* color bg */
           <div className="absolute inset-0" style={{ backgroundColor: '#172632' }} />
         )}
         <div className="absolute inset-0" style={{ backgroundColor: 'rgba(23,38,50,0.72)' }} />
@@ -248,62 +267,189 @@ export default function KnowledgeCentre() {
         </motion.div>
       </section>
 
-      {/* ── Featured articles ── */}
-      {featured.length > 0 && (
-        <section className="py-12" style={{ backgroundColor: '#f8fafb' }}>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-            <h2 className="text-xl font-bold mb-6" style={{ fontFamily: PP, color: '#111' }}>
-              Featured Articles
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {featured.map(a => <ArticleCard key={a._id} article={a} />)}
+      {/* ── Articles & Insights (Resources UI) ── */}
+      <section className="py-8 lg:py-14" style={{ backgroundColor: '#f8fafb' }}>
+        <div className="max-w-7xl mx-auto px-4 lg:px-10">
+
+          {/* Section heading */}
+          <div className="flex items-center gap-3 mb-6 lg:mb-8">
+            <BookOpen size={22} style={{ color: 'var(--primary)' }} />
+            <div>
+              <p className="font-bold tracking-[0.2em] uppercase text-xs"
+                style={{ fontFamily: PP, color: 'var(--primary)' }}>Knowledge Base</p>
+              <h2 className="font-bold" style={{ fontFamily: PP, fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', color: '#111' }}>
+                Articles &amp; Insights
+              </h2>
             </div>
           </div>
-        </section>
-      )}
 
-      {/* ── Category tabs + articles ── */}
-      <section className="py-14" style={{ backgroundColor: featured.length > 0 ? '#fff' : '#f8fafb' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-
-          {page.introText && (
-            <p className="text-base leading-relaxed mb-8 max-w-3xl text-gray-600" style={{ fontFamily: PP }}>
-              {page.introText}
-            </p>
-          )}
-
-          {/* Tabs */}
-          <div className="flex flex-wrap gap-2 mb-8">
-            {tabs.map(tab => (
-              <button key={tab.value}
-                onClick={() => setActiveTab(tab.value)}
-                className="px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 border"
+          {/* Category filters */}
+          <div className="flex flex-wrap gap-2 mb-8 lg:mb-12">
+            {ARTICLE_CATEGORIES.map(cat => (
+              <button key={cat}
+                onClick={() => setCatFilter(cat)}
+                className="px-3.5 lg:px-5 py-1.5 lg:py-2 rounded-full font-semibold text-xs lg:text-sm transition-all border"
                 style={{
                   fontFamily: PP,
-                  backgroundColor: activeTab === tab.value ? 'var(--primary)' : '#fff',
-                  color:           activeTab === tab.value ? '#fff' : '#555',
-                  borderColor:     activeTab === tab.value ? 'var(--primary)' : '#e5e7eb',
+                  backgroundColor: catFilter === cat ? 'var(--primary)' : '#fff',
+                  color: catFilter === cat ? '#fff' : 'var(--primary)',
+                  borderColor: catFilter === cat ? 'var(--primary)' : 'var(--p-a25)',
                 }}>
-                {tab.value !== 'all' && (CATEGORY_ICONS[tab.value] ?? '')} {tab.label}
+                {cat}
               </button>
             ))}
           </div>
 
-          {/* Grid */}
-          {filtered.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-24 text-center">
-              <BookOpen size={40} className="mb-4 text-gray-300" />
-              <p className="text-gray-400 text-sm" style={{ fontFamily: PP }}>
-                No articles in this category yet.
-              </p>
+          {/* Featured post — first item full-width */}
+          <AnimatePresence mode="wait">
+            {filteredBlogs.length > 0 && (
+              <motion.div key={filteredBlogs[0].slug}
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
+                className="mb-10">
+                <Link to={`/resources/${filteredBlogs[0].slug}`} className="group block">
+                  <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col lg:flex-row">
+                    <div className="lg:w-1/2 overflow-hidden" style={{ minHeight: '200px' }}>
+                      <img src={filteredBlogs[0].img} alt={filteredBlogs[0].title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-600"
+                        style={{ minHeight: '200px' }} />
+                    </div>
+                    <div className="lg:w-1/2 p-6 lg:p-14 flex flex-col justify-center">
+                      <div className="flex items-center gap-2 lg:gap-3 mb-4 flex-wrap">
+                        <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full"
+                          style={{ backgroundColor: 'var(--p-a10)', color: 'var(--primary)', fontFamily: PP }}>
+                          {filteredBlogs[0].category}
+                        </span>
+                        <span className="text-xs text-gray-400 flex items-center gap-1" style={{ fontFamily: PP }}>
+                          <Calendar size={11} /> {filteredBlogs[0].date}
+                        </span>
+                        <span className="text-xs text-gray-400 flex items-center gap-1" style={{ fontFamily: PP }}>
+                          <Clock size={11} /> {filteredBlogs[0].readTime}
+                        </span>
+                      </div>
+                      <h2 className="font-bold mb-4 leading-tight"
+                        style={{ fontFamily: PP, fontSize: 'clamp(1.2rem, 2.5vw, 2rem)', color: '#111' }}>
+                        {filteredBlogs[0].title}
+                      </h2>
+                      <p className="text-gray-500 leading-relaxed mb-6"
+                        style={{ fontFamily: PP, fontSize: '0.92rem', lineHeight: 1.8 }}>
+                        {filteredBlogs[0].excerpt}
+                      </p>
+                      <span className="inline-flex items-center gap-2 font-bold text-sm transition-opacity group-hover:opacity-70"
+                        style={{ color: 'var(--primary)', fontFamily: PP }}>
+                        Read Full Article <ArrowRight size={15} />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Remaining posts grid */}
+          {filteredBlogs.length > 1 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7">
+              <AnimatePresence mode="popLayout">
+                {filteredBlogs.slice(1).map((post, i) => (
+                  <motion.div key={post.slug}
+                    initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.35, delay: i * 0.06 }}>
+                    <Link to={`/resources/${post.slug}`}
+                      className="group block bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
+                      <div className="relative overflow-hidden" style={{ height: '200px' }}>
+                        <img src={post.img} alt={post.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <div className="absolute top-3 left-3 text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"
+                          style={{ backgroundColor: 'var(--primary)', color: '#fff', fontFamily: PP }}>
+                          {post.category}
+                        </div>
+                      </div>
+                      <div className="p-6 flex flex-col flex-grow">
+                        <div className="flex items-center gap-3 mb-3 text-xs text-gray-400">
+                          <span className="flex items-center gap-1"><Calendar size={11} /> {post.date}</span>
+                          <span className="flex items-center gap-1"><Clock size={11} /> {post.readTime}</span>
+                        </div>
+                        <h3 className="font-bold mb-3 leading-snug"
+                          style={{ fontFamily: PP, fontSize: '1.08rem', color: '#111' }}>
+                          {post.title}
+                        </h3>
+                        <p className="text-gray-500 text-sm leading-relaxed flex-grow mb-5" style={{ fontFamily: PP }}>
+                          {post.excerpt}
+                        </p>
+                        <span className="flex items-center gap-1.5 font-bold text-sm transition-opacity group-hover:opacity-70 mt-auto"
+                          style={{ color: 'var(--primary)', fontFamily: PP }}>
+                          Read Article <ChevronRight size={14} />
+                        </span>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map(a => <ArticleCard key={a._id} article={a} />)}
+          )}
+
+          {filteredBlogs.length === 0 && (
+            <div className="text-center py-20 text-gray-400" style={{ fontFamily: PP }}>
+              No articles found for this category.
             </div>
           )}
         </div>
       </section>
+
+      {/* ── Compliance Knowledge (KB articles with category tabs) ── */}
+      {kbArticles.length > 0 && (
+        <section className="py-14" style={{ backgroundColor: '#fff' }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+
+            <div className="flex items-center gap-3 mb-6">
+              <FileText size={22} style={{ color: 'var(--primary)' }} />
+              <div>
+                <p className="font-bold tracking-[0.2em] uppercase text-xs"
+                  style={{ fontFamily: PP, color: 'var(--primary)' }}>Compliance Knowledge</p>
+                <h2 className="font-bold" style={{ fontFamily: PP, fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', color: '#111' }}>
+                  Guides, Alerts &amp; Downloads
+                </h2>
+              </div>
+            </div>
+
+            {page.introText && (
+              <p className="text-base leading-relaxed mb-6 max-w-3xl text-gray-600" style={{ fontFamily: PP }}>
+                {page.introText}
+              </p>
+            )}
+
+            {/* Category tabs */}
+            <div className="flex flex-wrap gap-2 mb-8">
+              {kbTabs.map(tab => (
+                <button key={tab.value}
+                  onClick={() => setKbTab(tab.value)}
+                  className="px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 border"
+                  style={{
+                    fontFamily: PP,
+                    backgroundColor: kbTab === tab.value ? 'var(--primary)' : '#fff',
+                    color:           kbTab === tab.value ? '#fff' : '#555',
+                    borderColor:     kbTab === tab.value ? 'var(--primary)' : '#e5e7eb',
+                  }}>
+                  {tab.value !== 'all' && (CATEGORY_ICONS[tab.value] ?? '')} {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {filteredKb.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <BookOpen size={40} className="mb-4 text-gray-300" />
+                <p className="text-gray-400 text-sm" style={{ fontFamily: PP }}>
+                  No articles in this category yet.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredKb.map(a => <KBArticleCard key={a._id} article={a} />)}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* ── FAQ ── */}
       {page.faqs.length > 0 && (

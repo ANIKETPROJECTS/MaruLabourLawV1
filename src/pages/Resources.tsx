@@ -1,19 +1,13 @@
-import { useState, useEffect } from 'react';
-import { Download, ChevronRight, Calendar, Clock, ArrowRight, FileText, BookOpen } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Download, FileText } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { api } from '../lib/api';
 import { useLiveContent } from '../hooks/useLiveContent';
 import type { ResourceItem, ResourcesPageContent } from '../types/content';
 
 const PP = 'Poppins, sans-serif';
 
-const CATEGORIES = ['All', 'New Labour Codes', 'Compliance', 'Labour Audit', 'POSH', 'ESI & PF', 'Payroll'];
-
-// Cloudinary serves files inline by default (e.g. PDFs open in a viewer tab).
-// Inserting the `fl_attachment` transformation flag makes Cloudinary send
-// Content-Disposition: attachment, so the browser actually downloads the file
-// instead of just opening it.
+// Cloudinary force-download helper
 function forceDownloadUrl(url: string) {
   try {
     const parsed = new URL(url);
@@ -31,30 +25,22 @@ function forceDownloadUrl(url: string) {
 }
 
 const HERO_DEFAULTS: ResourcesPageContent = {
-  heroEyebrow: 'Knowledge Centre',
-  heroHeading: 'Compliance Knowledge That Helps You Act',
-  heroSubtext: 'Practical updates, articles, compliance alerts and employer resources covering Labour Codes, PF, ESI, minimum wages and employment compliance.',
-  heroBgType: 'color',
+  heroEyebrow:  'Downloads & Templates',
+  heroHeading:  'Compliance Resources',
+  heroSubtext:  'Practical compliance templates, checklists and reference documents — free to download.',
+  heroBgType:   'color',
   heroImageUrl: '',
   heroVideoUrl: '',
 };
 
 const Resources = () => {
-  const [activeTab, setActiveTab] = useState<'blogs' | 'downloads'>('blogs');
-  const [catFilter, setCatFilter] = useState('All');
-  const [blogPosts, setBlogPosts] = useState<ResourceItem[]>([]);
   const [downloads, setDownloads] = useState<ResourceItem[]>([]);
-  const [, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [hero, setHero] = useState<ResourcesPageContent>(HERO_DEFAULTS);
 
   const fetchResources = () => {
     api.get<ResourceItem[]>('/resources')
-      .then(data => {
-        setBlogPosts(data.filter(r => r.tab === 'articles'));
-        setDownloads(data.filter(r => r.tab === 'downloads'));
-        setStatus('ready');
-      })
-      .catch(() => setStatus('error'));
+      .then(data => setDownloads(data.filter(r => r.tab === 'downloads')))
+      .catch(() => {});
   };
   useEffect(fetchResources, []);
   useLiveContent(fetchResources);
@@ -64,10 +50,6 @@ const Resources = () => {
   };
   useEffect(fetchHero, []);
   useLiveContent(fetchHero);
-
-  const filteredBlogs = catFilter === 'All'
-    ? blogPosts
-    : blogPosts.filter(p => p.category === catFilter);
 
   return (
     <div className="w-full" style={{ fontFamily: PP }}>
@@ -98,7 +80,6 @@ const Resources = () => {
           transition={{ duration: 0.6 }}
           className="relative text-center px-5 lg:px-8 w-full max-w-4xl mx-auto"
           style={{ zIndex: 2 }}>
-
           <p className="uppercase tracking-[0.25em] lg:tracking-[0.3em] font-semibold mb-2"
             style={{ fontFamily: PP, fontSize: '0.85rem', color: '#fda102' }}>
             {hero.heroEyebrow}
@@ -116,162 +97,27 @@ const Resources = () => {
         </motion.div>
       </section>
 
-      {/* ── Tab Switch ── */}
-      <section className="bg-white border-b border-gray-100 sticky top-0 z-20">
-        <div className="max-w-7xl mx-auto px-4 lg:px-10 flex items-center gap-1 py-3 lg:py-4 overflow-x-auto">
-          {[
-            { key: 'blogs', label: `Articles & Insights (${blogPosts.length})`, icon: BookOpen },
-            { key: 'downloads', label: `Downloads & Templates (${downloads.length})`, icon: FileText },
-          ].map(tab => (
-            <button key={tab.key}
-              onClick={() => setActiveTab(tab.key as 'blogs' | 'downloads')}
-              className="flex items-center gap-1.5 lg:gap-2 px-3 lg:px-5 py-2 lg:py-2.5 rounded-lg font-semibold text-xs lg:text-sm transition-all whitespace-nowrap shrink-0"
-              style={{
-                fontFamily: PP,
-                backgroundColor: activeTab === tab.key ? 'var(--primary)' : 'transparent',
-                color: activeTab === tab.key ? '#fff' : 'var(--primary)',
-              }}>
-              <tab.icon size={14} /> {tab.label}
-            </button>
-          ))}
-        </div>
-      </section>
+      {/* ── Downloads ── */}
+      <section className="py-8 lg:py-14" style={{ backgroundColor: '#f8fafb' }}>
+        <div className="max-w-7xl mx-auto px-4 lg:px-10">
+          <motion.div className="mb-6 lg:mb-10"
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.5 }}>
+            <p className="font-bold tracking-[0.2em] uppercase text-xs mb-2"
+              style={{ fontFamily: PP, color: 'var(--primary)' }}>Free Resources</p>
+            <h2 className="font-bold" style={{ fontFamily: PP, fontSize: 'clamp(1.5rem, 3vw, 2.4rem)', color: '#111' }}>
+              Templates & Downloads
+            </h2>
+            <p className="text-gray-500 mt-2" style={{ fontFamily: PP, fontSize: '0.9rem' }}>
+              Practical compliance templates, checklists, and reference documents — free to download.
+            </p>
+          </motion.div>
 
-      {/* ── Blogs Tab ── */}
-      {activeTab === 'blogs' && (
-        <section className="py-8 lg:py-14" style={{ backgroundColor: '#f8fafb' }}>
-          <div className="max-w-7xl mx-auto px-4 lg:px-10">
-
-            {/* Category filters */}
-            <div className="flex flex-wrap gap-2 mb-8 lg:mb-12">
-              {CATEGORIES.map(cat => (
-                <button key={cat}
-                  onClick={() => setCatFilter(cat)}
-                  className="px-3.5 lg:px-5 py-1.5 lg:py-2 rounded-full font-semibold text-xs lg:text-sm transition-all border"
-                  style={{
-                    fontFamily: PP,
-                    backgroundColor: catFilter === cat ? 'var(--primary)' : '#fff',
-                    color: catFilter === cat ? '#fff' : 'var(--primary)',
-                    borderColor: catFilter === cat ? 'var(--primary)' : 'var(--p-a25)',
-                  }}>
-                  {cat}
-                </button>
-              ))}
+          {downloads.length === 0 ? (
+            <div className="text-center py-20 text-gray-400" style={{ fontFamily: PP }}>
+              No downloads available yet.
             </div>
-
-            {/* Featured post — first item full-width */}
-            <AnimatePresence mode="wait">
-              {filteredBlogs.length > 0 && (
-                <motion.div key={filteredBlogs[0].slug}
-                  initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
-                  className="mb-10">
-                  <Link to={`/resources/${filteredBlogs[0].slug}`} className="group block">
-                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col lg:flex-row">
-                      <div className="lg:w-1/2 overflow-hidden" style={{ minHeight: '200px' }}>
-                        <img src={filteredBlogs[0].img} alt={filteredBlogs[0].title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-600"
-                          style={{ minHeight: '200px' }} />
-                      </div>
-                      <div className="lg:w-1/2 p-6 lg:p-14 flex flex-col justify-center">
-                        <div className="flex items-center gap-2 lg:gap-3 mb-4 flex-wrap">
-                          <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full"
-                            style={{ backgroundColor: 'var(--p-a10)', color: 'var(--primary)', fontFamily: PP }}>
-                            {filteredBlogs[0].category}
-                          </span>
-                          <span className="text-xs text-gray-400 flex items-center gap-1" style={{ fontFamily: PP }}>
-                            <Calendar size={11} /> {filteredBlogs[0].date}
-                          </span>
-                          <span className="text-xs text-gray-400 flex items-center gap-1" style={{ fontFamily: PP }}>
-                            <Clock size={11} /> {filteredBlogs[0].readTime}
-                          </span>
-                        </div>
-                        <h2 className="font-bold mb-4 leading-tight"
-                          style={{ fontFamily: PP, fontSize: 'clamp(1.2rem, 2.5vw, 2rem)', color: '#111' }}>
-                          {filteredBlogs[0].title}
-                        </h2>
-                        <p className="text-gray-500 leading-relaxed mb-6"
-                          style={{ fontFamily: PP, fontSize: '0.92rem', lineHeight: 1.8 }}>
-                          {filteredBlogs[0].excerpt}
-                        </p>
-                        <span className="inline-flex items-center gap-2 font-bold text-sm transition-opacity group-hover:opacity-70"
-                          style={{ color: 'var(--primary)', fontFamily: PP }}>
-                          Read Full Article <ArrowRight size={15} />
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Remaining posts grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7">
-              <AnimatePresence mode="popLayout">
-                {filteredBlogs.slice(1).map((post, i) => (
-                  <motion.div key={post.slug}
-                    initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.35, delay: i * 0.06 }}>
-                    <Link to={`/resources/${post.slug}`}
-                      className="group block bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
-                      <div className="relative overflow-hidden" style={{ height: '200px' }}>
-                        <img src={post.img} alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                        <div className="absolute top-3 left-3 text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"
-                          style={{ backgroundColor: 'var(--primary)', color: '#fff', fontFamily: PP }}>
-                          {post.category}
-                        </div>
-                      </div>
-                      <div className="p-6 flex flex-col flex-grow">
-                        <div className="flex items-center gap-3 mb-3 text-xs text-gray-400">
-                          <span className="flex items-center gap-1"><Calendar size={11} /> {post.date}</span>
-                          <span className="flex items-center gap-1"><Clock size={11} /> {post.readTime}</span>
-                        </div>
-                        <h3 className="font-bold mb-3 leading-snug"
-                          style={{ fontFamily: PP, fontSize: '1.08rem', color: '#111' }}>
-                          {post.title}
-                        </h3>
-                        <p className="text-gray-500 text-sm leading-relaxed flex-grow mb-5"
-                          style={{ fontFamily: PP }}>
-                          {post.excerpt}
-                        </p>
-                        <span className="flex items-center gap-1.5 font-bold text-sm transition-opacity group-hover:opacity-70 mt-auto"
-                          style={{ color: 'var(--primary)', fontFamily: PP }}>
-                          Read Article <ChevronRight size={14} />
-                        </span>
-                      </div>
-                    </Link>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-
-            {filteredBlogs.length === 0 && (
-              <div className="text-center py-20 text-gray-400" style={{ fontFamily: PP }}>
-                No articles found for this category.
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* ── Downloads Tab ── */}
-      {activeTab === 'downloads' && (
-        <section className="py-8 lg:py-14" style={{ backgroundColor: '#f8fafb' }}>
-          <div className="max-w-7xl mx-auto px-4 lg:px-10">
-            <motion.div className="mb-6 lg:mb-10"
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ duration: 0.5 }}>
-              <p className="font-bold tracking-[0.2em] uppercase text-xs mb-2"
-                style={{ fontFamily: PP, color: 'var(--primary)' }}>Free Resources</p>
-              <h2 className="font-bold" style={{ fontFamily: PP, fontSize: 'clamp(1.5rem, 3vw, 2.4rem)', color: '#111' }}>
-                Templates & Downloads
-              </h2>
-              <p className="text-gray-500 mt-2" style={{ fontFamily: PP, fontSize: '0.9rem' }}>
-                Practical compliance templates, checklists, and reference documents — free to download.
-              </p>
-            </motion.div>
-
+          ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
               {downloads.map((item, i) => (
                 <motion.div key={i}
@@ -301,8 +147,7 @@ const Resources = () => {
                     style={{ fontFamily: PP, fontSize: '1rem', color: '#111' }}>
                     {item.title}
                   </h3>
-                  <p className="text-gray-500 text-sm leading-relaxed mb-5"
-                    style={{ fontFamily: PP }}>
+                  <p className="text-gray-500 text-sm leading-relaxed mb-5" style={{ fontFamily: PP }}>
                     {item.desc}
                   </p>
 
@@ -332,9 +177,9 @@ const Resources = () => {
                 </motion.div>
               ))}
             </div>
-          </div>
-        </section>
-      )}
+          )}
+        </div>
+      </section>
 
       {/* ── Newsletter ── */}
       <section className="py-10 lg:py-16" style={{ backgroundColor: 'var(--primary)' }}>
