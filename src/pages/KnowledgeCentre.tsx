@@ -166,7 +166,7 @@ export default function KnowledgeCentre() {
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
                 className="mb-10">
-                <Link to={`/resources/${filteredBlogs[0].slug}`} state={{ from: 'knowledge-centre' }} className="group block">
+                <Link to={`/knowledge-centre/${filteredBlogs[0].slug}`} className="group block">
                   <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col lg:flex-row">
                     <div className="lg:w-1/2 overflow-hidden" style={{ minHeight: '200px' }}>
                       <img src={filteredBlogs[0].img} alt={filteredBlogs[0].title}
@@ -213,8 +213,7 @@ export default function KnowledgeCentre() {
                   <motion.div key={post.slug}
                     initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.35, delay: i * 0.06 }}>
-                    <Link to={`/resources/${post.slug}`}
-                      state={{ from: 'knowledge-centre' }}
+                    <Link to={`/knowledge-centre/${post.slug}`}
                       className="group block bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
                       <div className="relative overflow-hidden" style={{ height: '200px' }}>
                         <img src={post.img} alt={post.title}

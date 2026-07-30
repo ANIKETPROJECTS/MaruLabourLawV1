@@ -47,6 +47,7 @@ function App() {
         <Route path="careers/:slug" element={<CareerDetail />} />
         <Route path="contact" element={<Contact />} />
         <Route path="knowledge-centre" element={<KnowledgeCentre />} />
+        <Route path="knowledge-centre/:slug" element={<ResourceDetail />} />
       </Route>
 
       <Route
