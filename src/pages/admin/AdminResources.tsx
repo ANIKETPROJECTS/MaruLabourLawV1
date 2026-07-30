@@ -287,7 +287,6 @@ export default function AdminResources() {
         </div>
         <div className="flex gap-2">
           <SecondaryButton onClick={() => startCreate('downloads')}><Plus size={15} /> New Download</SecondaryButton>
-          <PrimaryButton onClick={() => startCreate('articles')}><Plus size={15} /> New Article</PrimaryButton>
         </div>
       </div>
 
@@ -354,33 +353,6 @@ export default function AdminResources() {
         </div>
       )}
       {error && <div className="mb-5 text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">{error}</div>}
-
-      {/* Articles */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-3">
-          <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
-            style={{ backgroundColor: 'var(--p-a08)', color: 'var(--primary)', fontFamily: PP }}>
-            <BookOpen size={12} /> Articles & Insights
-          </span>
-          <span className="text-xs text-gray-400">{articles.length} item{articles.length !== 1 ? 's' : ''}</span>
-          <div className="flex-1 border-t border-gray-100" />
-        </div>
-        <div className="space-y-3">
-          {articles.map(r => (
-            <div key={r._id} className="bg-white rounded-2xl border shadow-sm p-4 flex items-center gap-4"
-              style={{ borderColor: 'var(--p-a12)' }}>
-              {r.img && <img src={r.img} alt="" className="w-12 h-12 rounded-xl object-cover shrink-0" />}
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-sm truncate" style={{ fontFamily: PP, color: '#111' }}>{r.title}</p>
-                <p className="text-gray-400 text-xs truncate">{r.category} · {r.date}</p>
-              </div>
-              <SecondaryButton onClick={() => startEdit(r)}><Pencil size={13} /> Edit</SecondaryButton>
-              <DangerButton onClick={() => remove(r._id)}><Trash2 size={13} /></DangerButton>
-            </div>
-          ))}
-          {articles.length === 0 && <p className="text-gray-400 text-sm">No articles yet.</p>}
-        </div>
-      </div>
 
       {/* Downloads */}
       <div>

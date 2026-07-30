@@ -285,10 +285,6 @@ export default function AdminKnowledgeCentre() {
         </div>
         <div className="flex gap-2">
           <PrimaryButton onClick={startCreate}><Plus size={15} /> New Article</PrimaryButton>
-          <PrimaryButton onClick={savePage} disabled={pageSaving}>
-            {pageSaving ? <Loader2 size={15} className="animate-spin" /> : pageSaved ? <CheckCircle2 size={15} /> : <Save size={15} />}
-            {pageSaving ? 'Saving…' : pageSaved ? 'Saved!' : 'Save Page'}
-          </PrimaryButton>
         </div>
       </div>
 
@@ -297,6 +293,73 @@ export default function AdminKnowledgeCentre() {
         <div className="mb-5 text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">
           {pageError}
         </div>
+      )}
+
+      {/* ── Hero Section (top, matching Resources style) ── */}
+      {!pageLoading && (
+        <Section title="Hero Section" description="The banner shown at the top of the public Knowledge Centre page.">
+          {pageDirty && !pageSaving && (
+            <div className="flex items-center justify-between gap-3 rounded-xl px-4 py-3 shadow-sm -mt-2 mb-2"
+              style={{ backgroundColor: 'var(--primary-dark)', fontFamily: PP }}>
+              <span className="text-sm font-semibold text-white">You have unsaved changes.</span>
+              <button onClick={savePage}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-opacity hover:opacity-90"
+                style={{ backgroundColor: '#fda102', color: '#111' }}>
+                <Save size={13} /> Save now
+              </button>
+            </div>
+          )}
+          {pageSaved && !pageDirty && (
+            <div className="flex items-center gap-2 text-sm text-green-700 bg-green-50 border border-green-200 rounded-xl px-4 py-2.5 -mt-2 mb-2">
+              <CheckCircle2 size={15} /> Saved — hero is live on the site.
+            </div>
+          )}
+
+          <div className="grid grid-cols-2 gap-4">
+            <Field label="Eyebrow text">
+              <TextInput value={page.heroEyebrow} onChange={e => setP('heroEyebrow', e.target.value)}
+                placeholder="Compliance Knowledge That Helps You Act" />
+            </Field>
+            <Field label="Heading">
+              <TextInput value={page.heroHeading} onChange={e => setP('heroHeading', e.target.value)}
+                placeholder="MCS Knowledge Centre" />
+            </Field>
+          </div>
+          <Field label="Subtext">
+            <TextArea rows={2} value={page.heroSubtext} onChange={e => setP('heroSubtext', e.target.value)}
+              placeholder="A practical resource for employers…" />
+          </Field>
+
+          <Field label="Background type">
+            <select
+              value={page.heroBgType}
+              onChange={e => setP('heroBgType', e.target.value as KnowledgeCentrePageContent['heroBgType'])}
+              className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none"
+              style={{ fontFamily: PP, borderColor: '#e5e7eb' }}>
+              <option value="color">Dark color (default)</option>
+              <option value="image">Image</option>
+              <option value="video">Video</option>
+            </select>
+          </Field>
+
+          {page.heroBgType === 'video' && (
+            <ImageUploader label="Hero background video" value={page.heroVideoUrl}
+              onChange={v => setP('heroVideoUrl', v)} accept="video/*" section="misc"
+              hint="MP4, max 50 MB" />
+          )}
+          {page.heroBgType === 'image' && (
+            <ImageUploader label="Hero background image" value={page.heroImageUrl}
+              onChange={v => setP('heroImageUrl', v)} accept="image/*" section="misc"
+              hint="Landscape, min 1920×600 px" />
+          )}
+
+          <div className="flex justify-end">
+            <PrimaryButton onClick={savePage} disabled={pageSaving}>
+              {pageSaving ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+              {pageSaving ? 'Saving…' : 'Save Hero'}
+            </PrimaryButton>
+          </div>
+        </Section>
       )}
 
       {/* ── Articles & Insights ── */}
@@ -347,65 +410,9 @@ export default function AdminKnowledgeCentre() {
         )}
       </div>
 
-      {/* ── PAGE CONTENT ── */}
+      {/* ── PAGE CONTENT (Intro + FAQs) ── */}
       {!pageLoading && (
         <div>
-          {pageDirty && !pageSaving && (
-            <div className="sticky top-0 z-20 mb-5 flex items-center justify-between gap-3 rounded-xl px-4 py-3 shadow-md"
-              style={{ backgroundColor: 'var(--primary-dark)', fontFamily: PP }}>
-              <span className="text-sm font-semibold text-white">You have unsaved changes.</span>
-              <button onClick={savePage}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-opacity hover:opacity-90"
-                style={{ backgroundColor: '#fda102', color: '#111' }}>
-                <Save size={13} /> Save now
-              </button>
-            </div>
-          )}
-
-          {/* Hero */}
-          <Section title="Hero Section" description="The full-width banner at the top of the Knowledge Centre page.">
-            <Field label="Eyebrow text">
-              <TextInput value={page.heroEyebrow} onChange={e => setP('heroEyebrow', e.target.value)}
-                placeholder="Compliance Knowledge That Helps You Act" />
-            </Field>
-            <Field label="Heading">
-              <TextInput value={page.heroHeading} onChange={e => setP('heroHeading', e.target.value)}
-                placeholder="MCS Knowledge Centre" />
-            </Field>
-            <Field label="Subtext">
-              <TextArea rows={2} value={page.heroSubtext} onChange={e => setP('heroSubtext', e.target.value)}
-                placeholder="A practical resource for employers…" />
-            </Field>
-
-            <Field label="Background type">
-              <div className="flex gap-3">
-                {(['color', 'video', 'image'] as const).map(type => (
-                  <button key={type} type="button"
-                    onClick={() => setP('heroBgType', type)}
-                    className="px-4 py-2 rounded-lg border text-sm font-semibold transition-colors capitalize"
-                    style={{
-                      fontFamily: PP,
-                      backgroundColor: page.heroBgType === type ? 'var(--primary)' : '#fff',
-                      color: page.heroBgType === type ? '#fff' : '#555',
-                      borderColor: page.heroBgType === type ? 'var(--primary)' : '#e5e7eb',
-                    }}>
-                    {type === 'color' ? '🎨 Dark' : type === 'video' ? '🎬 Video' : '🖼 Image'}
-                  </button>
-                ))}
-              </div>
-            </Field>
-
-            {page.heroBgType === 'video' && (
-              <ImageUploader label="Hero background video" value={page.heroVideoUrl}
-                onChange={v => setP('heroVideoUrl', v)} accept="video/*" section="misc"
-                hint="MP4, max 50 MB" />
-            )}
-            {page.heroBgType === 'image' && (
-              <ImageUploader label="Hero background image" value={page.heroImageUrl}
-                onChange={v => setP('heroImageUrl', v)} accept="image/*" section="misc"
-                hint="Landscape, min 1920×600 px" />
-            )}
-          </Section>
 
           {/* Intro text */}
           <Section title="Intro Text" description="Optional paragraph shown above the category tabs.">

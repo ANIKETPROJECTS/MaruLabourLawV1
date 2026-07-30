@@ -157,7 +157,7 @@ const Layout = () => {
                   >
                     <Link
                       to={link.path}
-                      className="flex items-center gap-0.5 font-semibold text-[0.82rem] px-2.5 py-2.5 transition-colors duration-200"
+                      className="flex items-center gap-0.5 font-semibold text-[0.88rem] px-2.5 py-2.5 transition-colors duration-200"
                       style={{ fontFamily: 'Poppins, sans-serif', color: highlighted ? '#fda102' : '#ffffff' }}
                     >
                       {link.name}
@@ -215,7 +215,7 @@ const Layout = () => {
                   >
                     <Link
                       to={link.path}
-                      className="font-semibold text-[0.82rem] px-2.5 py-2.5 block transition-colors duration-200"
+                      className="font-semibold text-[0.88rem] px-2.5 py-2.5 block transition-colors duration-200"
                       style={{ fontFamily: 'Poppins, sans-serif', color: highlighted ? '#fda102' : '#ffffff' }}
                     >
                       {link.name}
