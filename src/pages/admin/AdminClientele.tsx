@@ -60,7 +60,7 @@ export default function AdminClientele() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    api.get<ClienteleContent>('/clientele')
+    api.get<ClienteleContent>('/industries')
       .then(res => {
         setData({
           heroEyebrow:  res.heroEyebrow  ?? EMPTY.heroEyebrow,
@@ -82,7 +82,7 @@ export default function AdminClientele() {
   const save = async () => {
     setSaving(true); setError(''); setSaved(false);
     try {
-      await api.put<ClienteleContent>('/clientele', data);
+      await api.put<ClienteleContent>('/industries', data);
       setDirty(false); setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } catch (err) {

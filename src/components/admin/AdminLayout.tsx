@@ -10,7 +10,7 @@ const navItems = [
   { to: '/admin/home',      label: 'Home',      icon: LayoutDashboard },
   { to: '/admin/about',     label: 'About',     icon: Info },
   { to: '/admin/services',  label: 'Services',  icon: Briefcase },
-  { to: '/admin/clientele', label: 'Clientele', icon: Users },
+  { to: '/admin/industries', label: 'Industries', icon: Users },
   { to: '/admin/resources', label: 'Resources', icon: BookOpen },
   { to: '/admin/careers',      label: 'Careers',      icon: FileText },
   { to: '/admin/contact',      label: 'Contact',      icon: Phone },

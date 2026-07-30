@@ -101,7 +101,7 @@ const DEFAULT_PORTFOLIO = [
 const Clientele = () => {
   const [apiData, setApiData] = useState<ClienteleContent | null>(null);
   const fetchClientele = () => {
-    api.get<ClienteleContent>('/clientele').then(setApiData).catch(() => {/* use hardcoded defaults */});
+    api.get<ClienteleContent>('/industries').then(setApiData).catch(() => {/* use hardcoded defaults */});
   };
   useEffect(fetchClientele, []);
   useLiveContent(fetchClientele);

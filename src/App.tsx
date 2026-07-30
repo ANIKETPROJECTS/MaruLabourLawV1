@@ -6,12 +6,11 @@ import Services from './pages/Services';
 import ServiceDetail from './pages/ServiceDetail';
 import Resources from './pages/Resources';
 import ResourceDetail from './pages/ResourceDetail';
-import Clientele from './pages/Clientele';
+import Industries from './pages/Clientele';
 import Careers from './pages/Careers';
 import CareerDetail from './pages/CareerDetail';
 import Contact from './pages/Contact';
 import LabourCodes from './pages/LabourCodes';
-import Industries from './pages/Industries';
 import { AdminAuthProvider } from './context/AdminAuthContext';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 import AdminLayout from './components/admin/AdminLayout';
@@ -41,7 +40,7 @@ function App() {
         <Route path="services/:slug" element={<ServiceDetail />} />
         <Route path="resources" element={<Resources />} />
         <Route path="resources/:slug" element={<ResourceDetail />} />
-        <Route path="clientele" element={<Clientele />} />
+        <Route path="clientele" element={<Navigate to="/industries" replace />} />
         <Route path="industries" element={<Industries />} />
         <Route path="careers" element={<Careers />} />
         <Route path="careers/:slug" element={<CareerDetail />} />
@@ -67,7 +66,7 @@ function App() {
                 <Route index element={<Navigate to="home" replace />} />
                 <Route path="home" element={<AdminHome />} />
                 <Route path="about" element={<AdminAbout />} />
-                <Route path="clientele" element={<AdminClientele />} />
+                <Route path="industries" element={<AdminClientele />} />
                 <Route path="services" element={<AdminServices />} />
                 <Route path="careers" element={<AdminCareers />} />
                 <Route path="resources" element={<AdminResources />} />

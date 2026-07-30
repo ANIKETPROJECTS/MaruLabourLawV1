@@ -36,6 +36,7 @@ app.use('/api/resources', resourcesRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/about', aboutRoutes);
 app.use('/api/clientele', clienteleRoutes);
+app.use('/api/industries', clienteleRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/careers-page', careersPageRoutes);
 app.use('/api/resources-page', resourcesPageRoutes);
