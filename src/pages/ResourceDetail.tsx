@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowLeft, CheckCircle, ChevronRight, ArrowRight } from 'lucide-react';
@@ -10,6 +10,8 @@ const PP = 'Poppins, sans-serif';
 
 const ResourceDetail = () => {
   const { slug } = useParams();
+  const location = useLocation();
+  const fromKC = (location.state as { from?: string } | null)?.from === 'knowledge-centre';
   const [post, setPost] = useState<ResourceItem | null>(null);
   const [allArticles, setAllArticles] = useState<ResourceItem[]>([]);
   const [status, setStatus] = useState<'loading' | 'ready' | 'not-found' | 'error'>('loading');
@@ -52,8 +54,8 @@ const ResourceDetail = () => {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center" style={{ fontFamily: PP }}>
         <p className="text-gray-500 mb-4">Article not found.</p>
-        <Link to="/resources" className="font-semibold" style={{ color: 'var(--primary)' }}>
-          ← Back to Resources
+        <Link to={fromKC ? '/knowledge-centre' : '/resources'} className="font-semibold" style={{ color: 'var(--primary)' }}>
+          ← Back to {fromKC ? 'Knowledge Centre' : 'Resources'}
         </Link>
       </div>
     );
@@ -63,8 +65,8 @@ const ResourceDetail = () => {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center" style={{ fontFamily: PP }}>
         <p className="text-gray-500 mb-4">Failed to load article. Please try again.</p>
-        <Link to="/resources" className="font-semibold" style={{ color: 'var(--primary)' }}>
-          ← Back to Resources
+        <Link to={fromKC ? '/knowledge-centre' : '/resources'} className="font-semibold" style={{ color: 'var(--primary)' }}>
+          ← Back to {fromKC ? 'Knowledge Centre' : 'Resources'}
         </Link>
       </div>
     );
@@ -117,10 +119,10 @@ const ResourceDetail = () => {
         <div className="max-w-7xl mx-auto px-4 lg:px-10">
 
           {/* Back link */}
-          <Link to="/resources"
+          <Link to={fromKC ? '/knowledge-centre' : '/resources'}
             className="inline-flex items-center gap-2 text-sm font-semibold mb-6 lg:mb-8 transition-opacity hover:opacity-70"
             style={{ fontFamily: PP, color: 'var(--primary)' }}>
-            <ArrowLeft size={15} /> Back to Resources
+            <ArrowLeft size={15} /> Back to {fromKC ? 'Knowledge Centre' : 'Resources'}
           </Link>
 
           <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
@@ -258,10 +260,10 @@ const ResourceDetail = () => {
                       style={{ fontFamily: PP, backgroundColor: 'var(--primary)', color: '#fff' }}>
                       Book a Consultation <ArrowRight size={14} />
                     </Link>
-                    <Link to="/resources"
+                    <Link to={fromKC ? '/knowledge-centre' : '/resources'}
                       className="w-full py-3.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 border-2 transition-all hover:bg-[var(--primary)] hover:text-white"
                       style={{ fontFamily: PP, color: 'var(--primary)', borderColor: 'var(--primary)' }}>
-                      More Articles
+                      {fromKC ? 'Back to Knowledge Centre' : 'More Articles'}
                     </Link>
                   </div>
                 </motion.div>
@@ -279,6 +281,7 @@ const ResourceDetail = () => {
                     {allArticles.map((p, i) => (
                       <li key={i}>
                         <Link to={`/resources/${p.slug}`}
+                          state={fromKC ? { from: 'knowledge-centre' } : undefined}
                           className="flex items-center gap-3 py-2.5 border-b border-gray-50 last:border-0 group transition-colors hover:text-[var(--primary)]"
                           style={{ fontFamily: PP, color: '#333', fontSize: '0.88rem', fontWeight: 500 }}>
                           <ChevronRight size={13} className="text-gray-300 group-hover:text-[var(--primary)] transition-colors shrink-0" />
