@@ -9,6 +9,8 @@ import iconLocation from '@assets/placeholder_1783488477011.png';
 import iconCall from '@assets/call_1783488542810.png';
 import iconMail from '@assets/communication_1783488559887.png';
 import chatIcon from '@assets/chat_1783587012486.png';
+import iconInternet from '@assets/internet_1785391505434.png';
+import iconWhatsapp from '@assets/apple_1785391621302.png';
 
 const DEFAULTS: ContactContent = {
   heroEyebrow:    'Complex Laws. Clear Solutions.',
@@ -174,29 +176,6 @@ const Contact = () => {
         </motion.div>
       </section>
 
-      {/* ── Quick contact strip ── */}
-      <section className="bg-white border-b border-gray-100 py-0">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-100">
-            {[
-              { icon: IconCall, label: 'Call Us', value: apiData.phone1, href: `tel:${apiData.phone1.replace(/\s/g, '')}` },
-              { icon: IconMail, label: 'Email Us', value: apiData.email1, href: `mailto:${apiData.email1}` },
-              { icon: IconLocation, label: 'Our Office', value: apiData.addressLine2, href: '#map' },
-            ].map((item, i) => (
-              <a key={i} href={item.href}
-                className="flex items-center gap-4 px-8 py-5 hover:bg-[#f8fafb] transition-colors group">
-                <item.icon size={34} />
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wider mb-0.5"
-                    style={{ fontFamily: PP, color: 'var(--primary)' }}>{item.label}</p>
-                  <p className="font-semibold text-sm" style={{ fontFamily: PP, color: '#111' }}>{item.value}</p>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Form + Info ── */}
       <section className="py-16" style={{ backgroundColor: '#f8fafb' }}>
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-10">
@@ -326,10 +305,10 @@ const Contact = () => {
                         <p className="text-xs text-gray-500 mt-0.5" style={{ fontFamily: PP }}>Managing Partner</p>
                         <a href={`tel:${p.phone.replace(/\s/g,'')}`}
                           className="block text-xs mt-1.5 transition-opacity hover:opacity-60"
-                          style={{ fontFamily: PP, color: '#444' }}>M: {p.phone}</a>
+                          style={{ fontFamily: PP, color: '#444' }}>{p.phone}</a>
                         <a href={`mailto:${p.email}`}
                           className="block text-xs mt-0.5 transition-opacity hover:opacity-60 break-all"
-                          style={{ fontFamily: PP, color: '#444' }}>E: {p.email}</a>
+                          style={{ fontFamily: PP, color: '#444' }}>{p.email}</a>
                       </div>
                     ))}
                   </div>
@@ -339,9 +318,9 @@ const Contact = () => {
                     <IconLocation size={28} />
                     <div>
                       <p className="font-bold text-sm mb-1" style={{ fontFamily: PP, color: '#111' }}>Maru Consultancy Services</p>
-                      {[apiData.addressLine1, apiData.addressLine2, apiData.addressLine3].filter(Boolean).map((line, j) => (
-                        <p key={j} className="text-sm leading-relaxed" style={{ fontFamily: PP, color: '#444' }}>{line}</p>
-                      ))}
+                      <p className="text-sm leading-relaxed" style={{ fontFamily: PP, color: '#444', textAlign: 'justify' }}>
+                        {[apiData.addressLine1, apiData.addressLine2, apiData.addressLine3].filter(Boolean).join(' ')}
+                      </p>
                     </div>
                   </div>
 
@@ -352,15 +331,16 @@ const Contact = () => {
                       <p className="font-bold text-xs uppercase tracking-wider mb-1.5"
                         style={{ fontFamily: PP, color: 'var(--primary)' }}>Telephone</p>
                       {[
-                        { label: apiData.phone1, href: `tel:${apiData.phone1.replace(/\s/g,'')}`, suffix: '' },
-                        { label: '+91-8169800969', href: 'tel:+918169800969', suffix: ' (Whatsapp)' },
-                        { label: '+91-9819420371', href: 'tel:+919819420371', suffix: ' (Whatsapp)' },
-                        { label: '+91-8104031092', href: 'tel:+918104031092', suffix: '' },
+                        { label: apiData.phone1, href: `tel:${apiData.phone1.replace(/\s/g,'')}`, whatsapp: false },
+                        { label: '+91-8169800969', href: 'tel:+918169800969', whatsapp: true },
+                        { label: '+91-9819420371', href: 'tel:+919819420371', whatsapp: true },
+                        { label: '+91-8104031092', href: 'tel:+918104031092', whatsapp: false },
                       ].map((t, j) => (
                         <a key={j} href={t.href}
-                          className="block text-sm leading-relaxed transition-opacity hover:opacity-60"
+                          className="flex items-center gap-1.5 text-sm leading-relaxed transition-opacity hover:opacity-60"
                           style={{ fontFamily: PP, color: '#444' }}>
-                          {t.label}<span className="text-gray-400">{t.suffix}</span>
+                          {t.whatsapp && <img src={iconWhatsapp} alt="WhatsApp" style={{ width: 16, height: 16, borderRadius: 4, flexShrink: 0 }} />}
+                          {t.label}
                         </a>
                       ))}
                     </div>
@@ -382,12 +362,7 @@ const Contact = () => {
 
                   {/* Website */}
                   <div className="flex items-start gap-4">
-                    <div className="shrink-0" style={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--primary)' }}>
-                        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
-                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                      </svg>
-                    </div>
+                    <img src={iconInternet} alt="Website" className="shrink-0 object-contain" style={{ width: 28, height: 28 }} />
                     <div>
                       <p className="font-bold text-xs uppercase tracking-wider mb-1.5"
                         style={{ fontFamily: PP, color: 'var(--primary)' }}>Website</p>
