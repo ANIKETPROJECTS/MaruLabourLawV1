@@ -199,6 +199,53 @@ export type ResourcesPageContent = {
   heroVideoUrl: string;
 };
 
+export type KnowledgeFAQ = { question: string; answer: string };
+
+export const KNOWLEDGE_CATEGORIES = [
+  { value: 'labour-codes',      label: 'Labour Codes Updates' },
+  { value: 'compliance-alerts', label: 'Compliance Alerts' },
+  { value: 'minimum-wages',     label: 'Minimum Wages' },
+  { value: 'epfo-esic',         label: 'EPFO & ESIC Updates' },
+  { value: 'compliance-guides', label: 'Compliance Guides' },
+  { value: 'mcs-insights',      label: 'MCS Insights' },
+  { value: 'downloads',         label: 'Downloads' },
+] as const;
+
+export type KnowledgeCategory = typeof KNOWLEDGE_CATEGORIES[number]['value'];
+
+export type KnowledgeArticleType = {
+  _id: string;
+  category: KnowledgeCategory;
+  title: string;
+  slug?: string;
+  excerpt?: string;
+  date?: string;
+  readTime?: string;
+  author?: string;
+  img?: string;
+  featured?: boolean;
+  order?: number;
+  sections?: ResourceSection[];
+  keyTakeaways?: string[];
+  fileUrl?: string;
+  fileFormat?: string;
+  fileSize?: string;
+};
+
+export type KnowledgeCentrePageContent = {
+  _id?: string;
+  heroEyebrow:  string;
+  heroHeading:  string;
+  heroSubtext:  string;
+  heroBgType:   'video' | 'image' | 'color';
+  heroVideoUrl: string;
+  heroImageUrl: string;
+  introText:    string;
+  faqTitle:     string;
+  faqSubtext:   string;
+  faqs:         KnowledgeFAQ[];
+};
+
 export type JobContent = {
   _id: string;
   slug: string;

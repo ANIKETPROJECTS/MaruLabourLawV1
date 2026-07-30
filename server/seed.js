@@ -16,6 +16,9 @@ import { homeSeed } from './seedData/home.js';
 import { aboutSeed } from './seedData/about.js';
 import { clienteleSeed } from './seedData/clientele.js';
 import { resourcesSeed } from './seedData/resources.js';
+import KnowledgeCentre from './models/KnowledgeCentre.js';
+import KnowledgeArticle from './models/KnowledgeArticle.js';
+import { knowledgeCentrePageSeed, knowledgeArticlesSeed } from './seedData/knowledgeCentre.js';
 
 async function run() {
   await connectDB();
@@ -84,6 +87,24 @@ async function run() {
     console.log(`[seed] Inserted ${resourcesSeed.length} resources`);
   } else {
     console.log('[seed] Resources already exist — skipped');
+  }
+
+  // Knowledge Centre page content
+  const existingKC = await KnowledgeCentre.findOne({ singleton: 'knowledge-centre' });
+  if (!existingKC) {
+    await KnowledgeCentre.create({ singleton: 'knowledge-centre', ...knowledgeCentrePageSeed });
+    console.log('[seed] Created Knowledge Centre page content');
+  } else {
+    console.log('[seed] Knowledge Centre page content already exists — skipped');
+  }
+
+  // Knowledge Centre articles
+  const kcArticleCount = await KnowledgeArticle.countDocuments();
+  if (kcArticleCount === 0) {
+    await KnowledgeArticle.insertMany(knowledgeArticlesSeed);
+    console.log(`[seed] Inserted ${knowledgeArticlesSeed.length} knowledge centre articles`);
+  } else {
+    console.log('[seed] Knowledge Centre articles already exist — skipped');
   }
 
   console.log('[seed] Done.');

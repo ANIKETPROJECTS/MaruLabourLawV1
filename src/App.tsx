@@ -26,6 +26,8 @@ import AdminResources from './pages/admin/AdminResources';
 import AdminContact from './pages/admin/AdminContact';
 import AdminApplications from './pages/admin/AdminApplications';
 import AdminEnquiries from './pages/admin/AdminEnquiries';
+import AdminKnowledgeCentre from './pages/admin/AdminKnowledgeCentre';
+import KnowledgeCentre from './pages/KnowledgeCentre';
 import { Navigate } from 'react-router-dom';
 
 function App() {
@@ -44,6 +46,7 @@ function App() {
         <Route path="careers" element={<Careers />} />
         <Route path="careers/:slug" element={<CareerDetail />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="knowledge-centre" element={<KnowledgeCentre />} />
       </Route>
 
       <Route
@@ -70,6 +73,7 @@ function App() {
                 <Route path="contact" element={<AdminContact />} />
                 <Route path="applications" element={<AdminApplications />} />
                 <Route path="enquiries" element={<AdminEnquiries />} />
+                <Route path="knowledge-centre" element={<AdminKnowledgeCentre />} />
               </Route>
             </Routes>
           </AdminAuthProvider>
