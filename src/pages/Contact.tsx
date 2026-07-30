@@ -212,7 +212,7 @@ const Contact = () => {
             color: 'rgba(255,255,255,0.88)', maxWidth: '1000px', width: '100%', margin: '0 auto', lineHeight: 1.7,
             paddingLeft: '2rem', paddingRight: '2rem',
           }}>
-            Labour Code implementation, payroll structuring, contractor compliance &amp; inspection readiness — our experts deliver clear, confident guidance.
+            {apiData.heroSubtext}
           </p>
         </motion.div>
       </section>
