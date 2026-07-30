@@ -3,22 +3,26 @@ import { Plus, Trash2, Save, Loader2, CheckCircle2 } from 'lucide-react';
 import { api } from '../../lib/api';
 import type { ContactContent } from '../../types/content';
 import { Section, Field, TextInput, TextArea, PrimaryButton, SecondaryButton, DangerButton } from '../../components/admin/FormBits';
+import ImageUploader from '../../components/admin/ImageUploader';
 
 const PP = 'Poppins, sans-serif';
 
 const EMPTY: ContactContent = {
-  heroEyebrow:    'Get In Touch',
-  heroHeading:    'Ready to Put Your Worries to Rest?',
-  heroSubtext:    'Our experts are ready to analyse your compliance situation and build a clear roadmap for you.',
-  formTitle:      'Send Us a Message',
-  formSubtext:    "We'll get back to you within 1 business day.",
-  phone1:         '+91 98765 43210',
-  phone2:         '022 4567 8900',
+  heroEyebrow:    'Complex Laws. Clear Solutions.',
+  heroHeading:    'Talk to Our Labour Law Experts',
+  heroSubtext:    'Labour Code implementation, payroll structuring, contractor compliance & inspection readiness — our experts deliver clear, confident guidance.',
+  heroBgType:     'video',
+  heroVideoUrl:   '',
+  heroImageUrl:   '',
+  formTitle:      'Schedule a Consultation',
+  formSubtext:    'Share your requirement and our team will respond with the right next step.',
+  phone1:         '022-35725001',
+  phone2:         '',
+  phone3:         '+91-8104031092',
   whatsapp1:      '+91-8169800969',
   whatsapp2:      '+91-9819420371',
-  phone3:         '+91-8104031092',
-  email1:         'contact@maruconsultancy.in',
-  email2:         'support@maruconsultancy.in',
+  email1:         'info@labourlaws.co.in',
+  email2:         'maru.labourlaw@gmail.com',
   website:        'www.labourlaws.co.in',
   partner1Name:   'Mr. Pankhil Maru',
   partner1Role:   'Managing Partner',
@@ -28,9 +32,9 @@ const EMPTY: ContactContent = {
   partner2Role:   'Managing Partner',
   partner2Phone:  '+91-9833872761',
   partner2Email:  'nishit.maru@labourlaws.co.in',
-  addressLine1:   '15th Floor, Nariman Point,',
-  addressLine2:   'Mumbai, Maharashtra 400021',
-  addressLine3:   'India',
+  addressLine1:   '614, Exim-Link (property registration bldg) Near Runwal Greens,',
+  addressLine2:   'Mulund Goregaon Link Road, Nahur(west), Mumbai 400 078',
+  addressLine3:   '',
   hoursWeekdays:  'Monday – Friday: 9:30 AM – 6:30 PM',
   hoursWeekend:   'Saturday & Sunday: Closed',
   serviceOptions: [
@@ -62,6 +66,9 @@ export default function AdminContact() {
         heroEyebrow:    res.heroEyebrow    ?? EMPTY.heroEyebrow,
         heroHeading:    res.heroHeading    ?? EMPTY.heroHeading,
         heroSubtext:    res.heroSubtext    ?? EMPTY.heroSubtext,
+        heroBgType:     (res.heroBgType === 'image' ? 'image' : 'video') as 'video' | 'image',
+        heroVideoUrl:   res.heroVideoUrl   ?? EMPTY.heroVideoUrl,
+        heroImageUrl:   res.heroImageUrl   ?? EMPTY.heroImageUrl,
         formTitle:      res.formTitle      ?? EMPTY.formTitle,
         formSubtext:    res.formSubtext    ?? EMPTY.formSubtext,
         phone1:         res.phone1         ?? EMPTY.phone1,
@@ -146,19 +153,58 @@ export default function AdminContact() {
       )}
 
       {/* ── Hero ── */}
-      <Section title="Hero Section" description="The full-width banner with background video at the top of the page.">
+      <Section title="Hero Section" description="The full-width banner at the top of the Contact page.">
         <Field label="Eyebrow text (small uppercase line above heading)">
           <TextInput value={data.heroEyebrow} onChange={e => set('heroEyebrow', e.target.value)}
-            placeholder="Get In Touch" />
+            placeholder="Complex Laws. Clear Solutions." />
         </Field>
         <Field label="Heading">
           <TextInput value={data.heroHeading} onChange={e => set('heroHeading', e.target.value)}
-            placeholder="Ready to Put Your Worries to Rest?" />
+            placeholder="Talk to Our Labour Law Experts" />
         </Field>
         <Field label="Subtext">
           <TextArea rows={2} value={data.heroSubtext} onChange={e => set('heroSubtext', e.target.value)}
-            placeholder="Our experts are ready to analyse your compliance situation…" />
+            placeholder="Labour Code implementation, payroll structuring…" />
         </Field>
+
+        {/* Background type toggle */}
+        <Field label="Background type">
+          <div className="flex gap-3">
+            {(['video', 'image'] as const).map(type => (
+              <button key={type} type="button"
+                onClick={() => set('heroBgType', type)}
+                className="px-4 py-2 rounded-lg border text-sm font-semibold transition-colors capitalize"
+                style={{
+                  fontFamily: PP,
+                  backgroundColor: data.heroBgType === type ? 'var(--primary)' : '#fff',
+                  color: data.heroBgType === type ? '#fff' : '#555',
+                  borderColor: data.heroBgType === type ? 'var(--primary)' : '#e5e7eb',
+                }}>
+                {type === 'video' ? '🎬 Video' : '🖼 Image'}
+              </button>
+            ))}
+          </div>
+        </Field>
+
+        {data.heroBgType === 'video' ? (
+          <ImageUploader
+            label="Hero background video"
+            value={data.heroVideoUrl}
+            onChange={v => set('heroVideoUrl', v)}
+            accept="video/*"
+            section="misc"
+            hint="MP4, max 50 MB — displays full-width behind the hero text"
+          />
+        ) : (
+          <ImageUploader
+            label="Hero background image"
+            value={data.heroImageUrl}
+            onChange={v => set('heroImageUrl', v)}
+            accept="image/*"
+            section="misc"
+            hint="Landscape, min 1920 × 600 px — displays full-width behind the hero text"
+          />
+        )}
       </Section>
 
       {/* ── Partners ── */}

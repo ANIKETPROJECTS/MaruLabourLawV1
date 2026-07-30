@@ -16,6 +16,9 @@ const DEFAULTS: ContactContent = {
   heroEyebrow:    'Complex Laws. Clear Solutions.',
   heroHeading:    'Talk to Our Labour Law Experts',
   heroSubtext:    'Whether you are implementing the Labour Codes, reviewing salary structures, strengthening contractor compliance, preparing for an inspection or seeking greater confidence in your statutory compliance framework, our team can assist.',
+  heroBgType:     'video',
+  heroVideoUrl:   '',
+  heroImageUrl:   '',
   formTitle:      'Schedule a Consultation',
   formSubtext:    'Share your requirement and our team will respond with the right next step.',
   phone1:         '022-35725001',
@@ -101,6 +104,9 @@ const Contact = () => {
       heroEyebrow:    res.heroEyebrow    ?? DEFAULTS.heroEyebrow,
       heroHeading:    res.heroHeading    ?? DEFAULTS.heroHeading,
       heroSubtext:    res.heroSubtext    ?? DEFAULTS.heroSubtext,
+      heroBgType:     (res.heroBgType === 'image' ? 'image' : 'video') as 'video' | 'image',
+      heroVideoUrl:   res.heroVideoUrl   ?? DEFAULTS.heroVideoUrl,
+      heroImageUrl:   res.heroImageUrl   ?? DEFAULTS.heroImageUrl,
       formTitle:      res.formTitle      ?? DEFAULTS.formTitle,
       formSubtext:    res.formSubtext    ?? DEFAULTS.formSubtext,
       phone1:         res.phone1         ?? DEFAULTS.phone1,
@@ -172,12 +178,22 @@ const Contact = () => {
       {/* ── Hero ── */}
       <section className="flex items-center justify-center overflow-hidden relative"
         style={{ minHeight: '260px', maxHeight: '420px', height: '48vh' }}>
-        <video
-          autoPlay muted loop playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: 'center 15%' }}
-          src={heroVideo}
-        />
+        {/* Background: uploaded image or video, falling back to bundled video */}
+        {apiData.heroBgType === 'image' && apiData.heroImageUrl ? (
+          <img
+            src={apiData.heroImageUrl}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: 'center 15%' }}
+          />
+        ) : (
+          <video
+            autoPlay muted loop playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: 'center 15%' }}
+            src={apiData.heroVideoUrl || heroVideo}
+          />
+        )}
         <div className="absolute inset-0" style={{ backgroundColor: 'rgba(30,10,0,0.62)' }} />
         <motion.div
           initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }}

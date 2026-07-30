@@ -4,9 +4,12 @@ const ContactSchema = new mongoose.Schema({
   singleton: { type: String, default: 'contact', unique: true },
 
   // Hero
-  heroEyebrow: String,
+  heroEyebrow:  String,
   heroHeading:  String,
   heroSubtext:  String,
+  heroBgType:   { type: String, enum: ['video', 'image'], default: 'video' },
+  heroVideoUrl: String,
+  heroImageUrl: String,
 
   // Form card
   formTitle:   String,

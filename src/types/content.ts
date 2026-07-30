@@ -143,6 +143,9 @@ export type ContactContent = {
   heroEyebrow:   string;
   heroHeading:   string;
   heroSubtext:   string;
+  heroBgType:    'video' | 'image';
+  heroVideoUrl:  string;
+  heroImageUrl:  string;
   formTitle:     string;
   formSubtext:   string;
   // Telephone
