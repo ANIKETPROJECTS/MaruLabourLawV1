@@ -17,12 +17,12 @@ const DEFAULTS: ContactContent = {
   formTitle:      'Schedule a Consultation',
   formSubtext:    'Share your requirement and our team will respond with the right next step.',
   phone1:         '022-35725001',
-  phone2:         '022-35725001',
+  phone2:         '+91-8169800969',
   email1:         'info@labourlaws.co.in',
-  email2:         'info@labourlaws.co.in',
-  addressLine1:   '614, Exim-Link (Property Registration Building),',
-  addressLine2:   'Near Runwal Greens, Mulund-Goregaon Link Road,',
-  addressLine3:   'Nahur (West), Mumbai – 400 078',
+  email2:         'maru.labourlaw@gmail.com',
+  addressLine1:   '614, Exim-Link (property registration bldg) Near Runwal Greens,',
+  addressLine2:   'Mulund Goregaon Link Road, Nahur(west), Mumbai 400 078',
+  addressLine3:   '',
   hoursWeekdays:  'Monday – Friday: 9:30 AM – 6:30 PM',
   hoursWeekend:   'Saturday & Sunday: Closed',
   serviceOptions: [
@@ -314,55 +314,89 @@ const Contact = () => {
                   Contact Details
                 </div>
                 <div className="bg-white p-7 space-y-6">
-                  {[
-                    {
-                      icon: IconLocation,
-                      label: 'Office Address',
-                      lines: [apiData.addressLine1, apiData.addressLine2, apiData.addressLine3].filter(Boolean),
-                    },
-                    {
-                      icon: IconCall,
-                      label: 'Phone Numbers',
-                      lines: [apiData.phone1, apiData.phone2].filter(Boolean),
-                      hrefs: [
-                        `tel:${apiData.phone1.replace(/\s/g, '')}`,
-                        `tel:${apiData.phone2.replace(/\s/g, '')}`,
-                      ],
-                    },
-                    {
-                      icon: IconMail,
-                      label: 'Email Addresses',
-                      lines: [apiData.email1, apiData.email2].filter(Boolean),
-                      hrefs: [`mailto:${apiData.email1}`, `mailto:${apiData.email2}`],
-                    },
-                    {
-                      icon: Clock,
-                      label: 'Working Hours',
-                      lines: [apiData.hoursWeekdays, apiData.hoursWeekend].filter(Boolean),
-                    },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-4">
-                      {item.icon === Clock ? (
-                        <Clock size={32} style={{ color: 'var(--primary)' }} className="shrink-0" />
-                      ) : (
-                        <item.icon size={32} />
-                      )}
-                      <div>
-                        <p className="font-bold text-xs uppercase tracking-wider mb-1"
-                          style={{ fontFamily: PP, color: 'var(--primary)' }}>{item.label}</p>
-                        {item.lines.map((line, j) =>
-                          item.hrefs ? (
-                            <a key={j} href={item.hrefs[j]}
-                              className="block text-sm leading-relaxed transition-opacity hover:opacity-60"
-                              style={{ fontFamily: PP, color: '#444' }}>{line}</a>
-                          ) : (
-                            <p key={j} className="text-sm leading-relaxed"
-                              style={{ fontFamily: PP, color: '#444' }}>{line}</p>
-                          )
-                        )}
+
+                  {/* Partners */}
+                  <div className="grid grid-cols-2 gap-4 pb-5 border-b border-gray-100">
+                    {[
+                      { name: 'Mr. Pankhil Maru', phone: '+91-9819405423', email: 'pankhil.maru@labourlaws.co.in' },
+                      { name: 'Mr. Nishit Maru',  phone: '+91-9833872761', email: 'nishit.maru@labourlaws.co.in' },
+                    ].map((p, i) => (
+                      <div key={i}>
+                        <p className="font-bold text-sm" style={{ fontFamily: PP, color: '#111' }}>{p.name}</p>
+                        <p className="text-xs text-gray-500 mt-0.5" style={{ fontFamily: PP }}>Managing Partner</p>
+                        <a href={`tel:${p.phone.replace(/\s/g,'')}`}
+                          className="block text-xs mt-1.5 transition-opacity hover:opacity-60"
+                          style={{ fontFamily: PP, color: '#444' }}>M: {p.phone}</a>
+                        <a href={`mailto:${p.email}`}
+                          className="block text-xs mt-0.5 transition-opacity hover:opacity-60 break-all"
+                          style={{ fontFamily: PP, color: '#444' }}>E: {p.email}</a>
                       </div>
+                    ))}
+                  </div>
+
+                  {/* Company name + address */}
+                  <div className="flex items-start gap-4">
+                    <IconLocation size={28} />
+                    <div>
+                      <p className="font-bold text-sm mb-1" style={{ fontFamily: PP, color: '#111' }}>Maru Consultancy Services</p>
+                      {[apiData.addressLine1, apiData.addressLine2, apiData.addressLine3].filter(Boolean).map((line, j) => (
+                        <p key={j} className="text-sm leading-relaxed" style={{ fontFamily: PP, color: '#444' }}>{line}</p>
+                      ))}
                     </div>
-                  ))}
+                  </div>
+
+                  {/* Telephone */}
+                  <div className="flex items-start gap-4">
+                    <IconCall size={28} />
+                    <div>
+                      <p className="font-bold text-xs uppercase tracking-wider mb-1.5"
+                        style={{ fontFamily: PP, color: 'var(--primary)' }}>Telephone</p>
+                      {[
+                        { label: apiData.phone1, href: `tel:${apiData.phone1.replace(/\s/g,'')}`, suffix: '' },
+                        { label: '+91-8169800969', href: 'tel:+918169800969', suffix: ' (Whatsapp)' },
+                        { label: '+91-9819420371', href: 'tel:+919819420371', suffix: ' (Whatsapp)' },
+                        { label: '+91-8104031092', href: 'tel:+918104031092', suffix: '' },
+                      ].map((t, j) => (
+                        <a key={j} href={t.href}
+                          className="block text-sm leading-relaxed transition-opacity hover:opacity-60"
+                          style={{ fontFamily: PP, color: '#444' }}>
+                          {t.label}<span className="text-gray-400">{t.suffix}</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Email */}
+                  <div className="flex items-start gap-4">
+                    <IconMail size={28} />
+                    <div>
+                      <p className="font-bold text-xs uppercase tracking-wider mb-1.5"
+                        style={{ fontFamily: PP, color: 'var(--primary)' }}>E-mail</p>
+                      {[apiData.email1, apiData.email2].filter(Boolean).map((em, j) => (
+                        <a key={j} href={`mailto:${em}`}
+                          className="block text-sm leading-relaxed transition-opacity hover:opacity-60"
+                          style={{ fontFamily: PP, color: '#444' }}>{em}</a>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Website */}
+                  <div className="flex items-start gap-4">
+                    <div className="shrink-0" style={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--primary)' }}>
+                        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-bold text-xs uppercase tracking-wider mb-1.5"
+                        style={{ fontFamily: PP, color: 'var(--primary)' }}>Website</p>
+                      <a href="https://www.labourlaws.co.in" target="_blank" rel="noopener noreferrer"
+                        className="text-sm transition-opacity hover:opacity-60"
+                        style={{ fontFamily: PP, color: '#444' }}>www.labourlaws.co.in</a>
+                    </div>
+                  </div>
+
                 </div>
               </motion.div>
 
