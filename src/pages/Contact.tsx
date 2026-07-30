@@ -168,10 +168,12 @@ const Contact = () => {
             {apiData.heroHeading}
           </h1>
           <p style={{
-            fontFamily: PP, fontWeight: 300, fontSize: 'clamp(1.05rem, 1.8vw, 1.35rem)',
-            color: 'rgba(255,255,255,0.88)', maxWidth: '700px', margin: '0 auto', lineHeight: 1.7,
+            fontFamily: PP, fontWeight: 300, fontSize: 'clamp(1rem, 1.6vw, 1.25rem)',
+            color: 'rgba(255,255,255,0.88)', maxWidth: '560px', margin: '0 auto', lineHeight: 1.7,
+            paddingLeft: 'clamp(1.5rem, 6vw, 4rem)', paddingRight: 'clamp(1.5rem, 6vw, 4rem)',
           }}>
-            {apiData.heroSubtext}
+            Labour Code implementation, payroll structuring, contractor compliance
+            &amp; inspection readiness — our experts deliver clear, confident guidance.
           </p>
         </motion.div>
       </section>
@@ -331,15 +333,31 @@ const Contact = () => {
                       <p className="font-bold text-xs uppercase tracking-wider mb-1.5"
                         style={{ fontFamily: PP, color: 'var(--primary)' }}>Telephone</p>
                       {[
-                        { label: apiData.phone1, href: `tel:${apiData.phone1.replace(/\s/g,'')}`, whatsapp: false },
-                        { label: '+91-8169800969', href: 'tel:+918169800969', whatsapp: true },
-                        { label: '+91-9819420371', href: 'tel:+919819420371', whatsapp: true },
-                        { label: '+91-8104031092', href: 'tel:+918104031092', whatsapp: false },
+                        { label: apiData.phone1, href: `tel:${apiData.phone1.replace(/\s/g,'')}` },
+                        { label: '+91-8104031092', href: 'tel:+918104031092' },
                       ].map((t, j) => (
                         <a key={j} href={t.href}
-                          className="flex items-center gap-1.5 text-sm leading-relaxed transition-opacity hover:opacity-60"
+                          className="block text-sm leading-relaxed transition-opacity hover:opacity-60"
                           style={{ fontFamily: PP, color: '#444' }}>
-                          {t.whatsapp && <img src={iconWhatsapp} alt="WhatsApp" style={{ width: 16, height: 16, borderRadius: 4, flexShrink: 0 }} />}
+                          {t.label}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* WhatsApp */}
+                  <div className="flex items-start gap-4">
+                    <img src={iconWhatsapp} alt="WhatsApp" className="shrink-0 object-contain" style={{ width: 28, height: 28, borderRadius: 6 }} />
+                    <div>
+                      <p className="font-bold text-xs uppercase tracking-wider mb-1.5"
+                        style={{ fontFamily: PP, color: 'var(--primary)' }}>WhatsApp</p>
+                      {[
+                        { label: '+91-8169800969', href: 'tel:+918169800969' },
+                        { label: '+91-9819420371', href: 'tel:+919819420371' },
+                      ].map((t, j) => (
+                        <a key={j} href={t.href}
+                          className="block text-sm leading-relaxed transition-opacity hover:opacity-60"
+                          style={{ fontFamily: PP, color: '#444' }}>
                           {t.label}
                         </a>
                       ))}
