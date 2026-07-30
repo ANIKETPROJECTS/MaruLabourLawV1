@@ -19,9 +19,21 @@ const DEFAULTS: ContactContent = {
   formTitle:      'Schedule a Consultation',
   formSubtext:    'Share your requirement and our team will respond with the right next step.',
   phone1:         '022-35725001',
-  phone2:         '+91-8169800969',
+  phone2:         '',
+  phone3:         '+91-8104031092',
+  whatsapp1:      '+91-8169800969',
+  whatsapp2:      '+91-9819420371',
   email1:         'info@labourlaws.co.in',
   email2:         'maru.labourlaw@gmail.com',
+  website:        'www.labourlaws.co.in',
+  partner1Name:   'Mr. Pankhil Maru',
+  partner1Role:   'Managing Partner',
+  partner1Phone:  '+91-9819405423',
+  partner1Email:  'pankhil.maru@labourlaws.co.in',
+  partner2Name:   'Mr. Nishit Maru',
+  partner2Role:   'Managing Partner',
+  partner2Phone:  '+91-9833872761',
+  partner2Email:  'nishit.maru@labourlaws.co.in',
   addressLine1:   '614, Exim-Link (property registration bldg) Near Runwal Greens,',
   addressLine2:   'Mulund Goregaon Link Road, Nahur(west), Mumbai 400 078',
   addressLine3:   '',
@@ -93,8 +105,20 @@ const Contact = () => {
       formSubtext:    res.formSubtext    ?? DEFAULTS.formSubtext,
       phone1:         res.phone1         ?? DEFAULTS.phone1,
       phone2:         res.phone2         ?? DEFAULTS.phone2,
+      phone3:         res.phone3         ?? DEFAULTS.phone3,
+      whatsapp1:      res.whatsapp1      ?? DEFAULTS.whatsapp1,
+      whatsapp2:      res.whatsapp2      ?? DEFAULTS.whatsapp2,
       email1:         res.email1         ?? DEFAULTS.email1,
       email2:         res.email2         ?? DEFAULTS.email2,
+      website:        res.website        ?? DEFAULTS.website,
+      partner1Name:   res.partner1Name   ?? DEFAULTS.partner1Name,
+      partner1Role:   res.partner1Role   ?? DEFAULTS.partner1Role,
+      partner1Phone:  res.partner1Phone  ?? DEFAULTS.partner1Phone,
+      partner1Email:  res.partner1Email  ?? DEFAULTS.partner1Email,
+      partner2Name:   res.partner2Name   ?? DEFAULTS.partner2Name,
+      partner2Role:   res.partner2Role   ?? DEFAULTS.partner2Role,
+      partner2Phone:  res.partner2Phone  ?? DEFAULTS.partner2Phone,
+      partner2Email:  res.partner2Email  ?? DEFAULTS.partner2Email,
       addressLine1:   res.addressLine1   ?? DEFAULTS.addressLine1,
       addressLine2:   res.addressLine2   ?? DEFAULTS.addressLine2,
       addressLine3:   res.addressLine3   ?? DEFAULTS.addressLine3,
@@ -298,12 +322,12 @@ const Contact = () => {
                   {/* Partners */}
                   <div className="grid grid-cols-2 gap-4 pb-5 border-b border-gray-100">
                     {[
-                      { name: 'Mr. Pankhil Maru', phone: '+91-9819405423', email: 'pankhil.maru@labourlaws.co.in' },
-                      { name: 'Mr. Nishit Maru',  phone: '+91-9833872761', email: 'nishit.maru@labourlaws.co.in' },
+                      { name: apiData.partner1Name, role: apiData.partner1Role, phone: apiData.partner1Phone, email: apiData.partner1Email },
+                      { name: apiData.partner2Name, role: apiData.partner2Role, phone: apiData.partner2Phone, email: apiData.partner2Email },
                     ].map((p, i) => (
                       <div key={i}>
                         <p className="font-bold text-sm" style={{ fontFamily: PP, color: '#111' }}>{p.name}</p>
-                        <p className="text-xs text-gray-500 mt-0.5" style={{ fontFamily: PP }}>Managing Partner</p>
+                        <p className="text-xs text-gray-500 mt-0.5" style={{ fontFamily: PP }}>{p.role}</p>
                         <a href={`tel:${p.phone.replace(/\s/g,'')}`}
                           className="block text-xs mt-1.5 transition-opacity hover:opacity-60"
                           style={{ fontFamily: PP, color: '#444' }}>{p.phone}</a>
@@ -331,14 +355,11 @@ const Contact = () => {
                     <div>
                       <p className="font-bold text-xs uppercase tracking-wider mb-1.5"
                         style={{ fontFamily: PP, color: 'var(--primary)' }}>Telephone</p>
-                      {[
-                        { label: apiData.phone1, href: `tel:${apiData.phone1.replace(/\s/g,'')}` },
-                        { label: '+91-8104031092', href: 'tel:+918104031092' },
-                      ].map((t, j) => (
-                        <a key={j} href={t.href}
+                      {[apiData.phone1, apiData.phone2, apiData.phone3].filter(Boolean).map((t, j) => (
+                        <a key={j} href={`tel:${t.replace(/\s/g,'')}`}
                           className="block text-sm leading-relaxed transition-opacity hover:opacity-60"
                           style={{ fontFamily: PP, color: '#444' }}>
-                          {t.label}
+                          {t}
                         </a>
                       ))}
                     </div>
@@ -350,14 +371,11 @@ const Contact = () => {
                     <div>
                       <p className="font-bold text-xs uppercase tracking-wider mb-1.5"
                         style={{ fontFamily: PP, color: 'var(--primary)' }}>WhatsApp</p>
-                      {[
-                        { label: '+91-8169800969', href: 'tel:+918169800969' },
-                        { label: '+91-9819420371', href: 'tel:+919819420371' },
-                      ].map((t, j) => (
-                        <a key={j} href={t.href}
+                      {[apiData.whatsapp1, apiData.whatsapp2].filter(Boolean).map((t, j) => (
+                        <a key={j} href={`tel:${t.replace(/\s/g,'')}`}
                           className="block text-sm leading-relaxed transition-opacity hover:opacity-60"
                           style={{ fontFamily: PP, color: '#444' }}>
-                          {t.label}
+                          {t}
                         </a>
                       ))}
                     </div>
@@ -378,16 +396,18 @@ const Contact = () => {
                   </div>
 
                   {/* Website */}
-                  <div className="flex items-start gap-4">
-                    <img src={iconInternet} alt="Website" className="shrink-0 object-contain" style={{ width: 28, height: 28 }} />
-                    <div>
-                      <p className="font-bold text-xs uppercase tracking-wider mb-1.5"
-                        style={{ fontFamily: PP, color: 'var(--primary)' }}>Website</p>
-                      <a href="https://www.labourlaws.co.in" target="_blank" rel="noopener noreferrer"
-                        className="text-sm transition-opacity hover:opacity-60"
-                        style={{ fontFamily: PP, color: '#444' }}>www.labourlaws.co.in</a>
+                  {apiData.website && (
+                    <div className="flex items-start gap-4">
+                      <img src={iconInternet} alt="Website" className="shrink-0 object-contain" style={{ width: 28, height: 28 }} />
+                      <div>
+                        <p className="font-bold text-xs uppercase tracking-wider mb-1.5"
+                          style={{ fontFamily: PP, color: 'var(--primary)' }}>Website</p>
+                        <a href={`https://${apiData.website.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer"
+                          className="text-sm transition-opacity hover:opacity-60"
+                          style={{ fontFamily: PP, color: '#444' }}>{apiData.website}</a>
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                 </div>
               </motion.div>

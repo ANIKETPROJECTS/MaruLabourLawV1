@@ -161,26 +161,66 @@ export default function AdminContact() {
         </Field>
       </Section>
 
+      {/* ── Partners ── */}
+      <Section title="Partners" description="Managing partners shown at the top of the contact details card.">
+        <div className="grid grid-cols-2 gap-6">
+          <div className="space-y-3">
+            <p className="text-xs font-bold uppercase tracking-wider" style={{ fontFamily: PP, color: 'var(--primary)' }}>Partner 1</p>
+            <Field label="Name"><TextInput value={data.partner1Name} onChange={e => set('partner1Name', e.target.value)} placeholder="Mr. Pankhil Maru" /></Field>
+            <Field label="Role"><TextInput value={data.partner1Role} onChange={e => set('partner1Role', e.target.value)} placeholder="Managing Partner" /></Field>
+            <Field label="Mobile"><TextInput value={data.partner1Phone} onChange={e => set('partner1Phone', e.target.value)} placeholder="+91-9819405423" /></Field>
+            <Field label="Email"><TextInput value={data.partner1Email} onChange={e => set('partner1Email', e.target.value)} placeholder="pankhil.maru@labourlaws.co.in" /></Field>
+          </div>
+          <div className="space-y-3">
+            <p className="text-xs font-bold uppercase tracking-wider" style={{ fontFamily: PP, color: 'var(--primary)' }}>Partner 2</p>
+            <Field label="Name"><TextInput value={data.partner2Name} onChange={e => set('partner2Name', e.target.value)} placeholder="Mr. Nishit Maru" /></Field>
+            <Field label="Role"><TextInput value={data.partner2Role} onChange={e => set('partner2Role', e.target.value)} placeholder="Managing Partner" /></Field>
+            <Field label="Mobile"><TextInput value={data.partner2Phone} onChange={e => set('partner2Phone', e.target.value)} placeholder="+91-9833872761" /></Field>
+            <Field label="Email"><TextInput value={data.partner2Email} onChange={e => set('partner2Email', e.target.value)} placeholder="nishit.maru@labourlaws.co.in" /></Field>
+          </div>
+        </div>
+      </Section>
+
       {/* ── Contact Details ── */}
-      <Section title="Contact Details" description="Shown in the info sidebar and the quick-contact strip at the top.">
+      <Section title="Contact Details" description="Phone numbers, WhatsApp, email, and website shown in the info sidebar.">
         <div className="grid grid-cols-2 gap-4">
-          <Field label="Primary phone">
+          <Field label="Telephone 1">
             <TextInput value={data.phone1} onChange={e => set('phone1', e.target.value)}
-              placeholder="+91 98765 43210" />
+              placeholder="022-35725001" />
           </Field>
-          <Field label="Secondary phone">
-            <TextInput value={data.phone2} onChange={e => set('phone2', e.target.value)}
-              placeholder="022 4567 8900" />
+          <Field label="Telephone 2 (optional)">
+            <TextInput value={data.phone2 ?? ''} onChange={e => set('phone2', e.target.value)}
+              placeholder="+91-XXXXXXXXXX" />
           </Field>
+          <Field label="Telephone 3 (optional)">
+            <TextInput value={data.phone3 ?? ''} onChange={e => set('phone3', e.target.value)}
+              placeholder="+91-8104031092" />
+          </Field>
+        </div>
+        <div className="grid grid-cols-2 gap-4 mt-2">
+          <Field label="WhatsApp 1">
+            <TextInput value={data.whatsapp1 ?? ''} onChange={e => set('whatsapp1', e.target.value)}
+              placeholder="+91-8169800969" />
+          </Field>
+          <Field label="WhatsApp 2 (optional)">
+            <TextInput value={data.whatsapp2 ?? ''} onChange={e => set('whatsapp2', e.target.value)}
+              placeholder="+91-9819420371" />
+          </Field>
+        </div>
+        <div className="grid grid-cols-2 gap-4 mt-2">
           <Field label="Primary email">
             <TextInput value={data.email1} onChange={e => set('email1', e.target.value)}
-              placeholder="contact@maruconsultancy.in" />
+              placeholder="info@labourlaws.co.in" />
           </Field>
           <Field label="Secondary email">
             <TextInput value={data.email2} onChange={e => set('email2', e.target.value)}
-              placeholder="support@maruconsultancy.in" />
+              placeholder="maru.labourlaw@gmail.com" />
           </Field>
         </div>
+        <Field label="Website">
+          <TextInput value={data.website ?? ''} onChange={e => set('website', e.target.value)}
+            placeholder="www.labourlaws.co.in" />
+        </Field>
       </Section>
 
       {/* ── Office Address ── */}

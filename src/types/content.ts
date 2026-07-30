@@ -145,10 +145,28 @@ export type ContactContent = {
   heroSubtext:   string;
   formTitle:     string;
   formSubtext:   string;
+  // Telephone
   phone1:        string;
   phone2:        string;
+  phone3:        string;
+  // WhatsApp
+  whatsapp1:     string;
+  whatsapp2:     string;
+  // Email
   email1:        string;
   email2:        string;
+  // Website
+  website:       string;
+  // Partners
+  partner1Name:  string;
+  partner1Role:  string;
+  partner1Phone: string;
+  partner1Email: string;
+  partner2Name:  string;
+  partner2Role:  string;
+  partner2Phone: string;
+  partner2Email: string;
+  // Address
   addressLine1:  string;
   addressLine2:  string;
   addressLine3:  string;
