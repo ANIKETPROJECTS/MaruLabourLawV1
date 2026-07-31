@@ -130,7 +130,7 @@ function StatCounter({
 }
 
 /* ── Hero image carousel ──────────────────────────────── */
-function HeroCarousel({ slides }: { slides: string[] }) {
+function HeroCarousel({ slides, className }: { slides: string[]; className?: string }) {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -143,7 +143,7 @@ function HeroCarousel({ slides }: { slides: string[] }) {
 
   return (
     <motion.div
-      className="hidden lg:flex flex-col"
+      className={className ?? "hidden lg:flex flex-col"}
       initial={{ opacity: 0, x: 32 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.7, delay: 0.2 }}
@@ -389,19 +389,19 @@ const Home = () => {
         </div>
 
         {/* ── Main content — two-column ── */}
-        <div className="relative z-10 flex-1 flex items-center max-w-7xl mx-auto px-4 lg:px-10 w-full pt-6 pb-8 lg:pt-10 lg:pb-14">
-          <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-6 lg:gap-14 items-stretch">
+        <div className="relative z-10 flex-1 flex items-start lg:items-center max-w-7xl mx-auto px-4 lg:px-10 w-full pt-3 pb-6 lg:pt-10 lg:pb-14">
+          <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-4 lg:gap-14 items-stretch">
             {/* ── Left: text ── */}
             <div>
               {/* Brand name label */}
               <motion.p
-                className="uppercase tracking-[0.22em] font-bold mb-4 lg:mb-5"
+                className="uppercase tracking-[0.18em] font-bold mb-2 lg:mb-5"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
                 style={{
                   fontFamily: "Poppins, sans-serif",
-                  fontSize: "clamp(0.62rem, 1.4vw, 0.78rem)",
+                  fontSize: "clamp(0.75rem, 1.4vw, 0.78rem)",
                   color: "#fda102",
                 }}
               >
@@ -410,7 +410,7 @@ const Home = () => {
 
               {/* Pipe-separated category strip */}
               <motion.div
-                className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 lg:mb-7"
+                className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-3 lg:mb-7"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.08 }}
@@ -426,7 +426,7 @@ const Home = () => {
                       className="font-semibold text-white/90"
                       style={{
                         fontFamily: "Poppins, sans-serif",
-                        fontSize: "clamp(0.72rem, 1.6vw, 0.92rem)",
+                        fontSize: "clamp(0.88rem, 1.6vw, 0.92rem)",
                       }}
                     >
                       {cat}
@@ -443,13 +443,13 @@ const Home = () => {
 
               {/* Main headline */}
               <motion.h1
-                className="font-bold text-white mb-5 lg:mb-6"
+                className="font-bold text-white mb-4 lg:mb-6"
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.65, delay: 0.14 }}
                 style={{
                   fontFamily: "Poppins, sans-serif",
-                  fontSize: "clamp(2rem, 4vw, 3.6rem)",
+                  fontSize: "clamp(1.9rem, 4vw, 3.6rem)",
                   lineHeight: 1.1,
                 }}
               >
@@ -459,9 +459,15 @@ const Home = () => {
                 </span>
               </motion.h1>
 
+              {/* Mobile-only image carousel — shown between headline and description */}
+              <HeroCarousel
+                slides={[heroIllustration, heroSlide2, heroSlide3]}
+                className="flex lg:hidden flex-col mb-4 rounded-2xl overflow-hidden"
+              />
+
               {/* Description */}
               <motion.p
-                className="mb-8 lg:mb-9"
+                className="mb-6 lg:mb-9"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.22 }}
@@ -529,7 +535,7 @@ const Home = () => {
               </motion.div>
             </div>
 
-            {/* ── Right: auto-rotating image carousel ── */}
+            {/* ── Right: auto-rotating image carousel (desktop only) ── */}
             <HeroCarousel slides={[heroIllustration, heroSlide2, heroSlide3]} />
           </div>
         </div>
@@ -729,14 +735,14 @@ const Home = () => {
       >
         <div className="max-w-4xl mx-auto px-4 lg:px-10 text-center">
           <motion.h2
-            className="font-bold text-white mb-4 lg:mb-5"
+            className="font-bold text-white mb-4 lg:mb-5 whitespace-nowrap overflow-hidden"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
             style={{
               fontFamily: "Poppins, sans-serif",
-              fontSize: "clamp(1.3rem, 3vw, 2.4rem)",
+              fontSize: "clamp(0.85rem, 3vw, 2.4rem)",
               lineHeight: 1.2,
             }}
           >
@@ -968,7 +974,7 @@ const Home = () => {
                 "Comprehensive Compliance Solutions"}
             </h2>
             <p
-              className="text-gray-500 text-xs lg:text-sm leading-relaxed line-clamp-2 lg:line-clamp-none text-justify lg:text-center"
+              className="text-gray-500 text-xs lg:text-sm leading-relaxed line-clamp-2 lg:line-clamp-none text-center"
               style={{ fontFamily: "Poppins, sans-serif", fontWeight: 400 }}
             >
               {content?.servicesPreviewDescription ??
@@ -1409,16 +1415,16 @@ const Home = () => {
             className="md:w-1/2 flex flex-col justify-center items-center md:items-start text-center md:text-left px-6 py-10 lg:px-16 lg:py-20"
           >
             <h2
-              className="font-bold text-white mb-3 lg:mb-5 leading-tight"
+              className="font-bold text-white mb-3 lg:mb-5 leading-tight whitespace-nowrap overflow-hidden"
               style={{
                 fontFamily: "Poppins, sans-serif",
-                fontSize: "clamp(1.4rem, 3.5vw, 3rem)",
+                fontSize: "clamp(1rem, 3.5vw, 3rem)",
               }}
             >
               Ready to secure your compliance?
             </h2>
             <p
-              className="text-xs lg:text-base leading-relaxed mb-5 lg:mb-8 text-justify"
+              className="text-xs lg:text-base leading-relaxed mb-5 lg:mb-8 text-center md:text-left"
               style={{
                 fontFamily: "Poppins, sans-serif",
                 color: "rgba(255,255,255,0.85)",
