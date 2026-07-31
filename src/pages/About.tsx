@@ -235,7 +235,7 @@ const About = () => {
   const whyChooseItems = apiData?.whyChooseItems?.length  ? apiData.whyChooseItems  : DEFAULT_WHY_CHOOSE;
   const teamMembers    = apiData?.teamMembers?.length     ? apiData.teamMembers     : DEFAULT_TEAM;
 
-  const heroEyebrow           = apiData?.heroEyebrow           ?? 'Maru Consultancy Services';
+  const heroEyebrow           = apiData?.heroEyebrow           ?? '';
   const heroHeadlineTop       = apiData?.heroHeadlineTop       ?? "Over Four\nDecades of";
   const heroHeadlineHighlight = apiData?.heroHeadlineHighlight ?? 'Labour Law';
   const heroHeadlineBottom    = apiData?.heroHeadlineBottom    ?? 'Expertise.';
@@ -507,62 +507,39 @@ const About = () => {
           4b. OUR APPROACH — Step flow
          ══════════════════════════════════════════════════════ */}
       <section className="py-10 lg:py-14 bg-white">
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-10">
-          {/* Header */}
-          <motion.div className="text-center mb-12 lg:mb-16"
-            initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 0.55 }}>
-            <p className="font-bold uppercase tracking-[0.3em] mb-4" style={{ fontFamily: PP, color: '#fda102', fontSize: '0.78rem' }}>How We Work</p>
-            <h2 className="font-bold text-white" style={{ fontFamily: PP, fontSize: 'clamp(2rem, 4.5vw, 3.6rem)' }}>Our Approach</h2>
-            <p className="mt-4 text-sm lg:text-base max-w-2xl mx-auto leading-relaxed"
-              style={{ fontFamily: PP, color: 'rgba(255,255,255,0.68)' }}>
-              A structured, end-to-end methodology ensuring every engagement is practical, measurable and aligned to your business reality.
-            </p>
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          <motion.div className="text-center mb-8"
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.5 }}>
+            <p className="font-bold uppercase tracking-[0.25em] mb-2" style={{ fontFamily: PP, color: '#fda102', fontSize: '0.78rem' }}>How We Work</p>
+            <h2 className="font-bold" style={{ fontFamily: PP, fontSize: 'clamp(1.5rem, 3vw, 2.4rem)', color: '#111' }}>Our Approach</h2>
           </motion.div>
 
-          {/* 6 step cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-            {[
-              { n: '01', step: 'Understand', desc: "Deeply examine the client's industry, workforce structure, applicable legal framework and current compliance status." },
-              { n: '02', step: 'Assess',     desc: 'Identify gaps, risks and obligations across all relevant labour laws, codes and regulatory requirements.' },
-              { n: '03', step: 'Advise',     desc: 'Provide clear, practical recommendations aligned with legal requirements and the client\'s business objectives.' },
-              { n: '04', step: 'Implement',  desc: 'Support the roll-out of compliance systems, processes, documentation, registrations and filings.' },
-              { n: '05', step: 'Monitor',    desc: 'Track statutory deadlines, filings and regulatory updates to ensure continuous, uninterrupted compliance.' },
-              { n: '06', step: 'Update',     desc: 'Keep clients informed of legislative changes and proactively adapt compliance systems accordingly.' },
-            ].map(({ n, step, desc }, i) => (
-              <motion.div key={n}
-                className="rounded-2xl p-7 lg:p-9 relative overflow-hidden cursor-default"
-                style={{ backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
-                initial={{ opacity: 0, y: 36 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.09 }}
-                whileHover={{ backgroundColor: 'rgba(253,161,2,0.11)', borderColor: 'rgba(253,161,2,0.45)', transition: { duration: 0.2 } }}>
-                {/* Ghost number */}
-                <span className="absolute -top-2 right-3 font-bold select-none pointer-events-none"
-                  style={{ fontFamily: PP, fontSize: '6rem', color: 'rgba(255,255,255,0.04)', lineHeight: 1 }}>{n}</span>
-                {/* Amber rule */}
-                <div className="w-10 h-[3px] rounded-full mb-6" style={{ backgroundColor: '#fda102' }} />
-                <p className="font-bold text-white mb-3" style={{ fontFamily: PP, fontSize: 'clamp(1.15rem, 2vw, 1.5rem)' }}>{step}</p>
-                <p className="text-sm leading-relaxed" style={{ fontFamily: PP, color: 'rgba(255,255,255,0.65)' }}>{desc}</p>
+          <div className="flex flex-wrap justify-center gap-0">
+            {['Understand', 'Assess', 'Advise', 'Implement', 'Monitor', 'Update'].map((step, i, arr) => (
+              <motion.div key={step} className="flex items-center"
+                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.08 }}>
+                <div className="flex flex-col items-center px-3 py-2 lg:px-5 lg:py-3">
+                  <div className="w-10 h-10 lg:w-14 lg:h-14 rounded-full flex items-center justify-center font-bold text-white mb-2 text-sm lg:text-base shrink-0"
+                    style={{ backgroundColor: 'var(--primary)', fontFamily: PP }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <p className="font-semibold text-center text-xs lg:text-sm whitespace-nowrap" style={{ fontFamily: PP, color: '#111' }}>{step}</p>
+                </div>
+                {i < arr.length - 1 && (
+                  <span className="text-lg lg:text-2xl font-bold mb-4 shrink-0" style={{ color: '#fda102' }}>→</span>
+                )}
               </motion.div>
             ))}
           </div>
 
-          {/* Flow strip — desktop only */}
-          <motion.div className="hidden lg:flex items-center justify-center gap-3 mt-12 flex-wrap"
+          <motion.p className="text-center mt-6 text-sm lg:text-base leading-relaxed max-w-3xl mx-auto"
+            style={{ fontFamily: PP, color: '#666' }}
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
-            viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.55 }}>
-            {['Understand', 'Assess', 'Advise', 'Implement', 'Monitor', 'Update'].map((s, i, arr) => (
-              <span key={s} className="flex items-center gap-3">
-                <span className="text-xs font-semibold uppercase tracking-widest"
-                  style={{ fontFamily: PP, color: 'rgba(255,255,255,0.45)' }}>{s}</span>
-                {i < arr.length - 1 && (
-                  <span className="text-base font-bold" style={{ color: '#fda102' }}>→</span>
-                )}
-              </span>
-            ))}
-          </motion.div>
+            viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.3 }}>
+            A structured, end-to-end methodology that ensures every client engagement is practical, measurable and aligned to their business reality.
+          </motion.p>
         </div>
       </section>
 
@@ -586,11 +563,11 @@ const About = () => {
             Our Core Values
           </motion.h2>
 
-          {/* 6 image-backed poster cards — 2 cols mobile, 3 cols desktop */}
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+          {/* 6 image-backed poster cards — 3 cols mobile, 6 cols desktop (one horizontal row) */}
+          <div className="grid grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-4">
             {coreValues.map((v, i) => (
               <motion.div key={i}
-                className="relative rounded-2xl overflow-hidden group cursor-default h-[210px] lg:h-[420px]"
+                className="relative rounded-2xl overflow-hidden group cursor-default h-[140px] lg:h-[320px]"
                 initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ duration: 0.55, delay: i * 0.1 }}>
                 {/* Background photo */}
@@ -728,10 +705,10 @@ const About = () => {
           <motion.div className="text-center mb-12 lg:mb-16"
             initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.55 }}>
-            <p className="font-bold uppercase tracking-[0.3em] mb-4" style={{ fontFamily: PP, fontSize: '0.8rem', color: '#fda102' }}>Why MCS</p>
-            <h2 className="font-bold leading-[1.08]" style={{ fontFamily: PP, fontSize: 'clamp(2.2rem, 6vw, 5rem)', color: '#111' }}>
-              Experience.<br />
-              <span style={{ color: 'var(--primary)' }}>Interpretation.</span><br />
+            <p className="font-bold uppercase tracking-[0.3em] mb-4" style={{ fontFamily: PP, fontSize: '1.1rem', color: '#fda102' }}>Why MCS</p>
+            <h2 className="font-bold leading-[1.1]" style={{ fontFamily: PP, fontSize: 'clamp(1.4rem, 3.5vw, 2.8rem)', color: '#111' }}>
+              Experience.{' '}
+              <span style={{ color: 'var(--primary)' }}>Interpretation.</span>{' '}
               Execution.
             </h2>
           </motion.div>
@@ -742,7 +719,7 @@ const About = () => {
             <motion.div className="relative"
               initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.65 }}>
-              <div className="rounded-3xl overflow-hidden h-[300px] lg:h-[520px]">
+              <div className="rounded-3xl overflow-hidden h-[340px] lg:h-[680px]">
                 <img src={heroImage} alt="" className="w-full h-full object-cover" />
               </div>
               {/* Floating amber badge */}
