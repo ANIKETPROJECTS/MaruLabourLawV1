@@ -130,7 +130,7 @@ function StatCounter({
 }
 
 /* ── Hero image carousel ──────────────────────────────── */
-function HeroCarousel({ slides, className }: { slides: string[]; className?: string }) {
+function HeroCarousel({ slides, className, minHeight }: { slides: string[]; className?: string; minHeight?: string }) {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -150,7 +150,7 @@ function HeroCarousel({ slides, className }: { slides: string[]; className?: str
     >
       <div
         className="relative w-full h-full rounded-2xl overflow-hidden"
-        style={{ minHeight: "320px" }}
+        style={{ minHeight: minHeight ?? "320px" }}
       >
         {slides.map((src, i) => (
           <img
@@ -389,7 +389,7 @@ const Home = () => {
         </div>
 
         {/* ── Main content — two-column ── */}
-        <div className="relative z-10 flex-1 flex items-start lg:items-center max-w-7xl mx-auto px-4 lg:px-10 w-full pt-3 pb-6 lg:pt-10 lg:pb-14">
+        <div className="relative z-10 flex-1 flex items-start lg:items-center max-w-7xl mx-auto px-4 lg:px-10 w-full pt-3 pb-20 lg:pt-10 lg:pb-14">
           <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-4 lg:gap-14 items-stretch">
             {/* ── Left: text ── */}
             <div>
@@ -463,6 +463,7 @@ const Home = () => {
               <HeroCarousel
                 slides={[heroIllustration, heroSlide2, heroSlide3]}
                 className="flex lg:hidden flex-col mb-4 rounded-2xl overflow-hidden"
+                minHeight="380px"
               />
 
               {/* Description */}
@@ -487,17 +488,17 @@ const Home = () => {
 
               {/* CTA Buttons */}
               <motion.div
-                className="flex flex-wrap gap-3 lg:gap-4"
+                className="flex flex-col sm:flex-row gap-3 lg:gap-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
                 <Link
                   to="/contact"
-                  className="inline-flex items-center justify-center gap-2 rounded-full font-bold transition-all duration-200 whitespace-nowrap"
+                  className="inline-flex items-center justify-center gap-2 rounded-full font-bold transition-all duration-200 w-full sm:w-auto"
                   style={{
                     fontFamily: "Poppins, sans-serif",
-                    fontSize: "clamp(0.82rem, 1.4vw, 0.95rem)",
+                    fontSize: "clamp(1rem, 1.4vw, 0.95rem)",
                     backgroundColor: "#fda102",
                     color: "#111111",
                     padding: "0.9rem 2.1rem",
@@ -515,10 +516,10 @@ const Home = () => {
                 </Link>
                 <Link
                   to="/contact"
-                  className="inline-flex items-center justify-center gap-2 rounded-full font-bold border-2 border-white text-white transition-all duration-200 whitespace-nowrap"
+                  className="inline-flex items-center justify-center gap-2 rounded-full font-bold border-2 border-white text-white transition-all duration-200 w-full sm:w-auto"
                   style={{
                     fontFamily: "Poppins, sans-serif",
-                    fontSize: "clamp(0.82rem, 1.4vw, 0.95rem)",
+                    fontSize: "clamp(1rem, 1.4vw, 0.95rem)",
                     padding: "0.9rem 2.1rem",
                   }}
                   onMouseEnter={(e) => {
@@ -777,16 +778,18 @@ const Home = () => {
                 fontFamily: "Poppins, sans-serif",
                 fontSize: "clamp(0.82rem, 1.4vw, 0.95rem)",
                 backgroundColor: "#fda102",
-                color: "#111111",
+                color: "#ffffff",
                 padding: "0.9rem 2.1rem",
               }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.backgroundColor =
                   "#ffffff";
+                (e.currentTarget as HTMLElement).style.color = "#111111";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLElement).style.backgroundColor =
                   "#fda102";
+                (e.currentTarget as HTMLElement).style.color = "#ffffff";
               }}
             >
               Request a Labour Codes Readiness Assessment{" "}
@@ -864,29 +867,35 @@ const Home = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="bg-white rounded-2xl pt-4 pb-6 px-4 lg:pt-6 lg:pb-12 lg:px-12 shadow-xl">
+              <div className="rounded-2xl pt-4 pb-6 px-4 lg:pt-6 lg:pb-12 lg:px-12 shadow-xl" style={{ backgroundColor: "#172632" }}>
                 <img
                   src={maruLogo}
                   alt="Maru Consultancy Services"
                   className="h-14 lg:h-20 w-auto object-contain mb-3 lg:mb-5 mx-auto block"
+                  style={{ filter: "brightness(0) invert(1)" }}
                 />
                 <h2
                   className="font-bold leading-[1.2] mb-3 lg:mb-5 line-clamp-2 lg:line-clamp-none"
                   style={{
                     fontFamily: "Poppins, sans-serif",
                     fontSize: "clamp(0.85rem, 2.4vw, 2rem)",
-                    color: "#111111",
+                    color: "#ffffff",
                   }}
                 >
-                  {content?.whyUsHeading ??
-                    "Expertise that protects your business & empowers your workforce."}
+                  {content?.whyUsHeading ?? (
+                    <>
+                      Expertise that{" "}
+                      <span style={{ color: "#fda102" }}>protects your business</span>
+                      {" "}& empowers your workforce.
+                    </>
+                  )}
                 </h2>
                 <p
                   className="leading-relaxed text-xs lg:text-sm mb-4 lg:mb-8 text-justify"
                   style={{
                     fontFamily: "Poppins, sans-serif",
                     fontWeight: 400,
-                    color: "#555555",
+                    color: "rgba(255,255,255,0.75)",
                   }}
                 >
                   {content?.whyUsBody ??
@@ -894,7 +903,7 @@ const Home = () => {
                 </p>
 
                 {/* Numbered rows */}
-                <div className="divide-y divide-gray-100">
+                <div className="divide-y divide-white/10">
                   {whyUs.map((item, i) => (
                     <motion.div
                       key={i}
@@ -918,7 +927,7 @@ const Home = () => {
                           className="font-semibold mb-1 text-xs lg:text-sm"
                           style={{
                             fontFamily: "Poppins, sans-serif",
-                            color: "#111111",
+                            color: "#ffffff",
                           }}
                         >
                           {item.title}
@@ -928,7 +937,7 @@ const Home = () => {
                           style={{
                             fontFamily: "Poppins, sans-serif",
                             fontWeight: 400,
-                            color: "#666666",
+                            color: "rgba(255,255,255,0.65)",
                           }}
                         >
                           {item.desc}
