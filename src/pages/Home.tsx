@@ -291,41 +291,42 @@ const Home = () => {
       </section>
 
       {/* ── Floating credibility card (bridges hero → One Stop) ── */}
-      <div className="relative z-20 px-4 lg:px-10" style={{ marginTop: '-4.5rem' }}>
+      {/* Wrapper has the same orange bg so no white strip appears below the card */}
+      <div className="relative z-20 px-4 lg:px-10" style={{ marginTop: '-4rem', backgroundColor: 'var(--primary)', paddingTop: '0' }}>
         <div className="max-w-7xl mx-auto">
           <motion.div
             className="w-full rounded-2xl overflow-hidden"
-            style={{ boxShadow: '0 20px 60px rgba(23,38,50,0.22)', backgroundColor: '#ffffff' }}
+            style={{
+              boxShadow: '0 16px 48px rgba(23,38,50,0.28)',
+              backgroundColor: '#ffffff',
+              border: '2px solid #fda102',
+            }}
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}>
 
-            {/* Amber top accent line */}
-            <div className="h-1 w-full" style={{ backgroundColor: '#fda102' }} />
-
-            {/* Stats grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-5">
+            {/* Stats grid — 4 items */}
+            <div className="grid grid-cols-2 lg:grid-cols-4">
               {[
-                { value: '1979',         label: 'Established Since'       },
-                { value: '45+',          label: 'Years of Experience'     },
-                { value: '300+',         label: 'Clients Served'          },
-                { value: '4',            label: 'Labour Codes'            },
-                { value: 'End-to-End',   label: 'Compliance Support'      },
-              ].map(({ value, label }, i, arr) => (
+                { target: 1979, suffix: '',   decimals: 0, label: 'Established Since'   },
+                { target: 45,   suffix: '+',  decimals: 0, label: 'Years of Experience' },
+                { target: 300,  suffix: '+',  decimals: 0, label: 'Clients Served'      },
+                { target: 4,    suffix: '',   decimals: 0, label: 'Labour Codes'        },
+              ].map(({ target, suffix, decimals, label }, i, arr) => (
                 <div
                   key={label}
-                  className={`flex flex-col items-center justify-center text-center px-4 py-7 lg:py-9
-                    ${i < arr.length - 1 ? 'border-b lg:border-b-0 lg:border-r border-gray-100' : ''}
-                    ${i === 1 ? 'border-r border-gray-100 lg:border-r' : ''}
+                  className={`flex flex-col items-center justify-center text-center px-4 py-6 lg:py-7
+                    ${i < arr.length - 1 ? 'border-b-2 lg:border-b-0 lg:border-r-2 border-gray-100' : ''}
+                    ${i === 1 ? 'border-r-2 border-gray-100 lg:border-r-2' : ''}
                   `}>
                   <span
-                    className="font-bold leading-none mb-2"
-                    style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(1.9rem, 3.4vw, 2.8rem)', color: '#172632' }}>
-                    {value}
+                    className="font-bold leading-none mb-1.5"
+                    style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(1.6rem, 2.8vw, 2.4rem)', color: '#172632' }}>
+                    <StatCounter target={target} suffix={suffix} decimals={decimals} />
                   </span>
                   <span
                     className="font-medium leading-snug"
-                    style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(0.7rem, 1.1vw, 0.82rem)', color: '#6b7280', letterSpacing: '0.04em' }}>
+                    style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(0.65rem, 1vw, 0.78rem)', color: '#6b7280', letterSpacing: '0.04em' }}>
                     {label}
                   </span>
                 </div>
@@ -337,7 +338,7 @@ const Home = () => {
       </div>
 
       {/* ── One Stop Consultancy Partner ─────────────────── */}
-      <section className="pb-10 lg:pb-16 pt-10 lg:pt-16 overflow-hidden" style={{ backgroundColor: 'var(--primary)' }}>
+      <section className="pb-10 lg:pb-16 pt-8 lg:pt-12 overflow-hidden" style={{ backgroundColor: 'var(--primary)' }}>
         <div className="w-full px-4 lg:px-10">
 
           {/* Section header */}
