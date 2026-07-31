@@ -223,7 +223,7 @@ const Home = () => {
     <div className="w-full">
 
       {/* ── Hero ───────────────────────────────────────────── */}
-      <section className="relative flex flex-col overflow-hidden" style={{ minHeight: '78vh', backgroundColor: '#172632' }}>
+      <section className="relative flex flex-col overflow-hidden" style={{ minHeight: '86vh', backgroundColor: '#172632' }}>
 
         {/* Background — pure CSS tint: solid dark navy left, fades to a lighter slate-blue right */}
         <div className="absolute inset-0 pointer-events-none">
@@ -339,7 +339,7 @@ const Home = () => {
       <section className="pb-10 lg:pb-16 pt-0 overflow-visible" style={{ backgroundColor: 'var(--primary)' }}>
 
         {/* ── Credibility card — lives inside this section, negative margin pulls it into hero ── */}
-        <div className="relative z-20 px-4 lg:px-10" style={{ marginTop: '-3.2rem', marginBottom: '2.5rem' }}>
+        <div className="relative z-20 px-4 lg:px-10" style={{ marginTop: '-2.2rem', marginBottom: '3rem' }}>
           <div className="max-w-7xl mx-auto">
             <motion.div
               className="w-full rounded-2xl overflow-hidden"
