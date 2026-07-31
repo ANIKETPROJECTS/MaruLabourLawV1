@@ -179,57 +179,87 @@ const Home = () => {
     <div className="w-full">
 
       {/* ── Hero ───────────────────────────────────────────── */}
-      <section className="relative flex items-center overflow-hidden" style={{ minHeight: '88vh', backgroundColor: '#172632' }}>
+      <section className="relative flex flex-col overflow-hidden" style={{ minHeight: '92vh', backgroundColor: '#172632' }}>
 
-        {/* Full-bleed background image */}
+        {/* Full-bleed background */}
         <div className="absolute inset-0 pointer-events-none">
           <img
             src={heroImage1}
             alt=""
             aria-hidden="true"
             className="w-full h-full object-cover object-center"
-            style={{ opacity: 0.55 }}
+            style={{ opacity: 0.38 }}
           />
-          {/* Dark gradient — heavy navy on left, fades to near-transparent on right */}
+          {/* Gradient: heavy navy left + bottom, lightens toward right */}
           <div className="absolute inset-0" style={{
-            background: 'linear-gradient(to right, #172632 0%, rgba(23,38,50,0.93) 35%, rgba(23,38,50,0.65) 62%, rgba(23,38,50,0.18) 100%)',
+            background: 'linear-gradient(105deg, #172632 0%, rgba(23,38,50,0.92) 40%, rgba(23,38,50,0.55) 70%, rgba(23,38,50,0.25) 100%)',
           }} />
-          {/* Decorative concentric circles on right */}
-          <div className="absolute pointer-events-none" style={{ right: '-6rem', top: '50%', transform: 'translateY(-50%)' }}>
-            <div className="rounded-full border-[90px] border-white/[0.04]" style={{ width: 700, height: 700 }} />
-          </div>
-          <div className="absolute pointer-events-none" style={{ right: '4rem', top: '50%', transform: 'translateY(-44%)' }}>
-            <div className="rounded-full border-[60px] border-white/[0.05]" style={{ width: 500, height: 500 }} />
-          </div>
+          {/* Subtle texture dot grid */}
+          <div className="absolute inset-0 opacity-[0.04]" style={{
+            backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)',
+            backgroundSize: '28px 28px',
+          }} />
         </div>
 
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 lg:px-10 w-full py-20 lg:py-28">
-          <motion.div
-            className="max-w-2xl"
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65 }}>
+        {/* ── Main content ── */}
+        <div className="relative z-10 flex-1 flex items-center max-w-7xl mx-auto px-4 lg:px-10 w-full py-20 lg:py-28">
+          <div className="max-w-3xl w-full">
 
-            {/* Headline */}
-            <h1
-              className="font-bold text-white mb-5 lg:mb-6"
-              style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(2.4rem, 5vw, 4.2rem)', lineHeight: 1.1 }}>
-              <span className="block mb-1">{content?.heroLine1 ?? 'Five Decades of Experience.'}</span>
-              <span className="block mb-1" style={{ color: '#fda102', minHeight: '1.1em' }}>
-                {typewriterText}<span className="typewriter-cursor">|</span>
-              </span>
-              <span className="block">{content?.heroLine2 ?? 'A New Era of Labour Laws.'}</span>
-            </h1>
-
-            {/* Subtitle */}
+            {/* Brand name label */}
             <motion.p
-              className="mb-8 lg:mb-10 text-base lg:text-lg leading-relaxed"
+              className="uppercase tracking-[0.22em] font-bold mb-4 lg:mb-5"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(0.62rem, 1.4vw, 0.78rem)', color: '#fda102' }}>
+              Maru Consultancy Services
+            </motion.p>
+
+            {/* Pipe-separated category strip */}
+            <motion.div
+              className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 lg:mb-7"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.08 }}>
+              {['Labour Laws', 'Labour Codes', 'Industrial Relations', 'Statutory Compliance'].map((cat, i, arr) => (
+                <span key={cat} className="flex items-center gap-2">
+                  <span
+                    className="font-semibold text-white/90"
+                    style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(0.72rem, 1.6vw, 0.92rem)' }}>
+                    {cat}
+                  </span>
+                  {i < arr.length - 1 && (
+                    <span className="w-[1px] h-3 inline-block" style={{ backgroundColor: '#fda102', opacity: 0.7 }} />
+                  )}
+                </span>
+              ))}
+            </motion.div>
+
+            {/* Main headline */}
+            <motion.h1
+              className="font-bold text-white mb-6 lg:mb-7"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.14 }}
+              style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(2.1rem, 4.8vw, 4rem)', lineHeight: 1.1 }}>
+              Five Decades of Experience.{' '}
+              <span style={{ color: '#fda102' }}>A New Era of Labour Laws.</span>
+            </motion.h1>
+
+            {/* Description */}
+            <motion.p
+              className="mb-9 lg:mb-10"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              style={{ fontFamily: 'Poppins, sans-serif', color: 'rgba(255,255,255,0.82)', maxWidth: '30rem' }}>
-              {content?.heroDescription ?? 'Since 1979, Maru Consultancy Services has helped businesses navigate India’s labour and employment regulatory environment. Today, we bring that experience to the four Labour Codes—helping organisations move from understanding the law to implementing it.'}
+              transition={{ duration: 0.6, delay: 0.22 }}
+              style={{
+                fontFamily: 'Poppins, sans-serif',
+                fontSize: 'clamp(0.88rem, 1.6vw, 1.05rem)',
+                lineHeight: 1.75,
+                color: 'rgba(255,255,255,0.78)',
+                maxWidth: '38rem',
+              }}>
+              Established in Mumbai in 1979, Maru Consultancy Services provides specialised advisory, compliance, audit and representation support to organisations navigating India's labour and employment regulatory framework.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -237,25 +267,57 @@ const Home = () => {
               className="flex flex-wrap gap-3 lg:gap-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.28 }}>
+              transition={{ duration: 0.6, delay: 0.3 }}>
               <Link to="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full font-bold text-sm lg:text-base transition-all duration-200 whitespace-nowrap"
-                style={{ fontFamily: 'Poppins, sans-serif', backgroundColor: '#fda102', color: '#111111', padding: '0.85rem 2rem' }}
+                className="inline-flex items-center justify-center gap-2 rounded-full font-bold transition-all duration-200 whitespace-nowrap"
+                style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(0.82rem, 1.4vw, 0.95rem)', backgroundColor: '#fda102', color: '#111111', padding: '0.9rem 2.1rem' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#ffffff'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#fda102'; }}>
-                {content?.ctaPrimaryText ?? 'Book a Consultation'}
+                Talk to Our Experts
               </Link>
-              <Link to="/services"
-                className="inline-flex items-center justify-center gap-2 rounded-full font-bold text-sm lg:text-base border-2 border-white text-white transition-all duration-200 whitespace-nowrap"
-                style={{ fontFamily: 'Poppins, sans-serif', padding: '0.85rem 2rem' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.12)'; }}
+              <Link to="/contact"
+                className="inline-flex items-center justify-center gap-2 rounded-full font-bold border-2 border-white text-white transition-all duration-200 whitespace-nowrap"
+                style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(0.82rem, 1.4vw, 0.95rem)', padding: '0.9rem 2.1rem' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.1)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}>
-                {content?.ctaSecondaryText ?? 'Compliance Solutions'}
+                Request a Compliance Review
               </Link>
             </motion.div>
 
-          </motion.div>
+          </div>
         </div>
+
+        {/* ── Credibility strip ── */}
+        <motion.div
+          className="relative z-10 w-full border-t"
+          style={{ borderTopColor: 'rgba(255,255,255,0.1)', backgroundColor: 'rgba(23,38,50,0.85)', backdropFilter: 'blur(8px)' }}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.45 }}>
+          <div className="max-w-7xl mx-auto px-4 lg:px-10 py-4 lg:py-5">
+            <div className="flex flex-wrap items-center justify-center gap-x-0 gap-y-2 lg:gap-y-0">
+              {[
+                'Since 1979',
+                '45+ Years of Experience',
+                '300+ Clients Served',
+                '4 Labour Codes',
+                'End-to-End Compliance',
+              ].map((item, i, arr) => (
+                <span key={item} className="flex items-center">
+                  <span
+                    className="font-semibold text-white/85 px-4 lg:px-6 text-center"
+                    style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(0.68rem, 1.3vw, 0.82rem)', letterSpacing: '0.04em' }}>
+                    {item}
+                  </span>
+                  {i < arr.length - 1 && (
+                    <span className="h-3.5 w-[1px] shrink-0" style={{ backgroundColor: '#fda102', opacity: 0.6 }} />
+                  )}
+                </span>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
       </section>
 
       {/* ── One Stop Consultancy Partner ─────────────────── */}
