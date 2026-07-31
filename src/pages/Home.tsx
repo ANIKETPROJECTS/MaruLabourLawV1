@@ -872,7 +872,7 @@ const Home = () => {
                   src={maruLogo}
                   alt="Maru Consultancy Services"
                   className="h-14 lg:h-20 w-auto object-contain mb-3 lg:mb-5 mx-auto block"
-                  style={{ filter: "brightness(0) invert(1)" }}
+                
                 />
                 <h2
                   className="font-bold leading-[1.2] mb-3 lg:mb-5 line-clamp-2 lg:line-clamp-none"
