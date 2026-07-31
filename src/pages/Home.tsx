@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import heroIllustration from '@assets/image_1785489395059.png';
 import heroVideoDefault from '@assets/7552418-hd_1080_1920_25fps_1783420764090.mp4';
 import heroImageDefault from '@assets/pexels-vlada-karpovich-7433855_1783420874088.jpg';
 import customerReviewIcon from '@assets/customer-review_1783487769231.png';
@@ -289,26 +290,14 @@ const Home = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}>
               <div
-                className="w-full h-full rounded-2xl flex flex-col items-center justify-center gap-4 border-2 border-dashed"
-                style={{
-                  minHeight: '320px',
-                  backgroundColor: 'rgba(255,255,255,0.04)',
-                  borderColor: 'rgba(255,255,255,0.18)',
-                }}>
-                {/* Icon circle */}
-                <div className="w-16 h-16 rounded-full flex items-center justify-center"
-                  style={{ backgroundColor: 'rgba(253,161,2,0.12)', border: '1.5px solid rgba(253,161,2,0.3)' }}>
-                  <ImageIcon size={26} style={{ color: '#fda102', opacity: 0.8 }} />
-                </div>
-                <div className="text-center px-6">
-                  <p className="font-semibold mb-1"
-                    style={{ fontFamily: 'Poppins, sans-serif', fontSize: '0.85rem', color: 'rgba(255,255,255,0.55)' }}>
-                    Hero Image
-                  </p>
-                  <p style={{ fontFamily: 'Poppins, sans-serif', fontSize: '0.72rem', color: 'rgba(255,255,255,0.3)' }}>
-                    Upload via Admin Panel
-                  </p>
-                </div>
+                className="w-full h-full rounded-2xl overflow-hidden flex items-end justify-center"
+                style={{ minHeight: '320px' }}>
+                <img
+                  src={heroIllustration}
+                  alt="Labour law consultant"
+                  className="w-full h-full object-contain object-bottom"
+                  style={{ maxHeight: '520px' }}
+                />
               </div>
             </motion.div>
 
