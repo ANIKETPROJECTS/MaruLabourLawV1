@@ -209,10 +209,10 @@ export default function AdminHome() {
         </Field>
       </Section>
 
-      <Section title="Services Preview" description="Shown above the services grid on the homepage.">
-        <Field label="Label"><TextInput value={data.servicesPreviewLabel} onChange={(e) => update('servicesPreviewLabel', e.target.value)} /></Field>
-        <Field label="Title"><TextInput value={data.servicesPreviewTitle} onChange={(e) => update('servicesPreviewTitle', e.target.value)} /></Field>
-        <Field label="Description"><TextArea rows={2} value={data.servicesPreviewDescription} onChange={(e) => update('servicesPreviewDescription', e.target.value)} /></Field>
+      <Section title="Comprehensive Compliance Solutions (Services Preview)" description="Controls the 'Our Expertise' label, heading, and description shown above the services card grid on the homepage. The cards below are pulled from the Featured Services list.">
+        <Field label="Section label (e.g. Our Expertise)"><TextInput value={data.servicesPreviewLabel} onChange={(e) => update('servicesPreviewLabel', e.target.value)} /></Field>
+        <Field label="Heading (e.g. Comprehensive Compliance Solutions)"><TextInput value={data.servicesPreviewTitle} onChange={(e) => update('servicesPreviewTitle', e.target.value)} /></Field>
+        <Field label="Description (shown below heading)"><TextArea rows={2} value={data.servicesPreviewDescription} onChange={(e) => update('servicesPreviewDescription', e.target.value)} /></Field>
       </Section>
 
       <Section title="Featured Services on Homepage" description="Choose up to 8 services and set their display order. If none are selected all services appear in their default order.">

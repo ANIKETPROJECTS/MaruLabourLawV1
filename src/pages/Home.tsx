@@ -640,10 +640,10 @@ const Home = () => {
               {content?.oneStopLabel ?? "Our Core Capabilities"}
             </p>
             <h2
-              className="font-bold leading-[1.15] mb-4 lg:mb-5"
+              className="font-bold leading-[1.15] mb-4 lg:mb-5 whitespace-nowrap"
               style={{
                 fontFamily: "Poppins, sans-serif",
-                fontSize: "clamp(1.7rem, 3.6vw, 3.2rem)",
+                fontSize: "clamp(1.5rem, 3.2vw, 3rem)",
               }}
             >
               {content?.oneStopTitle ? (
@@ -656,59 +656,52 @@ const Home = () => {
               )}
             </h2>
             <p
-              className="leading-relaxed"
+              className="leading-relaxed px-6 lg:px-24 xl:px-32"
               style={{
                 fontFamily: "Poppins, sans-serif",
                 fontWeight: 400,
-                fontSize: "clamp(0.9rem, 1.5vw, 1.05rem)",
+                fontSize: "clamp(0.88rem, 1.3vw, 1rem)",
                 color: "rgba(255,255,255,0.82)",
-                maxWidth: "52rem",
-                margin: "0 auto",
               }}
             >
               The four Labour Codes have reshaped employment compliance in India. MCS helps organisations interpret legal requirements, manage compliance risks and implement practical business processes.
             </p>
           </motion.div>
 
-          {/* 8-card strip — single horizontal scrollable row */}
-          <div className="overflow-x-auto pb-3" style={{ scrollbarWidth: "none" }}>
-            <div className="flex gap-4" style={{ minWidth: "max-content" }}>
-              {oneStopCards.map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 28 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: i * 0.08 }}
-                  className="flex flex-col items-center text-center rounded-2xl"
+          {/* 8-card grid — 2 cols mobile, 4 cols desktop (4×4) */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 lg:gap-5">
+            {oneStopCards.map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: i * 0.08 }}
+                className="flex flex-col items-center text-center rounded-2xl p-4 lg:p-8"
+                style={{
+                  backgroundColor: "#ffffff",
+                  border: "1px solid #e5e7eb",
+                }}
+              >
+                {/* Lottie animation */}
+                <LottieAnim
+                  animationData={item.anim}
+                  className="w-24 h-24 lg:w-40 lg:h-40 mb-3 lg:mb-5 shrink-0"
+                />
+
+                {/* Title */}
+                <h3
+                  className="font-semibold text-gray-900 mb-0"
                   style={{
-                    backgroundColor: "#ffffff",
-                    border: "1px solid #e5e7eb",
-                    width: "220px",
-                    minWidth: "220px",
-                    padding: "2rem 1.5rem 2.2rem",
+                    fontFamily: "Poppins, sans-serif",
+                    fontSize: "clamp(0.78rem, 1.4vw, 1rem)",
+                    lineHeight: 1.35,
                   }}
                 >
-                  {/* Lottie animation */}
-                  <LottieAnim
-                    animationData={item.anim}
-                    className="w-36 h-36 mb-5 shrink-0"
-                  />
-
-                  {/* Title */}
-                  <h3
-                    className="font-semibold text-gray-900 mb-0"
-                    style={{
-                      fontFamily: "Poppins, sans-serif",
-                      fontSize: "0.92rem",
-                      lineHeight: 1.35,
-                    }}
-                  >
-                    {item.title}
-                  </h3>
-                </motion.div>
-              ))}
-            </div>
+                  {item.title}
+                </h3>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -968,7 +961,7 @@ const Home = () => {
           </motion.div>
 
           {/* 8-card grid — 2 cols mobile, 4 cols desktop */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-7">
             {previewServices.map((service, i) => (
               <motion.div
                 key={service._id}
@@ -976,10 +969,10 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: (i % 4) * 0.08 }}
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group overflow-hidden flex flex-col"
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group overflow-hidden flex flex-col"
               >
                 {/* Image */}
-                <div className="h-36 lg:h-40 overflow-hidden relative shrink-0">
+                <div className="h-44 lg:h-56 overflow-hidden relative shrink-0">
                   <img
                     src={service.img}
                     alt={service.title}
@@ -989,15 +982,15 @@ const Home = () => {
                 </div>
 
                 {/* Body */}
-                <div className="p-2.5 lg:p-5 flex-grow flex flex-col">
+                <div className="p-3.5 lg:p-6 flex-grow flex flex-col">
                   <h3
-                    className="font-semibold text-navy-900 mb-2 leading-snug text-[0.72rem] lg:text-[0.9rem]"
+                    className="font-semibold text-navy-900 mb-2 leading-snug text-[0.8rem] lg:text-[1.05rem]"
                     style={{ fontFamily: "Poppins, sans-serif" }}
                   >
                     {service.title}
                   </h3>
                   <p
-                    className="text-gray-500 text-xs leading-relaxed flex-grow mb-3 hidden lg:block"
+                    className="text-gray-500 text-[0.72rem] lg:text-sm leading-relaxed flex-grow mb-4 hidden lg:block"
                     style={{
                       fontFamily: "Poppins, sans-serif",
                       fontWeight: 400,
@@ -1007,13 +1000,13 @@ const Home = () => {
                   </p>
                   <Link
                     to={`/services/${service.slug}`}
-                    className="inline-flex items-center gap-1 text-[0.68rem] lg:text-xs font-semibold mt-auto group-hover:gap-2 transition-all"
+                    className="inline-flex items-center gap-1 text-xs lg:text-sm font-semibold mt-auto group-hover:gap-2 transition-all"
                     style={{
                       fontFamily: "Poppins, sans-serif",
                       color: "var(--primary)",
                     }}
                   >
-                    Explore Details <ChevronRight size={12} />
+                    Explore Details <ChevronRight size={13} />
                   </Link>
                 </div>
               </motion.div>
