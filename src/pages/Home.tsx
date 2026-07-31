@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import heroIllustration from '@assets/image_1785489395059.png';
+import heroSlide2 from '@assets/image_1785489614194.png';
+import heroSlide3 from '@assets/image_1785489629521.png';
 import heroVideoDefault from '@assets/7552418-hd_1080_1920_25fps_1783420764090.mp4';
 import heroImageDefault from '@assets/pexels-vlada-karpovich-7433855_1783420874088.jpg';
 import customerReviewIcon from '@assets/customer-review_1783487769231.png';
@@ -90,6 +92,47 @@ function StatCounter({ target, decimals = 0, suffix = '' }: { target: number; de
   return <span ref={ref}>{display}{suffix}</span>;
 }
 
+/* ── Hero image carousel ──────────────────────────────── */
+function HeroCarousel({ slides }: { slides: string[] }) {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setActive(p => (p + 1) % slides.length), 3500);
+    return () => clearInterval(id);
+  }, [slides.length]);
+
+  return (
+    <motion.div
+      className="hidden lg:flex flex-col"
+      initial={{ opacity: 0, x: 32 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.7, delay: 0.2 }}>
+      <div className="relative w-full h-full rounded-2xl overflow-hidden" style={{ minHeight: '320px' }}>
+        {slides.map((src, i) => (
+          <img
+            key={i}
+            src={src}
+            alt={`Hero slide ${i + 1}`}
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
+            style={{ opacity: i === active ? 1 : 0 }}
+          />
+        ))}
+        {/* Dot indicators */}
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
+              className="w-2 h-2 rounded-full transition-all duration-300"
+              style={{ backgroundColor: i === active ? '#fda102' : 'rgba(255,255,255,0.5)', transform: i === active ? 'scale(1.3)' : 'scale(1)' }}
+              aria-label={`Slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 const defaultPhrases = [
   'Labour Laws',
@@ -283,23 +326,8 @@ const Home = () => {
               </motion.div>
             </div>
 
-            {/* ── Right: image placeholder card ── */}
-            <motion.div
-              className="hidden lg:flex flex-col"
-              initial={{ opacity: 0, x: 32 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}>
-              <div
-                className="w-full h-full rounded-2xl overflow-hidden flex items-end justify-center"
-                style={{ minHeight: '320px' }}>
-                <img
-                  src={heroIllustration}
-                  alt="Labour law consultant"
-                  className="w-full h-full object-contain object-bottom"
-                  style={{ maxHeight: '520px' }}
-                />
-              </div>
-            </motion.div>
+            {/* ── Right: auto-rotating image carousel ── */}
+            <HeroCarousel slides={[heroIllustration, heroSlide2, heroSlide3]} />
 
           </div>
         </div>
@@ -311,7 +339,7 @@ const Home = () => {
       <section className="pb-10 lg:pb-16 pt-0 overflow-visible" style={{ backgroundColor: 'var(--primary)' }}>
 
         {/* ── Credibility card — lives inside this section, negative margin pulls it into hero ── */}
-        <div className="relative z-20 px-4 lg:px-10" style={{ marginTop: '-2.8rem', marginBottom: '2.5rem' }}>
+        <div className="relative z-20 px-4 lg:px-10" style={{ marginTop: '-1.6rem', marginBottom: '2.5rem' }}>
           <div className="max-w-7xl mx-auto">
             <motion.div
               className="w-full rounded-2xl overflow-hidden"
