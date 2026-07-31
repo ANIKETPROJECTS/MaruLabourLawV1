@@ -37,37 +37,43 @@ const DEFAULT_MARQUEE_SERVICES = [
 ];
 
 const DEFAULT_STORY_SLIDES = [
-  { heading: 'Founded on a vision of', headingHighlight: 'simplified compliance.', body: "What started as a boutique advisory in Mumbai has grown into a pan-India powerhouse trusted by some of India's most respected corporations. We manage compliance for 500+ organisations — from dynamic startups to Fortune 500 conglomerates." },
-  { heading: 'Built on deep expertise,', headingHighlight: 'not guesswork.', body: "Every engagement is led by consultants who live and breathe labour law — tracking every amendment across 15+ states so our clients never have to. That rigor is what turned a single Mumbai office into a nationwide practice." },
-  { heading: 'Powered by technology,', headingHighlight: 'guided by people.', body: "Our proprietary compliance dashboards give clients real-time visibility into every filing and audit — backed by a dedicated consultant who's always a call away. It's how we keep 98% of our clients year after year." },
+  { heading: 'Four decades of', headingHighlight: 'labour law expertise.', body: "For over four decades, MCS has worked alongside organisations to interpret labour legislation, manage statutory compliances, address regulatory issues and establish practical systems for workforce compliance." },
+  { heading: 'Navigating India\'s', headingHighlight: 'new Labour Codes.', body: "As India transitions to a consolidated framework under the four Labour Codes, MCS combines decades of practical experience with a contemporary approach to compliance management." },
+  { heading: 'Beyond routine', headingHighlight: 'filings.', body: "Our services extend beyond routine filings. We work across the employment compliance lifecycle — from establishment registrations, payroll and social security compliance to audits, contractor governance, inspections, industrial relations and Labour Codes implementation." },
+  { heading: 'Experienced professionals,', headingHighlight: 'customised solutions.', body: "Supported by experienced professionals and a dedicated compliance team, MCS focuses on practical, responsive and customised solutions aligned with each client's industry, workforce structure and business requirements." },
 ];
 
 const DEFAULT_HERO_STATS = [
-  { value: '500+', label: 'Corporate Clients' },
-  { value: '21+',  label: 'Years' },
-  { value: '15+',  label: 'States' },
+  { value: '1979', label: 'Established' },
+  { value: '45+',  label: 'Years of Experience' },
+  { value: '4',    label: 'Labour Codes' },
 ];
 
 const DEFAULT_CORE_VALUES = [
-  { title: 'Absolute Integrity',    img: '/assets/service-legal.png' },
-  { title: 'Unmatched Excellence',  img: '/assets/service-labour.png' },
-  { title: 'Client Partnership',    img: '/assets/service-staffing.png' },
-  { title: 'Continuous Innovation', img: '/assets/service-audits.png' },
+  { title: 'Professional Integrity',    img: '/assets/service-legal.png' },
+  { title: 'Responsiveness',            img: '/assets/service-labour.png' },
+  { title: 'Practical Interpretation',  img: '/assets/service-statutory.png' },
+  { title: 'Process Excellence',        img: '/assets/service-audits.png' },
+  { title: 'Customised Solutions',      img: '/assets/service-payroll.png' },
+  { title: 'Continuous Learning',       img: '/assets/service-hr.png' },
 ];
 
 const DEFAULT_JOURNEY = [
-  { year: '2003', event: 'Founded',             img: '/assets/service-statutory.png', description: 'Established as a boutique advisory firm in Mumbai, focused on compliance.' },
-  { year: '2009', event: 'Pan-India',           img: '/assets/service-payroll.png',   description: 'Expanded to Delhi NCR and Bangalore, becoming a true pan-India compliance firm.' },
-  { year: '2016', event: 'Tech-Enabled',        img: '/assets/service-training.png',  description: 'Launched proprietary compliance software with real-time dashboards.' },
-  { year: '2023', event: 'New Codes Authority', img: '/assets/service-hr.png',        description: "Became India's go-to authority on the New Labour Codes nationwide." },
+  { year: '1979', event: 'Founded',        img: '/assets/service-statutory.png', description: 'Established in Mumbai as a specialised Labour Law and statutory compliance advisory for employers.' },
+  { year: '1995', event: 'Expanded',       img: '/assets/service-payroll.png',   description: 'Broadened practice to cover Industrial Relations, payroll advisory and multi-state compliance.' },
+  { year: '2010', event: 'Modernised',     img: '/assets/service-training.png',  description: 'Expanded service lines to include Contract Labour management, HR advisory and compliance due diligence.' },
+  { year: '2024', event: 'Labour Codes',   img: '/assets/service-hr.png',        description: "Leading implementation of India's four consolidated Labour Codes across industries and geographies." },
 ];
 
 const DEFAULT_WHY_CHOOSE = [
-  { point: 'Pan-India presence across 15+ states',  sub: 'State-specific expertise from Kashmir to Kanyakumari, covering all major industrial hubs.' },
-  { point: 'Experts in New Labour Codes',           sub: "One of India's earliest and most trusted authorities on the consolidated labour code framework." },
-  { point: 'Proactive risk identification',         sub: 'We audit for vulnerabilities before they become penalties — not after. Reactive compliance is a liability.' },
-  { point: 'Dedicated consultant per client',       sub: 'Every client gets a named consultant who knows their business, their sector, and their risk profile.' },
-  { point: 'Tech-enabled tracking & reporting',     sub: 'Real-time dashboards and automated reminders so nothing ever slips through the cracks.' },
+  { point: 'Experience Since 1979',         sub: 'Decades of practical exposure to labour laws, statutory compliance and workforce-related regulatory matters.' },
+  { point: 'Multi-Disciplinary Expertise',  sub: 'Leadership combining legal, HR, technology, corporate compliance and business-management perspectives.' },
+  { point: 'Practical Compliance Solutions', sub: 'We help translate legislation and regulatory requirements into implementable HR, payroll and compliance processes.' },
+  { point: 'Customised Advisory',           sub: "Solutions are aligned to the client's industry, establishment type, workforce structure, geography and risk profile." },
+  { point: 'Responsive Support',            sub: 'A dedicated team supporting time-sensitive compliance, inspections and regulatory matters.' },
+  { point: 'End-to-End Capability',         sub: 'From registrations and monthly compliance to audits, due diligence, notices, industrial relations and strategic advisory.' },
+  { point: 'Risk-Based Approach',           sub: 'We examine whether compliance can be demonstrated through reliable records and processes, not merely whether a document exists.' },
+  { point: 'Labour Codes Focus',            sub: "Legacy labour-law experience combined with advisory for India's consolidated Labour Codes framework." },
 ];
 
 const DEFAULT_TEAM = [
@@ -220,20 +226,20 @@ const About = () => {
   const marqueeServices= apiData?.marqueeServices?.length ? apiData.marqueeServices : DEFAULT_MARQUEE_SERVICES;
   const marqueeItems   = (() => { const m = marqueeServices.flatMap(s => [s, '|']); m.pop(); return m; })();
   const storySlides    = apiData?.storySlides?.length     ? apiData.storySlides     : DEFAULT_STORY_SLIDES;
-  const pullQuoteLine1 = apiData?.pullQuoteLine1       ?? 'Compliance is not a checkbox';
-  const pullQuoteLine2 = apiData?.pullQuoteLine2       ?? "It's the foundation on which";
-  const pullQuoteLine3 = apiData?.pullQuoteLine3       ?? 'every great business is built';
-  const pullQuoteAttribution = apiData?.pullQuoteAttribution ?? 'Deepak Maru, Founder & Managing Partner';
+  const pullQuoteLine1 = apiData?.pullQuoteLine1       ?? 'Experience.';
+  const pullQuoteLine2 = apiData?.pullQuoteLine2       ?? 'Interpretation.';
+  const pullQuoteLine3 = apiData?.pullQuoteLine3       ?? 'Execution.';
+  const pullQuoteAttribution = apiData?.pullQuoteAttribution ?? 'The MCS Approach — Trusted since 1979';
   const coreValues     = apiData?.coreValues?.length      ? apiData.coreValues      : DEFAULT_CORE_VALUES;
   const journeyMilestones = apiData?.journeyMilestones?.length ? apiData.journeyMilestones : DEFAULT_JOURNEY;
   const whyChooseItems = apiData?.whyChooseItems?.length  ? apiData.whyChooseItems  : DEFAULT_WHY_CHOOSE;
   const teamMembers    = apiData?.teamMembers?.length     ? apiData.teamMembers     : DEFAULT_TEAM;
 
-  const heroEyebrow           = apiData?.heroEyebrow           ?? '';
-  const heroHeadlineTop       = apiData?.heroHeadlineTop       ?? "India's Most\nTrusted";
+  const heroEyebrow           = apiData?.heroEyebrow           ?? 'Maru Consultancy Services';
+  const heroHeadlineTop       = apiData?.heroHeadlineTop       ?? "Over Four Decades\nof";
   const heroHeadlineHighlight = apiData?.heroHeadlineHighlight ?? 'Labour Law';
-  const heroHeadlineBottom    = apiData?.heroHeadlineBottom    ?? 'Partner.';
-  const heroSubtext           = apiData?.heroSubtext           ?? 'Two decades of expertise in labour law compliance, HR governance, statutory filings, and workforce management across 15+ Indian states.';
+  const heroHeadlineBottom    = apiData?.heroHeadlineBottom    ?? 'Expertise.';
+  const heroSubtext           = apiData?.heroSubtext           ?? "Established in 1979 in Mumbai, MCS is a specialised Labour Law, Industrial Relations and Statutory Compliance consultancy supporting employers in managing India's evolving employment regulatory framework.";
   const videoUrl              = apiData?.videoUrl              ?? '';
   const heroVideoUrl          = apiData?.heroVideoUrl          ?? '';
   const VIDEO_EMBED_ALLOWLIST = ['www.youtube.com', 'youtube.com', 'player.vimeo.com', 'www.youtube-nocookie.com'];
@@ -386,7 +392,7 @@ const About = () => {
                 style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 55%)' }} />
               <div className="absolute bottom-0 left-0 p-5 lg:p-8">
                 <p className="font-bold text-2xl lg:text-4xl text-white mb-1" style={{ fontFamily: PP }}>Est.</p>
-                <p className="font-bold text-white" style={{ fontFamily: PP, fontSize: 'clamp(3rem, 8vw, 6rem)', lineHeight: 1, color: '#fda102' }}>2003</p>
+                <p className="font-bold text-white" style={{ fontFamily: PP, fontSize: 'clamp(3rem, 8vw, 6rem)', lineHeight: 1, color: '#fda102' }}>1979</p>
               </div>
             </motion.div>
 
@@ -498,6 +504,46 @@ const About = () => {
       </section>
 
       {/* ══════════════════════════════════════════════════════
+          4b. OUR APPROACH — Step flow
+         ══════════════════════════════════════════════════════ */}
+      <section className="py-10 lg:py-14 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          <motion.div className="text-center mb-8"
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.5 }}>
+            <p className="font-bold uppercase tracking-[0.25em] mb-2" style={{ fontFamily: PP, color: '#fda102', fontSize: '0.78rem' }}>How We Work</p>
+            <h2 className="font-bold" style={{ fontFamily: PP, fontSize: 'clamp(1.5rem, 3vw, 2.4rem)', color: '#111' }}>Our Approach</h2>
+          </motion.div>
+
+          <div className="flex flex-wrap justify-center gap-0">
+            {['Understand', 'Assess', 'Advise', 'Implement', 'Monitor', 'Update'].map((step, i, arr) => (
+              <motion.div key={step} className="flex items-center"
+                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.08 }}>
+                <div className="flex flex-col items-center px-3 py-2 lg:px-5 lg:py-3">
+                  <div className="w-10 h-10 lg:w-14 lg:h-14 rounded-full flex items-center justify-center font-bold text-white mb-2 text-sm lg:text-base shrink-0"
+                    style={{ backgroundColor: 'var(--primary)', fontFamily: PP }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <p className="font-semibold text-center text-xs lg:text-sm whitespace-nowrap" style={{ fontFamily: PP, color: '#111' }}>{step}</p>
+                </div>
+                {i < arr.length - 1 && (
+                  <span className="text-lg lg:text-2xl font-bold mb-4 shrink-0" style={{ color: '#fda102' }}>→</span>
+                )}
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.p className="text-center mt-6 text-sm lg:text-base leading-relaxed max-w-3xl mx-auto"
+            style={{ fontFamily: PP, color: '#666' }}
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+            viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.3 }}>
+            A structured, end-to-end methodology that ensures every client engagement is practical, measurable and aligned to their business reality.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════
           5. CORE VALUES — Poster image cards with overlays
          ══════════════════════════════════════════════════════ */}
       <section id="core-values" className="py-10 bg-white">
@@ -517,8 +563,8 @@ const About = () => {
             Our Core Values
           </motion.h2>
 
-          {/* 4 image-backed poster cards — 2x2 on mobile, single row on desktop */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-5">
+          {/* 6 image-backed poster cards — 2x3 on mobile/tablet, single row on desktop */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-4">
             {coreValues.map((v, i) => (
               <motion.div key={i}
                 className="relative rounded-2xl overflow-hidden group cursor-default h-[170px] lg:h-[380px]"
@@ -690,9 +736,11 @@ const About = () => {
             <motion.div
               initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.65, delay: 0.1 }}>
-              <h2 className="font-bold leading-[1.15] mb-8 whitespace-nowrap lg:whitespace-normal"
+              <p className="font-bold uppercase tracking-[0.2em] mb-2" style={{ fontFamily: PP, fontSize: '0.75rem', color: '#fda102' }}>Why MCS</p>
+              <h2 className="font-bold leading-[1.15] mb-8"
                 style={{ fontFamily: PP, fontSize: 'clamp(1.05rem, 5.5vw, 2.6rem)', color: '#111' }}>
-                What sets us apart<br className="hidden lg:inline" /> from the <span style={{ color: 'var(--primary)' }}>rest.</span>
+                Experience.<br />Interpretation.<br className="hidden lg:inline" />{' '}
+                <span style={{ color: 'var(--primary)' }}>Execution.</span>
               </h2>
 
               <div className="space-y-6">
@@ -712,6 +760,44 @@ const About = () => {
                 ))}
               </div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════
+          7b. MANAGEMENT VISIBILITY — 5 questions callout
+         ══════════════════════════════════════════════════════ */}
+      <section className="py-10 lg:py-14" style={{ backgroundColor: 'var(--primary)' }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          {/* Dot texture */}
+          <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.06) 1.5px, transparent 1.5px)', backgroundSize: '28px 28px' }} />
+
+          <motion.div className="text-center mb-8"
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.5 }}>
+            <p className="font-bold uppercase tracking-[0.25em] mb-2" style={{ fontFamily: PP, color: '#fda102', fontSize: '0.78rem' }}>Management Visibility</p>
+            <h2 className="font-bold text-white leading-[1.2]" style={{ fontFamily: PP, fontSize: 'clamp(1.4rem, 3vw, 2.4rem)' }}>
+              Our objective is to help management<br className="hidden lg:inline" /> answer five questions clearly.
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {[
+              { q: 'Where are we compliant?',     n: '01' },
+              { q: 'Where are the gaps?',          n: '02' },
+              { q: 'What is the risk?',            n: '03' },
+              { q: 'What must be corrected?',      n: '04' },
+              { q: 'By when?',                     n: '05' },
+            ].map(({ q, n }, i) => (
+              <motion.div key={n}
+                className="rounded-2xl p-5 lg:p-6 flex flex-col gap-3"
+                style={{ backgroundColor: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)' }}
+                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.08 }}>
+                <span className="font-bold text-2xl lg:text-3xl" style={{ fontFamily: PP, color: '#fda102' }}>{n}</span>
+                <p className="font-semibold text-white leading-snug text-sm lg:text-base" style={{ fontFamily: PP }}>{q}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
