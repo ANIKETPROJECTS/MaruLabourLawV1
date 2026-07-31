@@ -168,7 +168,7 @@ const defaultOneStopCards = [
   { title: 'Inspections, Notices & Representation',           desc: 'Inspector liaison and legal representation' },
   { title: 'Registrations, Licensing & Establishment Compliance', desc: 'Factory, shop and establishment registrations' },
 ];
-const oneStopAnims = [animStatutory, animLabourActs, animEstablishment, animPayrollPlanning, animPayrollRecords, animHr];
+const oneStopAnims = [animStatutory, animStatutory, animStatutory, animStatutory, animStatutory, animStatutory, animStatutory, animStatutory];
 
 const defaultStats = [
   { target: 1979, decimals: 0, suffix: '', label: 'Serving Since' },
