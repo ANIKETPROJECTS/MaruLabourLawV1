@@ -159,12 +159,14 @@ const defaultWhyUs = [
 ];
 
 const defaultOneStopCards = [
-  { anim: animStatutory, title: 'Statutory Registrations', desc: 'ESI, EPF, Professional Tax' },
-  { anim: animLabourActs, title: 'Core Labour Law Acts', desc: 'Contract Labour, Gratuity, Bonus' },
-  { anim: animEstablishment, title: 'Establishment & Factory', desc: 'MLWF, Shops & Factories Act' },
-  { anim: animPayrollPlanning, title: 'Payroll Processing', desc: 'Planning, salary structuring' },
-  { anim: animPayrollRecords, title: 'Payroll Reports & Records', desc: 'MIS, salary register, FNF' },
-  { anim: animHr, title: 'HR Related Matters', desc: 'Advisory day-to-day support' },
+  { title: 'Labour Codes Advisory & Implementation',          desc: 'End-to-end guidance on the four Labour Codes' },
+  { title: 'Labour Law & Statutory Compliance',               desc: 'Full-spectrum statutory obligation management' },
+  { title: 'Labour Law Audits & Due Diligence',               desc: 'Risk-based compliance audits and gap assessments' },
+  { title: 'Contract Labour & Principal Employer Compliance', desc: 'CLRA obligations and contractor management' },
+  { title: 'Payroll & Wage Structure Advisory',               desc: 'Code-aligned salary structuring and payroll' },
+  { title: 'Industrial Relations & Employment Advisory',      desc: 'Dispute prevention, standing orders and IR support' },
+  { title: 'Inspections, Notices & Representation',           desc: 'Inspector liaison and legal representation' },
+  { title: 'Registrations, Licensing & Establishment Compliance', desc: 'Factory, shop and establishment registrations' },
 ];
 const oneStopAnims = [animStatutory, animLabourActs, animEstablishment, animPayrollPlanning, animPayrollRecords, animHr];
 
