@@ -202,7 +202,7 @@ const Home = () => {
         </div>
 
         {/* ── Main content ── */}
-        <div className="relative z-10 flex-1 flex items-center max-w-7xl mx-auto px-4 lg:px-10 w-full py-14 lg:py-20">
+        <div className="relative z-10 flex-1 flex items-center max-w-7xl mx-auto px-4 lg:px-10 w-full pt-8 pb-10 lg:pt-10 lg:pb-14">
           <div className="max-w-3xl w-full">
 
             {/* Brand name label */}
@@ -295,7 +295,7 @@ const Home = () => {
       <section className="pb-10 lg:pb-16 pt-0 overflow-visible" style={{ backgroundColor: 'var(--primary)' }}>
 
         {/* ── Credibility card — lives inside this section, negative margin pulls it into hero ── */}
-        <div className="relative z-20 px-4 lg:px-10" style={{ marginTop: '-3.5rem', marginBottom: '2.5rem' }}>
+        <div className="relative z-20 px-4 lg:px-10" style={{ marginTop: '-5rem', marginBottom: '2.5rem' }}>
           <div className="max-w-7xl mx-auto">
             <motion.div
               className="w-full rounded-2xl overflow-hidden"
