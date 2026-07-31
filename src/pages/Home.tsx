@@ -186,9 +186,9 @@ const Home = () => {
           <div className="absolute inset-0" style={{
             background: 'linear-gradient(105deg, #172632 0%, #172632 38%, #1c2f42 62%, #243d58 85%, #2c4b6a 100%)',
           }} />
-          {/* Subtle white shimmer on the right half */}
+          {/* White shimmer on the right half */}
           <div className="absolute inset-0" style={{
-            background: 'linear-gradient(to right, transparent 45%, rgba(255,255,255,0.03) 65%, rgba(255,255,255,0.07) 100%)',
+            background: 'linear-gradient(to right, transparent 40%, rgba(255,255,255,0.06) 58%, rgba(255,255,255,0.14) 80%, rgba(255,255,255,0.20) 100%)',
           }} />
           {/* Dot texture */}
           <div className="absolute inset-0 opacity-[0.04]" style={{
@@ -199,7 +199,7 @@ const Home = () => {
 
         {/* ── Main content — two-column ── */}
         <div className="relative z-10 flex-1 flex items-center max-w-7xl mx-auto px-4 lg:px-10 w-full pt-8 pb-10 lg:pt-10 lg:pb-14">
-          <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-8 lg:gap-14 items-center">
+          <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-8 lg:gap-14 items-stretch">
 
             {/* ── Left: text ── */}
             <div>
@@ -289,9 +289,9 @@ const Home = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}>
               <div
-                className="w-full rounded-2xl flex flex-col items-center justify-center gap-4 border-2 border-dashed"
+                className="w-full h-full rounded-2xl flex flex-col items-center justify-center gap-4 border-2 border-dashed"
                 style={{
-                  aspectRatio: '4 / 3.2',
+                  minHeight: '320px',
                   backgroundColor: 'rgba(255,255,255,0.04)',
                   borderColor: 'rgba(255,255,255,0.18)',
                 }}>
