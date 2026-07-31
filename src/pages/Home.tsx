@@ -640,66 +640,75 @@ const Home = () => {
               {content?.oneStopLabel ?? "Our Core Capabilities"}
             </p>
             <h2
-              className="font-bold text-white leading-[1.15] mb-4 lg:mb-5"
+              className="font-bold leading-[1.15] mb-4 lg:mb-5"
               style={{
                 fontFamily: "Poppins, sans-serif",
-                fontSize: "clamp(1.3rem, 2.8vw, 2.4rem)",
+                fontSize: "clamp(1.7rem, 3.6vw, 3.2rem)",
               }}
             >
-              {content?.oneStopTitle ?? "Compliance Beyond Checklists"}
+              {content?.oneStopTitle ? (
+                <span className="text-white">{content.oneStopTitle}</span>
+              ) : (
+                <>
+                  <span style={{ color: "#ffffff" }}>Compliance Beyond </span>
+                  <span style={{ color: "#fda102" }}>Checklists</span>
+                </>
+              )}
             </h2>
             <p
-              className="leading-relaxed text-xs lg:text-sm"
+              className="leading-relaxed"
               style={{
                 fontFamily: "Poppins, sans-serif",
                 fontWeight: 400,
-                color: "rgba(255,255,255,0.75)",
+                fontSize: "clamp(0.9rem, 1.5vw, 1.05rem)",
+                color: "rgba(255,255,255,0.82)",
+                maxWidth: "52rem",
+                margin: "0 auto",
               }}
             >
-              India's employment law environment has entered a new phase with
-              the implementation of the four Labour Codes. Organisations require
-              more than periodic filings: they need clear interpretation, sound
-              processes, reliable documentation and practical implementation.
-              MCS works with management, HR, payroll, finance and compliance
-              teams to identify obligations, assess risks and convert statutory
-              requirements into workable business processes.
+              The four Labour Codes have reshaped employment compliance in India. MCS helps organisations interpret legal requirements, manage compliance risks and implement practical business processes.
             </p>
           </motion.div>
 
-          {/* 8-card grid — 2 cols mobile, 4 cols tablet & desktop (4x4) */}
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3 lg:gap-4">
-            {oneStopCards.map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: i * 0.08 }}
-                className="flex flex-col items-center text-center rounded-xl lg:rounded-2xl p-3 lg:p-10 xl:p-12"
-                style={{
-                  backgroundColor: "#ffffff",
-                  border: "1px solid #e5e7eb",
-                }}
-              >
-                {/* Lottie animation */}
-                <LottieAnim
-                  animationData={item.anim}
-                  className="w-20 h-20 lg:w-36 lg:h-36 xl:w-40 xl:h-40 mb-2.5 lg:mb-6 shrink-0"
-                />
-
-                {/* Title */}
-                <h3
-                  className="font-semibold text-gray-900 mb-0"
+          {/* 8-card strip — single horizontal scrollable row */}
+          <div className="overflow-x-auto pb-3" style={{ scrollbarWidth: "none" }}>
+            <div className="flex gap-4" style={{ minWidth: "max-content" }}>
+              {oneStopCards.map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 28 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.45, delay: i * 0.08 }}
+                  className="flex flex-col items-center text-center rounded-2xl"
                   style={{
-                    fontFamily: "Poppins, sans-serif",
-                    fontSize: "clamp(0.82rem, 2.4vw, 1rem)",
-                    lineHeight: 1.3,
+                    backgroundColor: "#ffffff",
+                    border: "1px solid #e5e7eb",
+                    width: "220px",
+                    minWidth: "220px",
+                    padding: "2rem 1.5rem 2.2rem",
                   }}
                 >
-                  {item.title}
-                </h3>
-              </motion.div>
-            ))}
+                  {/* Lottie animation */}
+                  <LottieAnim
+                    animationData={item.anim}
+                    className="w-36 h-36 mb-5 shrink-0"
+                  />
+
+                  {/* Title */}
+                  <h3
+                    className="font-semibold text-gray-900 mb-0"
+                    style={{
+                      fontFamily: "Poppins, sans-serif",
+                      fontSize: "0.92rem",
+                      lineHeight: 1.35,
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -1034,10 +1043,6 @@ const Home = () => {
       >
         {/* Decorative ambient glow — dark only, no yellow */}
         <div className="absolute inset-0 pointer-events-none">
-          <div
-            className="absolute top-0 left-0 w-96 h-96 rounded-full opacity-20 blur-3xl"
-            style={{ backgroundColor: "#7a2900" }}
-          />
           <div
             className="absolute inset-0 opacity-5"
             style={{
