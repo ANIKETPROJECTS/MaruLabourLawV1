@@ -21,6 +21,7 @@ const StatItem = new mongoose.Schema({
 const OneStopCard = new mongoose.Schema({
   title: String,
   desc: String,
+  imgUrl: String,
 }, { _id: false });
 
 const HomeSchema = new mongoose.Schema({
@@ -38,6 +39,7 @@ const HomeSchema = new mongoose.Schema({
 
   oneStopLabel: String,
   oneStopTitle: String,
+  oneStopBody: String,
   oneStopCards: [OneStopCard],
 
   whyUsLogoUrl: String,

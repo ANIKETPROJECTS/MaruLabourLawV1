@@ -1,7 +1,7 @@
 export type WhyUsItem = { title: string; desc: string };
 export type Testimonial = { text: string; author: string; role: string };
 export type StatItem = { target: number; decimals: number; suffix: string; label: string };
-export type OneStopCard = { title: string; desc: string };
+export type OneStopCard = { title: string; desc: string; imgUrl?: string };
 
 export type ResourceSection = { heading: string; body: string };
 
@@ -50,6 +50,7 @@ export type HomeContent = {
   ctaSecondaryText: string;
   oneStopLabel: string;
   oneStopTitle: string;
+  oneStopBody: string;
   oneStopCards: OneStopCard[];
   whyUsLogoUrl: string;
   whyUsHeading: string;

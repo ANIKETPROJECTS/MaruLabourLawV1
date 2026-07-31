@@ -11,7 +11,7 @@ const EMPTY: HomeContent = {
   heroLine1: '', heroPhrases: [], heroLine2: '', heroDescription: '',
   heroVideoUrl: '', heroImage1Url: '', heroImage2Url: '',
   ctaPrimaryText: '', ctaSecondaryText: '',
-  oneStopLabel: '', oneStopTitle: '', oneStopCards: [],
+  oneStopLabel: '', oneStopTitle: '', oneStopBody: '', oneStopCards: [],
   whyUsLogoUrl: '', whyUsHeading: '', whyUsBody: '', whyUsItems: [],
   whyUsVideoUrl: '', whyUsImage1Url: '', whyUsImage2Url: '',
   servicesPreviewLabel: '', servicesPreviewTitle: '', servicesPreviewDescription: '',
@@ -157,27 +157,39 @@ export default function AdminHome() {
         <ImageUploader label="Hero image 2" value={data.heroImage2Url} onChange={(v) => update('heroImage2Url', v)} section="home" hint="Portrait 2:3, e.g. 600 × 900 px — displayed tall in the right-side photo collage" />
       </Section>
 
-      <Section title="One Stop Consultancy Partner">
+      <Section title="Compliance Beyond Checklists (Core Capabilities)" description="The dark-background section showing 8 service capability cards.">
         <div className="grid grid-cols-2 gap-4">
-          <Field label="Label"><TextInput value={data.oneStopLabel} onChange={(e) => update('oneStopLabel', e.target.value)} /></Field>
-          <Field label="Title"><TextInput value={data.oneStopTitle} onChange={(e) => update('oneStopTitle', e.target.value)} /></Field>
+          <Field label="Label (e.g. Our Core Capabilities)"><TextInput value={data.oneStopLabel} onChange={(e) => update('oneStopLabel', e.target.value)} /></Field>
+          <Field label="Heading (e.g. Compliance Beyond Checklists)"><TextInput value={data.oneStopTitle} onChange={(e) => update('oneStopTitle', e.target.value)} /></Field>
         </div>
-        <Field label="Cards">
-          <div className="space-y-3">
+        <Field label="Subtext (shown below heading in 2 lines)">
+          <TextArea rows={2} value={data.oneStopBody} onChange={(e) => update('oneStopBody', e.target.value)} />
+        </Field>
+        <Field label="Capability Cards">
+          <div className="space-y-4">
             {data.oneStopCards.map((c, i) => (
-              <div key={i} className="flex gap-2 items-start p-3 rounded-xl border border-gray-100">
-                <div className="flex-1 space-y-2">
-                  <TextInput placeholder="Title" value={c.title} onChange={(e) => {
-                    const next = [...data.oneStopCards]; next[i] = { ...c, title: e.target.value }; update('oneStopCards', next);
-                  }} />
-                  <TextInput placeholder="Description" value={c.desc} onChange={(e) => {
-                    const next = [...data.oneStopCards]; next[i] = { ...c, desc: e.target.value }; update('oneStopCards', next);
-                  }} />
+              <div key={i} className="p-3 rounded-xl border border-gray-100 space-y-2">
+                <div className="flex gap-2 items-start">
+                  <div className="flex-1 space-y-2">
+                    <TextInput placeholder="Card title" value={c.title} onChange={(e) => {
+                      const next = [...data.oneStopCards]; next[i] = { ...c, title: e.target.value }; update('oneStopCards', next);
+                    }} />
+                    <TextInput placeholder="Short description" value={c.desc} onChange={(e) => {
+                      const next = [...data.oneStopCards]; next[i] = { ...c, desc: e.target.value }; update('oneStopCards', next);
+                    }} />
+                  </div>
+                  <DangerButton type="button" onClick={() => update('oneStopCards', data.oneStopCards.filter((_, j) => j !== i))}><Trash2 size={13} /></DangerButton>
                 </div>
-                <DangerButton type="button" onClick={() => update('oneStopCards', data.oneStopCards.filter((_, j) => j !== i))}><Trash2 size={13} /></DangerButton>
+                <ImageUploader
+                  label="Card icon / image (replaces default animation)"
+                  value={c.imgUrl ?? ''}
+                  onChange={(v) => { const next = [...data.oneStopCards]; next[i] = { ...c, imgUrl: v }; update('oneStopCards', next); }}
+                  section="home"
+                  hint="Square image or icon, e.g. 400×400 px. If blank the built-in animated icon is used."
+                />
               </div>
             ))}
-            <SecondaryButton type="button" onClick={() => update('oneStopCards', [...data.oneStopCards, { title: '', desc: '' }])}><Plus size={13} /> Add card</SecondaryButton>
+            <SecondaryButton type="button" onClick={() => update('oneStopCards', [...data.oneStopCards, { title: '', desc: '', imgUrl: '' }])}><Plus size={13} /> Add card</SecondaryButton>
           </div>
         </Field>
       </Section>

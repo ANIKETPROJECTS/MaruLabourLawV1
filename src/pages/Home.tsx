@@ -358,7 +358,7 @@ const Home = () => {
       {/* ── Hero ───────────────────────────────────────────── */}
       <section
         className="relative flex flex-col overflow-hidden"
-        style={{ minHeight: "81vh", backgroundColor: "#172632" }}
+        style={{ minHeight: "calc(var(--vh, 1vh) * 81)", backgroundColor: "#172632" }}
       >
         {/* Background — pure CSS tint: solid dark navy left, fades to a lighter slate-blue right */}
         <div className="absolute inset-0 pointer-events-none">
@@ -389,8 +389,8 @@ const Home = () => {
         </div>
 
         {/* ── Main content — two-column ── */}
-        <div className="relative z-10 flex-1 flex items-center max-w-7xl mx-auto px-4 lg:px-10 w-full pt-8 pb-10 lg:pt-10 lg:pb-14">
-          <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-8 lg:gap-14 items-stretch">
+        <div className="relative z-10 flex-1 flex items-center max-w-7xl mx-auto px-4 lg:px-10 w-full pt-6 pb-8 lg:pt-10 lg:pb-14">
+          <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-6 lg:gap-14 items-stretch">
             {/* ── Left: text ── */}
             <div>
               {/* Brand name label */}
@@ -620,9 +620,9 @@ const Home = () => {
         </div>
 
         <div className="w-full px-4 lg:px-10">
-          {/* Section header */}
+          {/* Section header — label + h2 narrow, subtext wider for 2-line fit */}
           <motion.div
-            className="text-center mb-8 lg:mb-12 max-w-3xl mx-auto"
+            className="text-center mb-3 max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -640,7 +640,7 @@ const Home = () => {
               {content?.oneStopLabel ?? "Our Core Capabilities"}
             </p>
             <h2
-              className="font-bold leading-[1.15] mb-4 lg:mb-5 whitespace-nowrap"
+              className="font-bold leading-[1.15] mb-0 whitespace-nowrap"
               style={{
                 fontFamily: "Poppins, sans-serif",
                 fontSize: "clamp(1.5rem, 3.2vw, 3rem)",
@@ -655,18 +655,26 @@ const Home = () => {
                 </>
               )}
             </h2>
-            <p
-              className="leading-relaxed px-6 lg:px-24 xl:px-32"
-              style={{
-                fontFamily: "Poppins, sans-serif",
-                fontWeight: 400,
-                fontSize: "clamp(0.88rem, 1.3vw, 1rem)",
-                color: "rgba(255,255,255,0.82)",
-              }}
-            >
-              The four Labour Codes have reshaped employment compliance in India. MCS helps organisations interpret legal requirements, manage compliance risks and implement practical business processes.
-            </p>
           </motion.div>
+
+          {/* Subtext — wider container so text fits in exactly 2 lines */}
+          <motion.p
+            className="text-center mb-8 lg:mb-12 max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.08 }}
+            style={{
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 400,
+              fontSize: "clamp(0.88rem, 1.2vw, 1rem)",
+              lineHeight: 1.7,
+              color: "rgba(255,255,255,0.82)",
+              marginTop: "1rem",
+            }}
+          >
+            {content?.oneStopBody ?? "The four Labour Codes have reshaped employment compliance in India. MCS helps organisations interpret legal requirements, manage compliance risks and implement practical business processes."}
+          </motion.p>
 
           {/* 8-card grid — 2 cols mobile, 4 cols desktop (4×4) */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 lg:gap-5">
@@ -683,11 +691,19 @@ const Home = () => {
                   border: "1px solid #e5e7eb",
                 }}
               >
-                {/* Lottie animation */}
-                <LottieAnim
-                  animationData={item.anim}
-                  className="w-24 h-24 lg:w-40 lg:h-40 mb-3 lg:mb-5 shrink-0"
-                />
+                {/* Icon: custom image if set, else built-in Lottie animation */}
+                {item.imgUrl ? (
+                  <img
+                    src={item.imgUrl}
+                    alt={item.title}
+                    className="w-24 h-24 lg:w-40 lg:h-40 mb-3 lg:mb-5 shrink-0 object-contain"
+                  />
+                ) : (
+                  <LottieAnim
+                    animationData={item.anim}
+                    className="w-24 h-24 lg:w-40 lg:h-40 mb-3 lg:mb-5 shrink-0"
+                  />
+                )}
 
                 {/* Title */}
                 <h3
@@ -1393,10 +1409,10 @@ const Home = () => {
             className="md:w-1/2 flex flex-col justify-center items-center md:items-start text-center md:text-left px-6 py-10 lg:px-16 lg:py-20"
           >
             <h2
-              className="font-bold text-white mb-3 lg:mb-5 leading-tight whitespace-nowrap overflow-hidden text-ellipsis"
+              className="font-bold text-white mb-3 lg:mb-5 leading-tight"
               style={{
                 fontFamily: "Poppins, sans-serif",
-                fontSize: "clamp(0.92rem, 3.5vw, 3rem)",
+                fontSize: "clamp(1.4rem, 3.5vw, 3rem)",
               }}
             >
               Ready to secure your compliance?
@@ -1447,7 +1463,8 @@ const Home = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, delay: 0.1 }}
-            className="flex-1 md:min-h-0 relative flex items-center bg-black/5"
+            className="flex-1 md:min-h-0 relative flex items-stretch overflow-hidden"
+            style={{ backgroundColor: "var(--primary)" }}
           >
             <img
               src="/assets/cta-gavel.png"
