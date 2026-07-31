@@ -295,7 +295,7 @@ const Home = () => {
       <section className="pb-10 lg:pb-16 pt-0 overflow-visible" style={{ backgroundColor: 'var(--primary)' }}>
 
         {/* ── Credibility card — lives inside this section, negative margin pulls it into hero ── */}
-        <div className="relative z-20 px-4 lg:px-10" style={{ marginTop: '-5rem', marginBottom: '2.5rem' }}>
+        <div className="relative z-20 px-4 lg:px-10" style={{ marginTop: '-2.8rem', marginBottom: '2.5rem' }}>
           <div className="max-w-7xl mx-auto">
             <motion.div
               className="w-full rounded-2xl overflow-hidden"
@@ -317,7 +317,7 @@ const Home = () => {
                 ].map(({ target, suffix, decimals, label }, i, arr) => (
                   <div
                     key={label}
-                    className={`flex flex-col items-center justify-center text-center px-4 py-6 lg:py-7
+                    className={`flex flex-col items-center justify-center text-center px-4 py-4 lg:py-5
                       ${i < arr.length - 1 ? 'border-b-2 lg:border-b-0 lg:border-r-2 border-gray-100' : ''}
                       ${i === 1 ? 'border-r-2 border-gray-100' : ''}
                     `}>
