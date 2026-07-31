@@ -179,7 +179,7 @@ const Home = () => {
     <div className="w-full">
 
       {/* ── Hero ───────────────────────────────────────────── */}
-      <section className="relative flex flex-col overflow-hidden" style={{ minHeight: '92vh', backgroundColor: '#172632' }}>
+      <section className="relative flex flex-col overflow-hidden" style={{ minHeight: '78vh', backgroundColor: '#172632' }}>
 
         {/* Full-bleed background */}
         <div className="absolute inset-0 pointer-events-none">
@@ -202,7 +202,7 @@ const Home = () => {
         </div>
 
         {/* ── Main content ── */}
-        <div className="relative z-10 flex-1 flex items-center max-w-7xl mx-auto px-4 lg:px-10 w-full py-20 lg:py-28">
+        <div className="relative z-10 flex-1 flex items-center max-w-7xl mx-auto px-4 lg:px-10 w-full py-14 lg:py-20">
           <div className="max-w-3xl w-full">
 
             {/* Brand name label */}
@@ -287,41 +287,57 @@ const Home = () => {
           </div>
         </div>
 
-        {/* ── Credibility strip ── */}
-        <motion.div
-          className="relative z-10 w-full border-t"
-          style={{ borderTopColor: 'rgba(255,255,255,0.1)', backgroundColor: 'rgba(23,38,50,0.85)', backdropFilter: 'blur(8px)' }}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.45 }}>
-          <div className="max-w-7xl mx-auto px-4 lg:px-10 py-4 lg:py-5">
-            <div className="flex flex-wrap items-center justify-center gap-x-0 gap-y-2 lg:gap-y-0">
-              {[
-                'Since 1979',
-                '45+ Years of Experience',
-                '300+ Clients Served',
-                '4 Labour Codes',
-                'End-to-End Compliance',
-              ].map((item, i, arr) => (
-                <span key={item} className="flex items-center">
-                  <span
-                    className="font-semibold text-white/85 px-4 lg:px-6 text-center"
-                    style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(0.68rem, 1.3vw, 0.82rem)', letterSpacing: '0.04em' }}>
-                    {item}
-                  </span>
-                  {i < arr.length - 1 && (
-                    <span className="h-3.5 w-[1px] shrink-0" style={{ backgroundColor: '#fda102', opacity: 0.6 }} />
-                  )}
-                </span>
-              ))}
-            </div>
-          </div>
-        </motion.div>
 
       </section>
 
+      {/* ── Floating credibility card (bridges hero → One Stop) ── */}
+      <div className="relative z-20 px-4 lg:px-10" style={{ marginTop: '-4.5rem' }}>
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            className="w-full rounded-2xl overflow-hidden"
+            style={{ boxShadow: '0 20px 60px rgba(23,38,50,0.22)', backgroundColor: '#ffffff' }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}>
+
+            {/* Amber top accent line */}
+            <div className="h-1 w-full" style={{ backgroundColor: '#fda102' }} />
+
+            {/* Stats grid */}
+            <div className="grid grid-cols-2 lg:grid-cols-5">
+              {[
+                { value: '1979',         label: 'Established Since'       },
+                { value: '45+',          label: 'Years of Experience'     },
+                { value: '300+',         label: 'Clients Served'          },
+                { value: '4',            label: 'Labour Codes'            },
+                { value: 'End-to-End',   label: 'Compliance Support'      },
+              ].map(({ value, label }, i, arr) => (
+                <div
+                  key={label}
+                  className={`flex flex-col items-center justify-center text-center px-4 py-7 lg:py-9
+                    ${i < arr.length - 1 ? 'border-b lg:border-b-0 lg:border-r border-gray-100' : ''}
+                    ${i === 1 ? 'border-r border-gray-100 lg:border-r' : ''}
+                  `}>
+                  <span
+                    className="font-bold leading-none mb-2"
+                    style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(1.9rem, 3.4vw, 2.8rem)', color: '#172632' }}>
+                    {value}
+                  </span>
+                  <span
+                    className="font-medium leading-snug"
+                    style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(0.7rem, 1.1vw, 0.82rem)', color: '#6b7280', letterSpacing: '0.04em' }}>
+                    {label}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+          </motion.div>
+        </div>
+      </div>
+
       {/* ── One Stop Consultancy Partner ─────────────────── */}
-      <section className="py-10 lg:py-16 overflow-hidden" style={{ backgroundColor: 'var(--primary)' }}>
+      <section className="pb-10 lg:pb-16 pt-10 lg:pt-16 overflow-hidden" style={{ backgroundColor: 'var(--primary)' }}>
         <div className="w-full px-4 lg:px-10">
 
           {/* Section header */}
