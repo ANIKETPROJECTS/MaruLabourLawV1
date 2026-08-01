@@ -20,6 +20,7 @@ import applicationsRoutes from './routes/applications.js';
 import enquiriesRoutes from './routes/enquiries.js';
 import knowledgeCentreRoutes from './routes/knowledgeCentre.js';
 import labourCodesRoutes from './routes/labourCodes.js';
+import footerRoutes from './routes/footer.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.API_PORT || 8787;
@@ -45,6 +46,7 @@ app.use('/api/applications', applicationsRoutes);
 app.use('/api/enquiries', enquiriesRoutes);
 app.use('/api/knowledge-centre', knowledgeCentreRoutes);
 app.use('/api/labour-codes', labourCodesRoutes);
+app.use('/api/footer', footerRoutes);
 
 app.get('/api/health', (req, res) => res.json({ ok: true }));
 

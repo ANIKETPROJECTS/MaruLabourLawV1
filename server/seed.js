@@ -21,6 +21,8 @@ import KnowledgeArticle from './models/KnowledgeArticle.js';
 import { knowledgeCentrePageSeed, knowledgeArticlesSeed } from './seedData/knowledgeCentre.js';
 import LabourCode from './models/LabourCode.js';
 import { labourCodesSeed } from './seedData/labourCodes.js';
+import Footer from './models/Footer.js';
+import { footerSeed } from './seedData/footer.js';
 
 async function run() {
   await connectDB();
@@ -116,6 +118,15 @@ async function run() {
     console.log(`[seed] Inserted ${labourCodesSeed.length} labour codes`);
   } else {
     console.log('[seed] Labour codes already exist — skipped');
+  }
+
+  // Footer
+  const existingFooter = await Footer.findOne({ singleton: 'footer' });
+  if (!existingFooter) {
+    await Footer.create({ singleton: 'footer', ...footerSeed });
+    console.log('[seed] Created Footer content');
+  } else {
+    console.log('[seed] Footer content already exists — skipped');
   }
 
   console.log('[seed] Done.');

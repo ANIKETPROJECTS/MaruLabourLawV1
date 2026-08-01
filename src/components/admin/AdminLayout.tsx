@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
-import { LayoutDashboard, Briefcase, FileText, LogOut, ExternalLink, ChevronLeft, ChevronRight, BookOpen, Info, Users, Phone, Inbox, MessageSquare, GraduationCap, Scale } from 'lucide-react';
+import { LayoutDashboard, Briefcase, FileText, LogOut, ExternalLink, ChevronLeft, ChevronRight, BookOpen, Info, Users, Phone, Inbox, MessageSquare, GraduationCap, Scale, PanelBottom } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,6 +16,7 @@ const navItems = [
   { to: '/admin/contact',      label: 'Contact',      icon: Phone },
   { to: '/admin/knowledge-centre', label: 'Knowledge Centre', icon: GraduationCap },
   { to: '/admin/labour-codes',     label: 'Labour Codes',     icon: Scale },
+  { to: '/admin/footer',       label: 'Footer',       icon: PanelBottom },
   { to: '/admin/applications', label: 'Applications', icon: Inbox },
   { to: '/admin/enquiries',    label: 'Enquiries',    icon: MessageSquare },
 ];

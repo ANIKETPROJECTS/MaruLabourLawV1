@@ -7,15 +7,42 @@ import iconCall from '@assets/call_1783488542810.png';
 import iconMail from '@assets/communication_1783488559887.png';
 import { api } from '../lib/api';
 import { useLiveContent } from '../hooks/useLiveContent';
-import type { ServiceContent } from '../types/content';
+import type { ServiceContent, FooterContent } from '../types/content';
 
-const socialLinks = [
-  { href: 'https://wa.me/919876543210',               img: '/assets/social-whatsapp.png',  label: 'WhatsApp'  },
-  { href: 'https://instagram.com/maruconsultancy',    img: '/assets/social-instagram.png', label: 'Instagram' },
-  { href: 'https://linkedin.com/company/maruconsultancy', img: '/assets/social-linkedin.png', label: 'LinkedIn'  },
-  { href: 'https://facebook.com/maruconsultancy',     img: '/assets/social-facebook.png',  label: 'Facebook'  },
-  { href: 'https://twitter.com/maruconsultancy',      img: '/assets/social-twitter.png',   label: 'Twitter'   },
-];
+const SOCIAL_ICONS: Record<string, string> = {
+  whatsappUrl:  '/assets/social-whatsapp.png',
+  instagramUrl: '/assets/social-instagram.png',
+  linkedinUrl:  '/assets/social-linkedin.png',
+  facebookUrl:  '/assets/social-facebook.png',
+  twitterUrl:   '/assets/social-twitter.png',
+};
+const SOCIAL_LABELS: Record<string, string> = {
+  whatsappUrl: 'WhatsApp', instagramUrl: 'Instagram', linkedinUrl: 'LinkedIn',
+  facebookUrl: 'Facebook', twitterUrl: 'Twitter',
+};
+
+const FOOTER_DEFAULTS: FooterContent = {
+  tagline: "India's trusted labour law consultancy specializing in HR compliance, statutory filings, payroll, and staffing solutions across 15+ states.",
+  whatsappUrl:  'https://wa.me/919876543210',
+  instagramUrl: 'https://instagram.com/maruconsultancy',
+  linkedinUrl:  'https://linkedin.com/company/maruconsultancy',
+  facebookUrl:  'https://facebook.com/maruconsultancy',
+  twitterUrl:   'https://twitter.com/maruconsultancy',
+  address:      '15th Floor, Nariman Point, Mumbai, Maharashtra 400021',
+  phone1: '+91 98765 43210', phone1Href: 'tel:+919876543210',
+  phone2: '022 4567 8900',   phone2Href: 'tel:02245678900',
+  email: 'contact@labourcodes.in',
+  newsletterText: 'Subscribe for critical compliance alerts and regulatory updates.',
+  mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3774.0530!2d72.82161!3d18.92556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7d1c2a26c9969%3A0x9b74cf8ec1c57f40!2sNariman%20Point%2C%20Mumbai%2C%20Maharashtra%20400021!5e0!3m2!1sen!2sin!4v1720343000000!5m2!1sen!2sin',
+  copyrightName: 'Maru Consultancy Services Pvt. Ltd.',
+  devByText: 'Airavata Technologies',
+  devByUrl:  'https://www.airavatatechnologies.com/',
+  bottomLinks: [
+    { label: 'Privacy Policy', href: '#' },
+    { label: 'Terms of Service', href: '#' },
+    { label: 'Sitemap', href: '#' },
+  ],
+};
 
 const Layout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,13 +51,21 @@ const Layout = () => {
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const [hoveredServiceParent, setHoveredServiceParent] = useState<string | null>(null);
   const [services, setServices] = useState<ServiceContent[]>([]);
+  const [footer, setFooter] = useState<FooterContent>(FOOTER_DEFAULTS);
   const location = useLocation();
 
   const fetchServices = () => {
     api.get<ServiceContent[]>('/services').then(setServices).catch(() => {});
   };
+  const fetchFooter = () => {
+    api.get<FooterContent>('/footer')
+      .then((d) => setFooter({ ...FOOTER_DEFAULTS, ...d, bottomLinks: d.bottomLinks?.length ? d.bottomLinks : FOOTER_DEFAULTS.bottomLinks }))
+      .catch(() => {});
+  };
   useEffect(fetchServices, []);
+  useEffect(fetchFooter, []);
   useLiveContent(fetchServices);
+  useLiveContent(fetchFooter);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -341,15 +376,19 @@ const Layout = () => {
               </div>
               <p className="text-xs lg:text-sm leading-relaxed mb-4 lg:mb-6 text-justify"
                 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 400, color: '#111111' }}>
-                India's trusted labour law consultancy specializing in HR compliance, statutory filings, payroll, and staffing solutions across 15+ states.
+                {footer.tagline}
               </p>
               <div className="flex gap-2.5 flex-wrap">
-                {socialLinks.map(({ href, img, label }) => (
-                  <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}
-                    className="w-8 h-8 lg:w-10 lg:h-10 hover:scale-110 transition-transform duration-200">
-                    <img src={img} alt={label} className="w-full h-full object-contain" />
-                  </a>
-                ))}
+                {(Object.keys(SOCIAL_ICONS) as (keyof typeof SOCIAL_ICONS)[]).map((key) => {
+                  const href = footer[key as keyof FooterContent] as string;
+                  if (!href) return null;
+                  return (
+                    <a key={key} href={href} target="_blank" rel="noreferrer" aria-label={SOCIAL_LABELS[key]}
+                      className="w-8 h-8 lg:w-10 lg:h-10 hover:scale-110 transition-transform duration-200">
+                      <img src={SOCIAL_ICONS[key]} alt={SOCIAL_LABELS[key]} className="w-full h-full object-contain" />
+                    </a>
+                  );
+                })}
               </div>
             </motion.div>
 
@@ -382,32 +421,40 @@ const Layout = () => {
               <ul className="space-y-3 lg:space-y-5">
                 <li className="flex gap-2.5" style={{ fontFamily: 'Poppins, sans-serif', color: '#111111' }}>
                   <img src={iconLocation} alt="" aria-hidden="true" className="w-4 h-4 lg:w-5 lg:h-5 shrink-0 mt-0.5 object-contain" />
-                  <span className="text-xs lg:text-sm leading-snug">15th Floor, Nariman Point, Mumbai, Maharashtra 400021</span>
+                  <span className="text-xs lg:text-sm leading-snug">{footer.address}</span>
                 </li>
                 <li className="flex gap-2.5" style={{ fontFamily: 'Poppins, sans-serif', color: '#111111' }}>
                   <img src={iconCall} alt="" aria-hidden="true" className="w-4 h-4 lg:w-5 lg:h-5 shrink-0 mt-0.5 object-contain" />
                   <div className="text-xs lg:text-sm">
-                    <a href="tel:+919876543210" className="block transition-colors duration-200 font-medium"
-                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--primary)'; }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = ''; }}>
-                      +91 98765 43210
-                    </a>
-                    <a href="tel:02245678900" className="block transition-colors duration-200"
-                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--primary)'; }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = ''; }}>
-                      022 4567 8900
-                    </a>
+                    {footer.phone1 && (
+                      <a href={footer.phone1Href || `tel:${footer.phone1.replace(/\s+/g, '')}`}
+                        className="block transition-colors duration-200 font-medium"
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--primary)'; }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = ''; }}>
+                        {footer.phone1}
+                      </a>
+                    )}
+                    {footer.phone2 && (
+                      <a href={footer.phone2Href || `tel:${footer.phone2.replace(/\s+/g, '')}`}
+                        className="block transition-colors duration-200"
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--primary)'; }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = ''; }}>
+                        {footer.phone2}
+                      </a>
+                    )}
                   </div>
                 </li>
-                <li className="flex gap-2.5" style={{ fontFamily: 'Poppins, sans-serif', color: '#111111' }}>
-                  <img src={iconMail} alt="" aria-hidden="true" className="w-4 h-4 lg:w-5 lg:h-5 shrink-0 mt-0.5 object-contain" />
-                  <a href="mailto:contact@labourcodes.in"
-                    className="text-xs lg:text-sm transition-colors duration-200 font-medium break-all"
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--primary)'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = ''; }}>
-                    contact@labourcodes.in
-                  </a>
-                </li>
+                {footer.email && (
+                  <li className="flex gap-2.5" style={{ fontFamily: 'Poppins, sans-serif', color: '#111111' }}>
+                    <img src={iconMail} alt="" aria-hidden="true" className="w-4 h-4 lg:w-5 lg:h-5 shrink-0 mt-0.5 object-contain" />
+                    <a href={`mailto:${footer.email}`}
+                      className="text-xs lg:text-sm transition-colors duration-200 font-medium break-all"
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--primary)'; }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = ''; }}>
+                      {footer.email}
+                    </a>
+                  </li>
+                )}
               </ul>
             </motion.div>
 
@@ -419,7 +466,7 @@ const Layout = () => {
                 style={{ fontFamily: 'Poppins, sans-serif', color: 'var(--primary)' }}>Newsletter</h3>
               <p className="text-xs lg:text-sm mb-3 lg:mb-5 leading-relaxed"
                 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 400, color: '#111111' }}>
-                Subscribe for critical compliance alerts and regulatory updates.
+                {footer.newsletterText}
               </p>
               <form className="flex flex-col gap-2.5 lg:gap-3" onSubmit={(e) => e.preventDefault()}>
                 <input
@@ -458,46 +505,52 @@ const Layout = () => {
             viewport={{ once: true }} transition={{ duration: 0.5 }}
             className="w-full rounded-xl lg:rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-6 lg:mb-10"
             style={{ height: '220px' }}>
-            <iframe
-              title="Maru Consultancy Services Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3774.0530!2d72.82161!3d18.92556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7d1c2a26c9969%3A0x9b74cf8ec1c57f40!2sNariman%20Point%2C%20Mumbai%2C%20Maharashtra%20400021!5e0!3m2!1sen!2sin!4v1720343000000!5m2!1sen!2sin"
-              width="100%"
-              height="220"
-              style={{ border: 0, display: 'block' }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+            {footer.mapEmbedUrl && (
+              <iframe
+                title="Maru Consultancy Services Location"
+                src={footer.mapEmbedUrl}
+                width="100%"
+                height="220"
+                style={{ border: 0, display: 'block' }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            )}
           </motion.div>
 
           {/* ── Bottom bar ── */}
           <div className="pt-4 lg:pt-6 border-t border-gray-200 flex flex-col items-center gap-3 md:flex-row md:justify-between">
             <div className="text-center md:text-left" style={{ fontFamily: 'Poppins, sans-serif' }}>
               <p className="text-xs font-medium" style={{ color: '#111111' }}>
-                &copy; {new Date().getFullYear()} Maru Consultancy Services Pvt. Ltd. All rights reserved.
+                &copy; {new Date().getFullYear()} {footer.copyrightName} All rights reserved.
               </p>
-              <p className="text-xs mt-0.5" style={{ color: '#6b7280' }}>
-                Designed &amp; Developed by{' '}
-                <a href="https://www.airavatatechnologies.com/" target="_blank" rel="noreferrer"
-                  className="font-semibold transition-colors duration-200"
-                  style={{ color: 'var(--primary)' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fda102'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--primary)'; }}>
-                  Airavata Technologies
-                </a>
-              </p>
+              {footer.devByText && footer.devByUrl && (
+                <p className="text-xs mt-0.5" style={{ color: '#6b7280' }}>
+                  Designed &amp; Developed by{' '}
+                  <a href={footer.devByUrl} target="_blank" rel="noreferrer"
+                    className="font-semibold transition-colors duration-200"
+                    style={{ color: 'var(--primary)' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fda102'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--primary)'; }}>
+                    {footer.devByText}
+                  </a>
+                </p>
+              )}
             </div>
-            <div className="flex gap-4 flex-wrap justify-center" style={{ fontFamily: 'Poppins, sans-serif' }}>
-              {['Privacy Policy', 'Terms of Service', 'Sitemap'].map((label) => (
-                <Link key={label} to="#"
-                  className="text-xs font-medium transition-colors duration-200"
-                  style={{ color: '#111111' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--primary)'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#111111'; }}>
-                  {label}
-                </Link>
-              ))}
-            </div>
+            {footer.bottomLinks.length > 0 && (
+              <div className="flex gap-4 flex-wrap justify-center" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                {footer.bottomLinks.map(({ label, href }) => (
+                  <Link key={label} to={href || '#'}
+                    className="text-xs font-medium transition-colors duration-200"
+                    style={{ color: '#111111' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--primary)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#111111'; }}>
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </footer>

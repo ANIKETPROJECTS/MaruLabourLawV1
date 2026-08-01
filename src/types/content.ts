@@ -279,3 +279,27 @@ export type JobContent = {
   postedOn: string;
   order?: number;
 };
+
+export type FooterBottomLink = { label: string; href: string };
+
+export type FooterContent = {
+  _id?: string;
+  tagline: string;
+  whatsappUrl: string;
+  instagramUrl: string;
+  linkedinUrl: string;
+  facebookUrl: string;
+  twitterUrl: string;
+  address: string;
+  phone1: string;
+  phone1Href: string;
+  phone2: string;
+  phone2Href: string;
+  email: string;
+  newsletterText: string;
+  mapEmbedUrl: string;
+  copyrightName: string;
+  devByText: string;
+  devByUrl: string;
+  bottomLinks: FooterBottomLink[];
+};
