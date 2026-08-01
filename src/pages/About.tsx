@@ -329,7 +329,7 @@ const About = () => {
       <section className="relative w-full overflow-hidden grid grid-cols-1 lg:grid-cols-[48%_52%] lg:h-[calc(100vh-76px)] lg:max-h-[620px] lg:min-h-[460px]">
 
         {/* ── LEFT PANEL: solid brand colour ── */}
-        <div className="relative flex flex-col justify-center z-10 px-6 py-10 lg:px-14"
+        <div className="relative flex flex-col justify-center z-10 px-6 pt-10 pb-16 lg:px-14 lg:pb-12"
           style={{ backgroundColor: 'var(--primary)' }}>
 
           {/* Subtle dot texture */}
@@ -557,7 +557,7 @@ const About = () => {
           4b. OUR APPROACH — Step flow
          ══════════════════════════════════════════════════════ */}
       <section className="py-10 lg:py-14 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+        <div className="w-full px-4 lg:px-10">
           <motion.div className="text-center mb-8"
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.5 }}>
@@ -565,13 +565,14 @@ const About = () => {
             <h2 className="font-bold" style={{ fontFamily: PP, fontSize: 'clamp(1.5rem, 3vw, 2.4rem)', color: '#111' }}>{approachHeading}</h2>
           </motion.div>
 
-          <div className="flex flex-wrap justify-center gap-0">
+          {/* Single scrollable row on mobile, naturally spaced on desktop */}
+          <div className="flex flex-nowrap overflow-x-auto lg:overflow-visible justify-start lg:justify-center gap-0 pb-2 lg:pb-0 scrollbar-none">
             {approachSteps.map((step, i, arr) => (
-              <motion.div key={step} className="flex items-center"
+              <motion.div key={step} className="flex items-center shrink-0"
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.08 }}>
                 <div className="flex flex-col items-center px-3 py-2 lg:px-5 lg:py-3">
-                  <div className="w-10 h-10 lg:w-14 lg:h-14 rounded-full flex items-center justify-center font-bold text-white mb-2 text-sm lg:text-base shrink-0"
+                  <div className="w-11 h-11 lg:w-14 lg:h-14 rounded-full flex items-center justify-center font-bold text-white mb-2 text-sm lg:text-base shrink-0"
                     style={{ backgroundColor: 'var(--primary)', fontFamily: PP }}>
                     {String(i + 1).padStart(2, '0')}
                   </div>
