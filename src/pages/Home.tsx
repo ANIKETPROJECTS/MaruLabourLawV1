@@ -529,7 +529,8 @@ const Home = () => {
                       left: 0,
                       right: 0,
                       opacity: i === slideIdx ? 1 : 0,
-                      transition: "opacity 0.7s ease",
+                      transform: i === slideIdx ? "translateY(0)" : "translateY(22px)",
+                      transition: "opacity 0.65s ease, transform 0.65s ease",
                       pointerEvents: i === slideIdx ? "auto" : "none",
                       fontFamily: "Poppins, sans-serif",
                       fontSize: "clamp(1.9rem, 4vw, 3.6rem)",
@@ -553,7 +554,7 @@ const Home = () => {
                 minHeight="380px"
               />
 
-              {/* Description — typewriter effect */}
+              {/* Description */}
               <motion.p
                 className="mb-6 lg:mb-9"
                 initial={{ opacity: 0, y: 20 }}
@@ -565,14 +566,9 @@ const Home = () => {
                   lineHeight: 1.75,
                   color: "rgba(255,255,255,0.78)",
                   maxWidth: "36rem",
-                  minHeight: "4.5em",
                 }}
               >
-                {typewriterDesc}
-                <span
-                  className="inline-block w-[2px] h-[1em] ml-[1px] align-middle animate-pulse"
-                  style={{ backgroundColor: "#fda102", verticalAlign: "middle" }}
-                />
+                {heroDescription}
               </motion.p>
 
               {/* CTA Buttons */}
