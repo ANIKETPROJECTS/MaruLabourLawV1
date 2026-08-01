@@ -4,7 +4,7 @@ import { CheckCircle2, FileText, Phone, ChevronRight, ArrowRight, ShieldCheck } 
 import { motion } from 'framer-motion';
 import { api } from '../lib/api';
 import { useLiveContent } from '../hooks/useLiveContent';
-import type { LabourCodeContent } from '../types/content';
+import type { LabourCodeContent, LabourCodesPageContent } from '../types/content';
 
 const PP = 'Poppins, sans-serif';
 
@@ -15,11 +15,37 @@ const codeAccentColors: Record<string, string> = {
   '04': '#8b5cf6',
 };
 
+const PAGE_DEFAULTS: LabourCodesPageContent = {
+  heroLabel:   'Labour Codes Advisory',
+  heroHeading: "Navigating India's New Labour Law Framework",
+  heroSubtext: '',
+  gridLabel:   'The four codes',
+  gridHeading: 'From interpretation to implementation.',
+  gridSubtext: '',
+  ctaLabel:      'MCS Labour Codes Readiness Review',
+  ctaHeading:    'Is your organisation Labour Codes ready?',
+  ctaSteps:      [],
+  ctaButtonText: 'Request a Readiness Assessment',
+  disclaimer: 'The information on this page is for general informational purposes and is not a substitute for advice based on the facts of a specific matter. Requirements may vary by establishment, workforce, location and applicable Central and State provisions.',
+  detailBreadcrumb:      'Labour Codes Advisory',
+  detailAboutHeading:    'About This Code',
+  detailCoveringHeading: 'What We Cover',
+  detailCoveringSubtext: 'Key areas addressed under this Code.',
+  detailOtherCodes:      'Other Labour Codes',
+  detailAllCodes:        'All Four Labour Codes',
+  sidebarTag:      'Get Expert Advice',
+  sidebarHeading:  'Ready to assess your compliance?',
+  sidebarBody:     'Speak with our experts to understand how this Code impacts your organisation.',
+  sidebarPhone:    '+919876543210',
+  sidebarCallText: 'Call Now',
+};
+
 const LabourCodeDetail = () => {
   const { slug } = useParams();
   const [detail, setDetail] = useState<LabourCodeContent | null>(null);
   const [allCodes, setAllCodes] = useState<LabourCodeContent[]>([]);
   const [status, setStatus] = useState<'loading' | 'ready' | 'not-found' | 'error'>('loading');
+  const [page, setPage] = useState<LabourCodesPageContent>(PAGE_DEFAULTS);
 
   const reqRef = useRef(0);
   const fetchDetail = () => {
@@ -32,8 +58,9 @@ const LabourCodeDetail = () => {
   useLiveContent(fetchDetail);
 
   const fetchAll = () => { api.get<LabourCodeContent[]>('/labour-codes').then(setAllCodes).catch(() => {}); };
-  useEffect(() => { fetchAll(); }, []);
-  useLiveContent(fetchAll);
+  const fetchPage = () => { api.get<LabourCodesPageContent>('/labour-codes-page').then(d => setPage({ ...PAGE_DEFAULTS, ...d })).catch(() => {}); };
+  useEffect(() => { fetchAll(); fetchPage(); }, []);
+  useLiveContent(() => { fetchAll(); fetchPage(); });
 
   if (status === 'loading') return <div className="min-h-screen" style={{ fontFamily: PP }} />;
 
@@ -71,7 +98,7 @@ const LabourCodeDetail = () => {
           </div>
           <p className="uppercase tracking-[0.24em] font-semibold mb-2"
             style={{ fontFamily: PP, fontSize: 'clamp(0.65rem, 1.8vw, 0.85rem)', color: 'rgba(255,255,255,0.6)' }}>
-            Labour Codes Advisory
+            {page.detailBreadcrumb}
           </p>
           <h1
             className="leading-[1.15] mb-3"
@@ -121,7 +148,7 @@ const LabourCodeDetail = () => {
               <div className="bg-white rounded-2xl p-5 lg:p-12 shadow-sm border border-gray-100">
                 <h2 className="font-bold mb-4 lg:mb-6"
                   style={{ fontFamily: PP, fontSize: 'clamp(1.2rem, 2.5vw, 2rem)', color: '#111', lineHeight: 1.25 }}>
-                  About This Code
+                  {page.detailAboutHeading}
                 </h2>
                 {detail.body.split('\n\n').map((para, i) => (
                   <motion.p key={i}
@@ -140,10 +167,10 @@ const LabourCodeDetail = () => {
               <div className="bg-white rounded-2xl p-5 lg:p-12 shadow-sm border border-gray-100">
                 <h2 className="font-bold mb-2"
                   style={{ fontFamily: PP, fontSize: 'clamp(1.2rem, 2.5vw, 2rem)', color: '#111' }}>
-                  What We Cover
+                  {page.detailCoveringHeading}
                 </h2>
                 <p className="text-gray-400 mb-6 lg:mb-8 text-sm" style={{ fontFamily: PP }}>
-                  Key areas addressed under this Code.
+                  {page.detailCoveringSubtext}
                 </p>
                 <div className="grid sm:grid-cols-2 gap-x-8 gap-y-0">
                   {(detail?.coveringAreas ?? []).map((area, i) => (
@@ -166,7 +193,7 @@ const LabourCodeDetail = () => {
               <div className="bg-white rounded-2xl p-5 lg:p-12 shadow-sm border border-gray-100">
                 <h2 className="font-bold mb-5 lg:mb-6"
                   style={{ fontFamily: PP, fontSize: 'clamp(1.2rem, 2.5vw, 2rem)', color: '#111' }}>
-                  Other Labour Codes
+                  {page.detailOtherCodes}
                 </h2>
                 <div className="flex flex-wrap gap-2.5 lg:gap-3">
                   {otherCodes.map((c, i) => (
@@ -196,16 +223,16 @@ const LabourCodeDetail = () => {
                 className="rounded-2xl overflow-hidden shadow-lg border border-gray-100">
                 <div className="p-2" style={{ backgroundColor: 'var(--primary)' }}>
                   <p className="text-center text-xs font-semibold uppercase tracking-widest"
-                    style={{ color: '#fda102', fontFamily: PP }}>Get Expert Advice</p>
+                    style={{ color: '#fda102', fontFamily: PP }}>{page.sidebarTag}</p>
                 </div>
                 <div className="bg-white p-6 lg:p-8">
                   <h3 className="font-bold mb-3 text-lg lg:text-[1.35rem]"
                     style={{ fontFamily: PP, color: '#111', lineHeight: 1.3 }}>
-                    Ready to assess your compliance?
+                    {page.sidebarHeading}
                   </h3>
                   <p className="text-gray-500 mb-6 leading-relaxed text-sm lg:text-[0.93rem]"
                     style={{ fontFamily: PP, lineHeight: 1.7 }}>
-                    Speak with our experts to understand how this Code impacts your organisation.
+                    {page.sidebarBody}
                   </p>
                   <div className="space-y-3">
                     <Link to="/contact"
@@ -213,10 +240,10 @@ const LabourCodeDetail = () => {
                       style={{ backgroundColor: 'var(--primary)', fontFamily: PP }}>
                       <FileText size={16} /> {ctaLabel}
                     </Link>
-                    <a href="tel:+919876543210"
+                    <a href={`tel:${page.sidebarPhone}`}
                       className="w-full py-3.5 lg:py-4 rounded-xl font-semibold flex items-center justify-center gap-2 border-2 transition-all hover:bg-[var(--primary)] hover:text-white text-sm lg:text-[0.95rem]"
                       style={{ fontFamily: PP, color: 'var(--primary)', borderColor: 'var(--primary)', backgroundColor: 'transparent' }}>
-                      <Phone size={16} /> Call Now
+                      <Phone size={16} /> {page.sidebarCallText}
                     </a>
                   </div>
                 </div>
@@ -230,7 +257,7 @@ const LabourCodeDetail = () => {
                   className="bg-white p-5 lg:p-7 rounded-2xl border border-gray-100 shadow-sm">
                   <h4 className="font-bold mb-4 lg:mb-5 uppercase tracking-widest text-xs"
                     style={{ fontFamily: PP, color: 'var(--primary)' }}>
-                    All Four Labour Codes
+                    {page.detailAllCodes}
                   </h4>
                   <ul className="space-y-0.5">
                     {allCodes.map((c) => (
@@ -257,7 +284,7 @@ const LabourCodeDetail = () => {
       {/* ── Disclaimer ── */}
       <section className="py-8 bg-white border-t border-gray-100">
         <p className="max-w-5xl mx-auto px-5 lg:px-10 text-xs text-gray-500 leading-relaxed">
-          The information on this page is for general informational purposes and is not a substitute for advice based on the facts of a specific matter. Requirements may vary by establishment, workforce, location and applicable Central and State provisions.
+          {page.disclaimer}
         </p>
       </section>
     </div>

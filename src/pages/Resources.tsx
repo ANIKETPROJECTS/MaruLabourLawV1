@@ -31,6 +31,14 @@ const HERO_DEFAULTS: ResourcesPageContent = {
   heroBgType:   'color',
   heroImageUrl: '',
   heroVideoUrl: '',
+  downloadsLabel:        'Free Resources',
+  downloadsHeading:      'Templates & Downloads',
+  downloadsSubtext:      'Practical compliance templates, checklists, and reference documents — free to download.',
+  newsletterLabel:       'Stay Updated',
+  newsletterHeading:     'Never miss a compliance update',
+  newsletterBody:        'Subscribe for critical regulatory alerts, new circulars, and expert analysis delivered directly to your inbox.',
+  newsletterButtonText:  'Subscribe',
+  newsletterPlaceholder: 'Your business email',
 };
 
 const Resources = () => {
@@ -104,12 +112,12 @@ const Resources = () => {
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.5 }}>
             <p className="font-bold tracking-[0.2em] uppercase text-xs mb-2"
-              style={{ fontFamily: PP, color: 'var(--primary)' }}>Free Resources</p>
+              style={{ fontFamily: PP, color: 'var(--primary)' }}>{hero.downloadsLabel}</p>
             <h2 className="font-bold" style={{ fontFamily: PP, fontSize: 'clamp(1.5rem, 3vw, 2.4rem)', color: '#111' }}>
-              Templates & Downloads
+              {hero.downloadsHeading}
             </h2>
             <p className="text-gray-500 mt-2" style={{ fontFamily: PP, fontSize: '0.9rem' }}>
-              Practical compliance templates, checklists, and reference documents — free to download.
+              {hero.downloadsSubtext}
             </p>
           </motion.div>
 
@@ -189,34 +197,34 @@ const Resources = () => {
             viewport={{ once: true }} transition={{ duration: 0.4 }}
             className="font-bold uppercase tracking-[0.2em] text-xs mb-4"
             style={{ fontFamily: PP, color: '#fda102' }}>
-            Stay Updated
+            {hero.newsletterLabel}
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.45, delay: 0.07 }}
             className="font-bold mb-4 text-white"
             style={{ fontFamily: PP, fontSize: 'clamp(1.5rem, 3vw, 2.4rem)' }}>
-            Never miss a compliance update
+            {hero.newsletterHeading}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.45, delay: 0.14 }}
             className="mb-8 leading-relaxed"
             style={{ fontFamily: PP, fontSize: '1rem', color: 'rgba(255,255,255,0.75)' }}>
-            Subscribe for critical regulatory alerts, new circulars, and expert analysis delivered directly to your inbox.
+            {hero.newsletterBody}
           </motion.p>
           <motion.form
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.45, delay: 0.2 }}
             className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
             onSubmit={e => e.preventDefault()}>
-            <input type="email" placeholder="Your business email"
+            <input type="email" placeholder={hero.newsletterPlaceholder}
               className="flex-1 rounded-xl px-5 py-3.5 text-sm outline-none border-0"
               style={{ fontFamily: PP, backgroundColor: 'rgba(255,255,255,0.12)', color: '#fff', border: '1px solid rgba(255,255,255,0.25)' }} />
             <button type="submit"
               className="px-7 py-3.5 rounded-xl font-bold text-sm whitespace-nowrap transition-opacity hover:opacity-90"
               style={{ fontFamily: PP, backgroundColor: '#fda102', color: '#111' }}>
-              Subscribe
+              {hero.newsletterButtonText}
             </button>
           </motion.form>
         </div>

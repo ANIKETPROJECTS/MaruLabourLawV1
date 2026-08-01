@@ -19,6 +19,10 @@ const KnowledgeCentreSchema = new mongoose.Schema({
   // Section intro text
   introText: { type: String, default: '' },
 
+  // Articles section labels
+  articlesLabel:   { type: String, default: 'Knowledge Base' },
+  articlesHeading: { type: String, default: 'Articles & Insights' },
+
   // FAQ section
   faqTitle:   { type: String, default: 'Frequently Asked Questions' },
   faqSubtext: { type: String, default: 'Common questions from employers and HR professionals about India\'s Labour Codes and MCS services.' },

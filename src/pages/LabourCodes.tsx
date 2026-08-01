@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import { useLiveContent } from '../hooks/useLiveContent';
-import type { LabourCodeContent } from '../types/content';
+import type { LabourCodeContent, LabourCodesPageContent } from '../types/content';
 
 const PP = 'Poppins, sans-serif';
 
@@ -49,12 +49,40 @@ const DEFAULT_CODES: Omit<LabourCodeContent, '_id'>[] = [
   },
 ];
 
+const PAGE_DEFAULTS: LabourCodesPageContent = {
+  heroLabel:   'Labour Codes Advisory',
+  heroHeading: "Navigating India's New Labour Law Framework",
+  heroSubtext: 'India has consolidated 29 Central labour laws into four Labour Codes. MCS helps employers understand the business impact and implement compliant, workable processes.',
+  gridLabel:   'The four codes',
+  gridHeading: 'From interpretation to implementation.',
+  gridSubtext: 'Our Labour Codes readiness review can cover wage structures, payroll, social security, gratuity, bonus, appointment letters, HR policies, standing orders, contractor management, working conditions and related processes.',
+  ctaLabel:      'MCS Labour Codes Readiness Review',
+  ctaHeading:    'Is your organisation Labour Codes ready?',
+  ctaSteps:      ['Compliance Status', 'Gap Analysis', 'Risk Classification', 'Corrective Actions', 'Implementation Roadmap'],
+  ctaButtonText: 'Request a Readiness Assessment',
+  disclaimer: 'The information on this page is for general informational purposes and is not a substitute for advice based on the facts of a specific matter. Requirements may vary by establishment, workforce, location and applicable Central and State provisions.',
+  detailBreadcrumb:      'Labour Codes Advisory',
+  detailAboutHeading:    'About This Code',
+  detailCoveringHeading: 'What We Cover',
+  detailCoveringSubtext: 'Key areas addressed under this Code.',
+  detailOtherCodes:      'Other Labour Codes',
+  detailAllCodes:        'All Four Labour Codes',
+  sidebarTag:      'Get Expert Advice',
+  sidebarHeading:  'Ready to assess your compliance?',
+  sidebarBody:     'Speak with our experts to understand how this Code impacts your organisation.',
+  sidebarPhone:    '+919876543210',
+  sidebarCallText: 'Call Now',
+};
+
 const LabourCodes = () => {
   const [codes, setCodes] = useState<LabourCodeContent[]>([]);
+  const [page, setPage] = useState<LabourCodesPageContent>(PAGE_DEFAULTS);
 
-  const load = () => { api.get<LabourCodeContent[]>('/labour-codes').then(setCodes).catch(() => {}); };
-  useEffect(() => { load(); }, []);
-  useLiveContent(load);
+  const loadCodes = () => { api.get<LabourCodeContent[]>('/labour-codes').then(setCodes).catch(() => {}); };
+  const loadPage = () => { api.get<LabourCodesPageContent>('/labour-codes-page').then(d => setPage({ ...PAGE_DEFAULTS, ...d })).catch(() => {}); };
+
+  useEffect(() => { loadCodes(); loadPage(); }, []);
+  useLiveContent(() => { loadCodes(); loadPage(); });
 
   const displayCodes = codes.length > 0 ? codes : (DEFAULT_CODES as LabourCodeContent[]);
 
@@ -68,15 +96,15 @@ const LabourCodes = () => {
         <div className="relative z-10 max-w-5xl mx-auto px-5 lg:px-10 text-center">
           <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             className="uppercase tracking-[0.28em] text-sm font-semibold mb-4" style={{ color: '#fda102', fontFamily: PP }}>
-            Labour Codes Advisory
+            {page.heroLabel}
           </motion.p>
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.08 }} className="text-white font-bold text-4xl lg:text-6xl leading-tight mb-6" style={{ fontFamily: PP }}>
-            Navigating India's New Labour Law Framework
+            {page.heroHeading}
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.16 }} className="max-w-3xl mx-auto text-white/80 text-base lg:text-xl leading-relaxed" style={{ fontFamily: PP }}>
-            India has consolidated 29 Central labour laws into four Labour Codes. MCS helps employers understand the business impact and implement compliant, workable processes.
+            {page.heroSubtext}
           </motion.p>
         </div>
       </section>
@@ -86,13 +114,13 @@ const LabourCodes = () => {
         <div className="max-w-7xl mx-auto px-5 lg:px-10">
           <div className="max-w-3xl mb-10 lg:mb-14">
             <p className="uppercase tracking-[0.22em] font-semibold text-sm mb-3" style={{ color: 'var(--primary)', fontFamily: PP }}>
-              The four codes
+              {page.gridLabel}
             </p>
             <h2 className="text-3xl lg:text-5xl font-bold text-[#111] leading-tight mb-4" style={{ fontFamily: PP }}>
-              From interpretation to implementation.
+              {page.gridHeading}
             </h2>
             <p className="text-gray-600 leading-relaxed" style={{ fontFamily: PP }}>
-              Our Labour Codes readiness review can cover wage structures, payroll, social security, gratuity, bonus, appointment letters, HR policies, standing orders, contractor management, working conditions and related processes.
+              {page.gridSubtext}
             </p>
           </div>
 
@@ -163,13 +191,13 @@ const LabourCodes = () => {
       <section className="py-12 lg:py-16" style={{ backgroundColor: '#fff8ed' }}>
         <div className="max-w-5xl mx-auto px-5 lg:px-10 text-center">
           <p className="uppercase tracking-[0.22em] font-semibold text-sm mb-3" style={{ color: 'var(--primary)', fontFamily: PP }}>
-            MCS Labour Codes Readiness Review
+            {page.ctaLabel}
           </p>
           <h2 className="text-3xl lg:text-4xl font-bold text-[#111] mb-5" style={{ fontFamily: PP }}>
-            Is your organisation Labour Codes ready?
+            {page.ctaHeading}
           </h2>
           <div className="flex flex-wrap justify-center gap-3 mb-8">
-            {['Compliance Status', 'Gap Analysis', 'Risk Classification', 'Corrective Actions', 'Implementation Roadmap'].map((step) => (
+            {page.ctaSteps.map((step) => (
               <span key={step}
                 className="px-4 py-2 rounded-full bg-white border border-[#fda102]/30 text-sm font-medium text-gray-700"
                 style={{ fontFamily: PP }}>
@@ -180,7 +208,7 @@ const LabourCodes = () => {
           <Link to="/contact"
             className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 font-semibold text-white transition-opacity hover:opacity-90"
             style={{ backgroundColor: 'var(--primary)', fontFamily: PP }}>
-            Request a Readiness Assessment <ArrowRight size={17} />
+            {page.ctaButtonText} <ArrowRight size={17} />
           </Link>
         </div>
       </section>
@@ -188,7 +216,7 @@ const LabourCodes = () => {
       {/* ── Disclaimer ── */}
       <section className="py-8 bg-white border-t border-gray-100">
         <p className="max-w-5xl mx-auto px-5 lg:px-10 text-xs text-gray-500 leading-relaxed" style={{ fontFamily: PP }}>
-          The information on this page is for general informational purposes and is not a substitute for advice based on the facts of a specific matter. Requirements may vary by establishment, workforce, location and applicable Central and State provisions.
+          {page.disclaimer}
         </p>
       </section>
     </div>

@@ -14,6 +14,18 @@ const ResourcesPageSchema = new mongoose.Schema({
   heroBgType: { type: String, enum: ['color', 'image', 'video'], default: 'color' },
   heroImageUrl: { type: String, default: '' },
   heroVideoUrl: { type: String, default: '' },
+
+  // Downloads section
+  downloadsLabel:   { type: String, default: 'Free Resources' },
+  downloadsHeading: { type: String, default: 'Templates & Downloads' },
+  downloadsSubtext: { type: String, default: 'Practical compliance templates, checklists, and reference documents — free to download.' },
+
+  // Newsletter section
+  newsletterLabel:       { type: String, default: 'Stay Updated' },
+  newsletterHeading:     { type: String, default: 'Never miss a compliance update' },
+  newsletterBody:        { type: String, default: 'Subscribe for critical regulatory alerts, new circulars, and expert analysis delivered directly to your inbox.' },
+  newsletterButtonText:  { type: String, default: 'Subscribe' },
+  newsletterPlaceholder: { type: String, default: 'Your business email' },
 }, { timestamps: true });
 
 export default mongoose.models.ResourcesPage || mongoose.model('ResourcesPage', ResourcesPageSchema);

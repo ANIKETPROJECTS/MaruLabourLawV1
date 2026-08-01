@@ -115,6 +115,28 @@ const Clientele = () => {
   const heroHeadline = apiData?.heroHeadline ?? 'Our Esteemed Clientele';
   const heroSubtext  = apiData?.heroSubtext  ?? 'Trusted by 500+ corporations across India to navigate complex labour law and stay fully compliant.';
 
+  const sectionIndustryLabel   = apiData?.sectionIndustryLabel   ?? 'Industry Spread';
+  const sectionIndustryHeading = apiData?.sectionIndustryHeading ?? 'Sectors We Serve';
+  const sectionIndustrySubtext = apiData?.sectionIndustrySubtext ?? 'Our compliance expertise spans every major sector of the Indian economy — from factory floors to fintech offices.';
+
+  const sectionPortfolioLabel   = apiData?.sectionPortfolioLabel   ?? 'Our Portfolio';
+  const sectionPortfolioHeading = apiData?.sectionPortfolioHeading ?? "Companies We've Served";
+  const sectionPortfolioSubtext = apiData?.sectionPortfolioSubtext ?? 'From nimble startups to Fortune 500 conglomerates — our expertise spans every scale of Indian industry.';
+
+  const marqueeText          = apiData?.marqueeText          ?? 'Serving 500+ Corporations Across India';
+  const testimonialsHeading  = apiData?.testimonialsHeading  ?? 'Trusted by Industry Leaders';
+  const testimonialsStats    = apiData?.testimonialsStats?.length ? apiData.testimonialsStats : [
+    { target: 500, decimals: 0, suffix: '+',  label: 'Clients Served' },
+    { target: 4.9, decimals: 1, suffix: '★', label: 'Average Rating' },
+    { target: 15,  decimals: 0, suffix: '+',  label: 'Years of Expertise' },
+    { target: 98,  decimals: 0, suffix: '%',  label: 'Retention Rate' },
+  ];
+
+  const ctaLabel      = apiData?.ctaLabel      ?? 'Join Our Clientele';
+  const ctaHeading    = apiData?.ctaHeading    ?? 'Join Industry Leaders Who Trust Maru Consultancy';
+  const ctaBody       = apiData?.ctaBody       ?? "Let's discuss how we can support your compliance and HR requirements across every state you operate in.";
+  const ctaButtonText = apiData?.ctaButtonText ?? 'Discuss Your Requirements';
+
   const [activeSector, setActiveSector] = useState('');
   const sectors = portfolio.map(p => p.sector);
   const effectiveSector = activeSector && sectors.includes(activeSector) ? activeSector : (sectors[0] ?? '');
@@ -175,14 +197,14 @@ const Clientele = () => {
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.5 }}>
             <p className="font-bold tracking-[0.25em] uppercase text-xs mb-2"
-              style={{ fontFamily: PP, color: 'var(--primary)' }}>Industry Spread</p>
+              style={{ fontFamily: PP, color: 'var(--primary)' }}>{sectionIndustryLabel}</p>
             <h2 className="font-bold mb-3"
               style={{ fontFamily: PP, fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', color: '#111' }}>
-              Sectors We Serve
+              {sectionIndustryHeading}
             </h2>
             <p className="text-gray-500 max-w-xl mx-auto"
               style={{ fontFamily: PP, fontSize: '1rem', lineHeight: 1.7 }}>
-              Our compliance expertise spans every major sector of the Indian economy — from factory floors to fintech offices.
+              {sectionIndustrySubtext}
             </p>
           </motion.div>
 
@@ -216,14 +238,14 @@ const Clientele = () => {
         <div className="max-w-7xl mx-auto px-4 lg:px-10">
           <div className="text-center mb-8 lg:mb-10">
             <p className="font-bold tracking-[0.25em] uppercase text-xs mb-2"
-              style={{ fontFamily: PP, color: 'var(--primary)' }}>Our Portfolio</p>
+              style={{ fontFamily: PP, color: 'var(--primary)' }}>{sectionPortfolioLabel}</p>
             <h2 className="font-bold mb-3"
               style={{ fontFamily: PP, fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', color: '#111' }}>
-              Companies We've Served
+              {sectionPortfolioHeading}
             </h2>
             <p className="text-gray-500 max-w-xl mx-auto"
               style={{ fontFamily: PP, fontSize: '1rem', lineHeight: 1.7 }}>
-              From nimble startups to Fortune 500 conglomerates — our expertise spans every scale of Indian industry.
+              {sectionPortfolioSubtext}
             </p>
           </div>
 
@@ -271,7 +293,7 @@ const Clientele = () => {
           <div className="mt-10 lg:mt-14 pt-8 lg:pt-10 border-t border-gray-100">
             <p className="text-center font-semibold uppercase tracking-[0.2em] lg:tracking-[0.25em] mb-6 lg:mb-8 text-[10px] lg:text-xs px-4"
               style={{ fontFamily: PP, color: 'var(--primary)' }}>
-              Serving 500+ Corporations Across India
+              {marqueeText}
             </p>
             <div className="overflow-hidden relative">
               <div className="absolute inset-y-0 left-0 w-24 z-10 pointer-events-none"
@@ -313,7 +335,7 @@ const Clientele = () => {
               style={{ width: '56px', height: '56px', filter: 'brightness(0) saturate(100%) invert(68%) sepia(86%) saturate(607%) hue-rotate(1deg) brightness(101%) contrast(106%)' }} />
             <h2 className="font-bold text-white mb-0"
               style={{ fontFamily: PP, fontSize: 'clamp(1.5rem, 3.2vw, 2.8rem)' }}>
-              Trusted by Industry Leaders
+              {testimonialsHeading}
             </h2>
           </motion.div>
 
@@ -321,12 +343,7 @@ const Clientele = () => {
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}
             className="flex justify-center gap-x-5 gap-y-4 md:gap-16 mb-8 px-4 flex-wrap">
-            {[
-              { target: 500, suffix: '+',  label: 'Clients Served' },
-              { target: 4.9, decimals: 1, suffix: '★', label: 'Average Rating' },
-              { target: 15,  suffix: '+',  label: 'Years of Expertise' },
-              { target: 98,  suffix: '%',  label: 'Retention Rate' },
-            ].map(({ target, decimals, suffix, label }) => (
+            {testimonialsStats.map(({ target, decimals, suffix, label }) => (
               <div key={label} className="text-center">
                 <p className="font-bold text-2xl lg:text-3xl mb-1"
                   style={{ fontFamily: PP, color: '#fda102' }}>
@@ -385,21 +402,21 @@ const Clientele = () => {
             viewport={{ once: true }} transition={{ duration: 0.4 }}
             className="font-bold uppercase tracking-[0.2em] lg:tracking-[0.25em] text-xs mb-3"
             style={{ fontFamily: PP, color: 'var(--primary)' }}>
-            Join Our Clientele
+            {ctaLabel}
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.45, delay: 0.07 }}
             className="font-bold mb-4"
             style={{ fontFamily: PP, fontSize: 'clamp(1.5rem, 3vw, 2.6rem)', color: '#111' }}>
-            Join Industry Leaders Who Trust Maru Consultancy
+            {ctaHeading}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.45, delay: 0.14 }}
             className="text-gray-500 mb-8 leading-relaxed"
             style={{ fontFamily: PP, fontSize: '1rem' }}>
-            Let's discuss how we can support your compliance and HR requirements across every state you operate in.
+            {ctaBody}
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
@@ -407,7 +424,7 @@ const Clientele = () => {
             <Link to="/contact"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-sm shadow-lg transition-opacity hover:opacity-90"
               style={{ fontFamily: PP, backgroundColor: 'var(--primary)', color: '#fff' }}>
-              Discuss Your Requirements <ArrowRight size={16} />
+              {ctaButtonText} <ArrowRight size={16} />
             </Link>
           </motion.div>
         </div>

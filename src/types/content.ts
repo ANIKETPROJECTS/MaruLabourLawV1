@@ -95,6 +95,38 @@ export type HomeContent = {
 
 export type Deliverable = { title: string; desc: string; slug?: string };
 
+export type LabourCodesPageContent = {
+  _id?: string;
+  // Listing hero
+  heroLabel:   string;
+  heroHeading: string;
+  heroSubtext: string;
+  // Grid section
+  gridLabel:   string;
+  gridHeading: string;
+  gridSubtext: string;
+  // CTA strip
+  ctaLabel:      string;
+  ctaHeading:    string;
+  ctaSteps:      string[];
+  ctaButtonText: string;
+  // Shared disclaimer
+  disclaimer: string;
+  // Detail page section labels
+  detailBreadcrumb:      string;
+  detailAboutHeading:    string;
+  detailCoveringHeading: string;
+  detailCoveringSubtext: string;
+  detailOtherCodes:      string;
+  detailAllCodes:        string;
+  // Detail page sidebar
+  sidebarTag:      string;
+  sidebarHeading:  string;
+  sidebarBody:     string;
+  sidebarPhone:    string;
+  sidebarCallText: string;
+};
+
 export type ServicesPageContent = {
   _id?: string;
   // Services listing hero
@@ -229,6 +261,24 @@ export type ClienteleContent = {
   industries:   ClienteleIndustry[];
   testimonials: ClienteleTestimonial[];
   portfolio:    PortfolioSector[];
+  // Industries section
+  sectionIndustryLabel?:   string;
+  sectionIndustryHeading?: string;
+  sectionIndustrySubtext?: string;
+  // Portfolio section
+  sectionPortfolioLabel?:   string;
+  sectionPortfolioHeading?: string;
+  sectionPortfolioSubtext?: string;
+  // Marquee strip
+  marqueeText?: string;
+  // Testimonials section
+  testimonialsHeading?: string;
+  testimonialsStats?:   ClienteleStat[];
+  // CTA section
+  ctaLabel?:      string;
+  ctaHeading?:    string;
+  ctaBody?:       string;
+  ctaButtonText?: string;
 };
 
 export type ContactContent = {
@@ -290,6 +340,16 @@ export type ResourcesPageContent = {
   heroBgType:   'color' | 'image' | 'video';
   heroImageUrl: string;
   heroVideoUrl: string;
+  // Downloads section
+  downloadsLabel?:   string;
+  downloadsHeading?: string;
+  downloadsSubtext?: string;
+  // Newsletter section
+  newsletterLabel?:       string;
+  newsletterHeading?:     string;
+  newsletterBody?:        string;
+  newsletterButtonText?:  string;
+  newsletterPlaceholder?: string;
 };
 
 export type KnowledgeFAQ = { question: string; answer: string };
@@ -334,6 +394,8 @@ export type KnowledgeCentrePageContent = {
   heroVideoUrl: string;
   heroImageUrl: string;
   introText:    string;
+  articlesLabel?:   string;
+  articlesHeading?: string;
   faqTitle:     string;
   faqSubtext:   string;
   faqs:         KnowledgeFAQ[];
