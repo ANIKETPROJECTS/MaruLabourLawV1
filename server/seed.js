@@ -19,6 +19,8 @@ import { resourcesSeed } from './seedData/resources.js';
 import KnowledgeCentre from './models/KnowledgeCentre.js';
 import KnowledgeArticle from './models/KnowledgeArticle.js';
 import { knowledgeCentrePageSeed, knowledgeArticlesSeed } from './seedData/knowledgeCentre.js';
+import LabourCode from './models/LabourCode.js';
+import { labourCodesSeed } from './seedData/labourCodes.js';
 
 async function run() {
   await connectDB();
@@ -105,6 +107,15 @@ async function run() {
     console.log(`[seed] Inserted ${knowledgeArticlesSeed.length} knowledge centre articles`);
   } else {
     console.log('[seed] Knowledge Centre articles already exist — skipped');
+  }
+
+  // Labour Codes
+  const labourCodeCount = await LabourCode.countDocuments();
+  if (labourCodeCount === 0) {
+    await LabourCode.insertMany(labourCodesSeed);
+    console.log(`[seed] Inserted ${labourCodesSeed.length} labour codes`);
+  } else {
+    console.log('[seed] Labour codes already exist — skipped');
   }
 
   console.log('[seed] Done.');
