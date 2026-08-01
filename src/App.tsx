@@ -11,6 +11,8 @@ import Careers from './pages/Careers';
 import CareerDetail from './pages/CareerDetail';
 import Contact from './pages/Contact';
 import LabourCodes from './pages/LabourCodes';
+import LabourCodeDetail from './pages/LabourCodeDetail';
+import AdminLabourCodes from './pages/admin/AdminLabourCodes';
 import { AdminAuthProvider } from './context/AdminAuthContext';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 import AdminLayout from './components/admin/AdminLayout';
@@ -36,6 +38,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
         <Route path="labour-codes" element={<LabourCodes />} />
+        <Route path="labour-codes/:slug" element={<LabourCodeDetail />} />
         <Route path="services" element={<Services />} />
         <Route path="services/:slug" element={<ServiceDetail />} />
         <Route path="resources" element={<Resources />} />
@@ -74,6 +77,7 @@ function App() {
                 <Route path="applications" element={<AdminApplications />} />
                 <Route path="enquiries" element={<AdminEnquiries />} />
                 <Route path="knowledge-centre" element={<AdminKnowledgeCentre />} />
+                <Route path="labour-codes" element={<AdminLabourCodes />} />
               </Route>
             </Routes>
           </AdminAuthProvider>

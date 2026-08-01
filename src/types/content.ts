@@ -248,6 +248,20 @@ export type KnowledgeCentrePageContent = {
   faqs:         KnowledgeFAQ[];
 };
 
+export type LabourCodeContent = {
+  _id: string;
+  slug: string;
+  codeNumber: string;
+  title: string;
+  subtitle?: string;
+  intro?: string;
+  body?: string;
+  coveringAreas?: string[];
+  ctaLabel?: string;
+  img?: string;
+  order?: number;
+};
+
 export type JobContent = {
   _id: string;
   slug: string;
