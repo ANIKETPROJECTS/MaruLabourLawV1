@@ -39,6 +39,50 @@ const AboutSchema = new mongoose.Schema({
 
   // Rotating images in the "Our Story" bento's large left panel
   storyImages: [String],
+
+  // Hero right-panel background image (shown when no video)
+  heroImageUrl: { type: String, default: '' },
+
+  // Story bento — "Est." year overlay
+  estYear: { type: String, default: '1979' },
+
+  // Our Approach section
+  approachLabel:       { type: String, default: 'How We Work' },
+  approachHeading:     { type: String, default: 'Our Approach' },
+  approachDescription: { type: String, default: '' },
+  approachSteps:       [String],
+
+  // Why MCS section
+  whyMcsLabel:            { type: String, default: 'Why MCS' },
+  whyMcsHeading:          { type: String, default: 'Experience.' },
+  whyMcsHeadingHighlight: { type: String, default: 'Interpretation.' },
+  whyMcsHeadingEnd:       { type: String, default: 'Execution.' },
+  whyMcsBadge1Value:      { type: String, default: '98%' },
+  whyMcsBadge1Label:      { type: String, default: 'Client Retention' },
+  whyMcsBadge2Value:      { type: String, default: '500+' },
+  whyMcsBadge2Label:      { type: String, default: 'Clients Served' },
+  whyMcsImageUrl:         { type: String, default: '' },
+
+  // Journey section
+  journeyLabel:   { type: String, default: 'Our Journey' },
+  journeyHeading: { type: String, default: "Three decades of building India's compliance backbone" },
+
+  // Management Visibility section
+  mgmtLabel:     { type: String, default: 'Management Visibility' },
+  mgmtHeading:   { type: String, default: 'Our objective is to help management answer five questions clearly.' },
+  mgmtQuestions: [String],
+
+  // Team section
+  teamHeading: { type: String, default: 'Meet the Experts Behind Your Success' },
+  teamSubtext: { type: String, default: '' },
+
+  // Video CTA section
+  ctaLabel:        { type: String, default: 'Ready to Get Compliant?' },
+  ctaHeadingLine1: { type: String, default: "Let's build your compliance" },
+  ctaHeadingLine2: { type: String, default: 'framework together' },
+  ctaVideoUrl:     { type: String, default: '' },
+  ctaButton1Text:  { type: String, default: 'Schedule a Consultation' },
+  ctaButton2Text:  { type: String, default: 'Join Our Team' },
 }, { timestamps: true });
 
 export default mongoose.models.About || mongoose.model('About', AboutSchema);

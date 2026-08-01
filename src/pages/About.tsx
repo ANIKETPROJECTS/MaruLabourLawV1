@@ -261,6 +261,56 @@ const About = () => {
   const directVideoUrl = isDirectVideoUrl(videoUrl) ? videoUrl : '';
   const directHeroVideoUrl = isDirectVideoUrl(heroVideoUrl) ? heroVideoUrl : '';
 
+  // Hero right-panel image
+  const heroImageUrl = apiData?.heroImageUrl || '';
+
+  // Story bento
+  const estYear = apiData?.estYear ?? '1979';
+
+  // Our Approach
+  const approachLabel       = apiData?.approachLabel       ?? 'How We Work';
+  const approachHeading     = apiData?.approachHeading     ?? 'Our Approach';
+  const approachDescription = apiData?.approachDescription ?? 'A structured, end-to-end methodology that ensures every client engagement is practical, measurable and aligned to their business reality.';
+  const approachSteps       = apiData?.approachSteps?.length ? apiData.approachSteps : ['Understand', 'Assess', 'Advise', 'Implement', 'Monitor', 'Update'];
+
+  // Why MCS
+  const whyMcsLabel            = apiData?.whyMcsLabel            ?? 'Why MCS';
+  const whyMcsHeading          = apiData?.whyMcsHeading          ?? 'Experience.';
+  const whyMcsHeadingHighlight = apiData?.whyMcsHeadingHighlight ?? 'Interpretation.';
+  const whyMcsHeadingEnd       = apiData?.whyMcsHeadingEnd       ?? 'Execution.';
+  const whyMcsBadge1Value      = apiData?.whyMcsBadge1Value      ?? '98%';
+  const whyMcsBadge1Label      = apiData?.whyMcsBadge1Label      ?? 'Client Retention';
+  const whyMcsBadge2Value      = apiData?.whyMcsBadge2Value      ?? '500+';
+  const whyMcsBadge2Label      = apiData?.whyMcsBadge2Label      ?? 'Clients Served';
+  const whyMcsImageUrl         = apiData?.whyMcsImageUrl         || '';
+
+  // Journey
+  const journeyLabel   = apiData?.journeyLabel   ?? 'Our Journey';
+  const journeyHeading = apiData?.journeyHeading ?? "Three decades of building India's compliance backbone";
+
+  // Management Visibility
+  const mgmtLabel     = apiData?.mgmtLabel     ?? 'Management Visibility';
+  const mgmtHeading   = apiData?.mgmtHeading   ?? 'Our objective is to help management answer five questions clearly.';
+  const mgmtQuestions = apiData?.mgmtQuestions?.length ? apiData.mgmtQuestions : [
+    'Where are we compliant?',
+    'Where are the gaps?',
+    'What is the risk?',
+    'What must be corrected?',
+    'By when?',
+  ];
+
+  // Team
+  const teamHeading = apiData?.teamHeading ?? 'Meet the Experts Behind Your Success';
+  const teamSubtext = apiData?.teamSubtext ?? 'Our experienced team of labour law, payroll, HR, and compliance professionals is committed to delivering practical solutions that help your business stay compliant and grow with confidence.';
+
+  // Video CTA
+  const ctaLabel        = apiData?.ctaLabel        ?? 'Ready to Get Compliant?';
+  const ctaHeadingLine1 = apiData?.ctaHeadingLine1 ?? "Let's build your compliance";
+  const ctaHeadingLine2 = apiData?.ctaHeadingLine2 ?? 'framework together';
+  const ctaVideoSrc     = (apiData?.ctaVideoUrl && isDirectVideoUrl(apiData.ctaVideoUrl)) ? apiData.ctaVideoUrl : ctaVideo;
+  const ctaButton1Text  = apiData?.ctaButton1Text  ?? 'Schedule a Consultation';
+  const ctaButton2Text  = apiData?.ctaButton2Text  ?? 'Join Our Team';
+
   const styleInjected = useRef(false);
   useEffect(() => {
     if (styleInjected.current) return;
@@ -334,7 +384,7 @@ const About = () => {
 
         {/* ── RIGHT PANEL: image bg + video on top ── */}
         <div className="relative overflow-hidden h-[320px] lg:h-auto"
-          style={{ backgroundImage: `url(${heroImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          style={{ backgroundImage: `url(${heroImageUrl || heroImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
           {/* Video overlays the image once loaded */}
           {directHeroVideoUrl ? (
             <video src={directHeroVideoUrl} autoPlay loop muted playsInline
@@ -392,7 +442,7 @@ const About = () => {
                 style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 55%)' }} />
               <div className="absolute bottom-0 left-0 p-5 lg:p-8">
                 <p className="font-bold text-2xl lg:text-4xl text-white mb-1" style={{ fontFamily: PP }}>Est.</p>
-                <p className="font-bold text-white" style={{ fontFamily: PP, fontSize: 'clamp(3rem, 8vw, 6rem)', lineHeight: 1, color: '#fda102' }}>1979</p>
+                <p className="font-bold text-white" style={{ fontFamily: PP, fontSize: 'clamp(3rem, 8vw, 6rem)', lineHeight: 1, color: '#fda102' }}>{estYear}</p>
               </div>
             </motion.div>
 
@@ -511,12 +561,12 @@ const About = () => {
           <motion.div className="text-center mb-8"
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.5 }}>
-            <p className="font-bold uppercase tracking-[0.25em] mb-2" style={{ fontFamily: PP, color: '#fda102', fontSize: '0.78rem' }}>How We Work</p>
-            <h2 className="font-bold" style={{ fontFamily: PP, fontSize: 'clamp(1.5rem, 3vw, 2.4rem)', color: '#111' }}>Our Approach</h2>
+            <p className="font-bold uppercase tracking-[0.25em] mb-2" style={{ fontFamily: PP, color: '#fda102', fontSize: '0.78rem' }}>{approachLabel}</p>
+            <h2 className="font-bold" style={{ fontFamily: PP, fontSize: 'clamp(1.5rem, 3vw, 2.4rem)', color: '#111' }}>{approachHeading}</h2>
           </motion.div>
 
           <div className="flex flex-wrap justify-center gap-0">
-            {['Understand', 'Assess', 'Advise', 'Implement', 'Monitor', 'Update'].map((step, i, arr) => (
+            {approachSteps.map((step, i, arr) => (
               <motion.div key={step} className="flex items-center"
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.08 }}>
@@ -538,7 +588,7 @@ const About = () => {
             style={{ fontFamily: PP, color: '#666' }}
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
             viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.3 }}>
-            A structured, end-to-end methodology that ensures every client engagement is practical, measurable and aligned to their business reality.
+            {approachDescription}
           </motion.p>
         </div>
       </section>
@@ -601,13 +651,13 @@ const About = () => {
           <motion.div className="flex justify-center mb-4"
             initial={{ opacity: 0, y: -16 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }} transition={{ duration: 0.5 }}>
-            <p className="font-bold uppercase tracking-[0.3em]" style={{ fontFamily: PP, color: '#fda102', fontSize: '1rem' }}>Our Journey</p>
+            <p className="font-bold uppercase tracking-[0.3em]" style={{ fontFamily: PP, color: '#fda102', fontSize: '1rem' }}>{journeyLabel}</p>
           </motion.div>
           <motion.h2 className="font-bold text-white text-center leading-[1.15] mb-6 sm:mb-10 mx-auto sm:whitespace-nowrap"
             style={{ fontFamily: PP, fontSize: 'clamp(1.3rem, 2.6vw, 2.4rem)' }}
             initial={{ opacity: 0, y: -16 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }} transition={{ duration: 0.5, delay: 0.1 }}>
-            Three decades of building India&apos;s compliance backbone
+            {journeyHeading}
           </motion.h2>
 
           {/* ── Horizontal timeline ── */}
@@ -705,11 +755,11 @@ const About = () => {
           <motion.div className="text-center mb-12 lg:mb-16"
             initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.55 }}>
-            <p className="font-bold uppercase tracking-[0.3em] mb-4" style={{ fontFamily: PP, fontSize: '1.1rem', color: '#fda102' }}>Why MCS</p>
+            <p className="font-bold uppercase tracking-[0.3em] mb-4" style={{ fontFamily: PP, fontSize: '1.1rem', color: '#fda102' }}>{whyMcsLabel}</p>
             <h2 className="font-bold leading-[1.1]" style={{ fontFamily: PP, fontSize: 'clamp(1.4rem, 3.5vw, 2.8rem)', color: '#111' }}>
-              Experience.{' '}
-              <span style={{ color: 'var(--primary)' }}>Interpretation.</span>{' '}
-              Execution.
+              {whyMcsHeading}{' '}
+              <span style={{ color: 'var(--primary)' }}>{whyMcsHeadingHighlight}</span>{' '}
+              {whyMcsHeadingEnd}
             </h2>
           </motion.div>
 
@@ -720,19 +770,19 @@ const About = () => {
               initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.65 }}>
               <div className="rounded-3xl overflow-hidden h-[340px] lg:h-[680px]">
-                <img src={heroImage} alt="" className="w-full h-full object-cover" />
+                <img src={whyMcsImageUrl || heroImage} alt="" className="w-full h-full object-cover" />
               </div>
               {/* Floating amber badge */}
               <div className="absolute -bottom-4 -right-2 lg:-bottom-6 lg:-right-4 rounded-2xl p-3 lg:p-6 shadow-2xl"
                 style={{ backgroundColor: '#fda102' }}>
-                <p className="font-bold text-white text-lg lg:text-3xl" style={{ fontFamily: PP }}>98%</p>
-                <p className="font-semibold text-white/80 text-[9px] lg:text-xs uppercase tracking-wider whitespace-nowrap" style={{ fontFamily: PP }}>Client Retention</p>
+                <p className="font-bold text-white text-lg lg:text-3xl" style={{ fontFamily: PP }}>{whyMcsBadge1Value}</p>
+                <p className="font-semibold text-white/80 text-[9px] lg:text-xs uppercase tracking-wider whitespace-nowrap" style={{ fontFamily: PP }}>{whyMcsBadge1Label}</p>
               </div>
               {/* Floating dark badge */}
               <div className="absolute -top-3 -left-2 lg:-top-5 lg:-left-4 rounded-2xl px-3 py-2 lg:px-6 lg:py-4 shadow-xl"
                 style={{ backgroundColor: '#111111' }}>
-                <p className="font-bold text-sm lg:text-xl" style={{ fontFamily: PP, color: '#fda102' }}>500+</p>
-                <p className="text-[9px] lg:text-xs text-white/60 uppercase tracking-wide whitespace-nowrap" style={{ fontFamily: PP }}>Clients Served</p>
+                <p className="font-bold text-sm lg:text-xl" style={{ fontFamily: PP, color: '#fda102' }}>{whyMcsBadge2Value}</p>
+                <p className="text-[9px] lg:text-xs text-white/60 uppercase tracking-wide whitespace-nowrap" style={{ fontFamily: PP }}>{whyMcsBadge2Label}</p>
               </div>
             </motion.div>
 
@@ -772,20 +822,16 @@ const About = () => {
           <motion.div className="text-center mb-8"
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.5 }}>
-            <p className="font-bold uppercase tracking-[0.25em] mb-2" style={{ fontFamily: PP, color: '#fda102', fontSize: '0.78rem' }}>Management Visibility</p>
+            <p className="font-bold uppercase tracking-[0.25em] mb-2" style={{ fontFamily: PP, color: '#fda102', fontSize: '0.78rem' }}>{mgmtLabel}</p>
             <h2 className="font-bold text-white leading-[1.2]" style={{ fontFamily: PP, fontSize: 'clamp(1.4rem, 3vw, 2.4rem)' }}>
-              Our objective is to help management<br className="hidden lg:inline" /> answer five questions clearly.
+              {mgmtHeading}
             </h2>
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {[
-              { q: 'Where are we compliant?',     n: '01' },
-              { q: 'Where are the gaps?',          n: '02' },
-              { q: 'What is the risk?',            n: '03' },
-              { q: 'What must be corrected?',      n: '04' },
-              { q: 'By when?',                     n: '05' },
-            ].map(({ q, n }, i) => (
+            {mgmtQuestions.map((q, i) => {
+              const n = String(i + 1).padStart(2, '0');
+              return (
               <motion.div key={n}
                 className="rounded-2xl p-5 lg:p-6 flex flex-col gap-3"
                 style={{ backgroundColor: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)' }}
@@ -794,7 +840,8 @@ const About = () => {
                 <span className="font-bold text-2xl lg:text-3xl" style={{ fontFamily: PP, color: '#fda102' }}>{n}</span>
                 <p className="font-semibold text-white leading-snug text-sm lg:text-base" style={{ fontFamily: PP }}>{q}</p>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -812,12 +859,12 @@ const About = () => {
             <div className="overflow-x-auto lg:overflow-visible">
               <h2 className="font-bold text-white leading-[1.15] mb-4 whitespace-nowrap lg:whitespace-normal w-fit mx-auto"
                 style={{ fontFamily: PP, fontSize: 'clamp(0.7rem, 4.6vw, 2.4rem)' }}>
-                Meet the Experts Behind Your Success
+                {teamHeading}
               </h2>
             </div>
             <p className="px-4 sm:px-12 lg:px-32 text-justify lg:text-center"
               style={{ fontFamily: PP, color: '#fda102', fontSize: 'clamp(1rem, 1.6vw, 1.25rem)', lineHeight: 1.6 }}>
-              Our experienced team of labour law, payroll, HR, and compliance professionals is committed to delivering practical solutions that help your business stay compliant and grow with confidence.
+              {teamSubtext}
             </p>
           </motion.div>
 
@@ -858,7 +905,7 @@ const About = () => {
           9. VIDEO CTA — Video background, bold overlay
          ══════════════════════════════════════════════════════ */}
       <section className="relative flex items-center justify-center lg:overflow-hidden min-h-[320px] lg:min-h-[440px]">
-        <video src={ctaVideo} autoPlay loop muted playsInline
+        <video src={ctaVideoSrc} autoPlay loop muted playsInline
           className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0"
           style={{ backgroundColor: 'rgba(0,0,0,0.45)' }} />
@@ -868,13 +915,13 @@ const About = () => {
             style={{ fontFamily: PP, color: '#fda102', fontSize: 'clamp(1rem, 1.8vw, 1.35rem)' }}
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.4 }}>
-            Ready to Get Compliant?
+            {ctaLabel}
           </motion.p>
           <motion.h2 className="font-bold text-white leading-[1.1] mb-8"
             style={{ fontFamily: PP, fontSize: 'clamp(1rem, 5.5vw, 4rem)' }}
             initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.55, delay: 0.08 }}>
-            <span className="whitespace-nowrap">Let's build your compliance</span><br /><span style={{ color: '#fda102' }}>framework together</span>
+            <span className="whitespace-nowrap">{ctaHeadingLine1}</span><br /><span style={{ color: '#fda102' }}>{ctaHeadingLine2}</span>
           </motion.h2>
           <motion.div className="flex flex-wrap gap-3 lg:gap-4 justify-center w-full px-2"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
@@ -882,12 +929,12 @@ const About = () => {
             <Link to="/contact"
               className="inline-flex items-center gap-2 rounded-full px-5 py-3 lg:px-10 lg:py-4 font-semibold text-xs lg:text-sm transition-all hover:scale-[1.04] shadow-xl whitespace-nowrap"
               style={{ backgroundColor: '#fda102', color: '#fff', fontFamily: PP }}>
-              Schedule a Consultation <ArrowRight size={16} />
+              {ctaButton1Text} <ArrowRight size={16} />
             </Link>
             <Link to="/careers"
               className="inline-flex items-center gap-2 rounded-full px-5 py-3 lg:px-10 lg:py-4 font-semibold text-xs lg:text-sm border transition-all hover:scale-[1.04] whitespace-nowrap"
               style={{ borderColor: 'rgba(255,255,255,0.5)', color: '#fff', fontFamily: PP }}>
-              Join Our Team
+              {ctaButton2Text}
             </Link>
           </motion.div>
         </div>

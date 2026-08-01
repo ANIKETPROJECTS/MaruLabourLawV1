@@ -84,4 +84,54 @@ export const aboutSeed = {
     { name: 'Pankhil Maru', qualification: 'B.E (I.T), MBA (HR)', role: 'Managing Partner', img: '/assets/service-hr.png' },
     { name: 'Nishit Maru', qualification: 'BLS, LL.B, CS', role: 'Managing Partner', img: '/assets/service-audits.png' },
   ],
+
+  // Hero right-panel image
+  heroImageUrl: '',
+
+  // Story bento
+  estYear: '1979',
+
+  // Our Approach
+  approachLabel: 'How We Work',
+  approachHeading: 'Our Approach',
+  approachDescription: 'A structured, end-to-end methodology that ensures every client engagement is practical, measurable and aligned to their business reality.',
+  approachSteps: ['Understand', 'Assess', 'Advise', 'Implement', 'Monitor', 'Update'],
+
+  // Why MCS
+  whyMcsLabel: 'Why MCS',
+  whyMcsHeading: 'Experience.',
+  whyMcsHeadingHighlight: 'Interpretation.',
+  whyMcsHeadingEnd: 'Execution.',
+  whyMcsBadge1Value: '98%',
+  whyMcsBadge1Label: 'Client Retention',
+  whyMcsBadge2Value: '500+',
+  whyMcsBadge2Label: 'Clients Served',
+  whyMcsImageUrl: '',
+
+  // Journey
+  journeyLabel: 'Our Journey',
+  journeyHeading: "Three decades of building India's compliance backbone",
+
+  // Management Visibility
+  mgmtLabel: 'Management Visibility',
+  mgmtHeading: 'Our objective is to help management answer five questions clearly.',
+  mgmtQuestions: [
+    'Where are we compliant?',
+    'Where are the gaps?',
+    'What is the risk?',
+    'What must be corrected?',
+    'By when?',
+  ],
+
+  // Team section
+  teamHeading: 'Meet the Experts Behind Your Success',
+  teamSubtext: 'Our experienced team of labour law, payroll, HR, and compliance professionals is committed to delivering practical solutions that help your business stay compliant and grow with confidence.',
+
+  // Video CTA
+  ctaLabel: 'Ready to Get Compliant?',
+  ctaHeadingLine1: "Let's build your compliance",
+  ctaHeadingLine2: 'framework together',
+  ctaVideoUrl: '',
+  ctaButton1Text: 'Schedule a Consultation',
+  ctaButton2Text: 'Join Our Team',
 };

@@ -17,12 +17,14 @@ const EMPTY: AboutContent = {
   heroHeadlineBottom:    'Partner.',
   heroSubtext:           'Two decades of expertise in labour law compliance, HR governance, statutory filings, and workforce management across 15+ Indian states.',
   heroVideoUrl:          '',
+  heroImageUrl:          '',
   videoUrl:              '',
   storyImages: [
     '/assets/hero-office.png',
     '/assets/service-audits.png',
     '/assets/service-legal.png',
   ],
+  estYear: '1979',
   heroStats: [
     { value: '500+', label: 'Corporate Clients' },
     { value: '21+',  label: 'Years' },
@@ -67,6 +69,38 @@ const EMPTY: AboutContent = {
     { name: 'Pankhil Maru', qualification: 'B.E (I.T), MBA (HR)', role: 'Managing Partner',                     img: '/assets/service-hr.png' },
     { name: 'Nishit Maru',  qualification: 'BLS, LL.B, CS',       role: 'Managing Partner',                     img: '/assets/service-audits.png' },
   ],
+  // Our Approach
+  approachLabel: 'How We Work',
+  approachHeading: 'Our Approach',
+  approachDescription: 'A structured, end-to-end methodology that ensures every client engagement is practical, measurable and aligned to their business reality.',
+  approachSteps: ['Understand', 'Assess', 'Advise', 'Implement', 'Monitor', 'Update'],
+  // Why MCS
+  whyMcsLabel: 'Why MCS',
+  whyMcsHeading: 'Experience.',
+  whyMcsHeadingHighlight: 'Interpretation.',
+  whyMcsHeadingEnd: 'Execution.',
+  whyMcsBadge1Value: '98%',
+  whyMcsBadge1Label: 'Client Retention',
+  whyMcsBadge2Value: '500+',
+  whyMcsBadge2Label: 'Clients Served',
+  whyMcsImageUrl: '',
+  // Journey
+  journeyLabel: 'Our Journey',
+  journeyHeading: "Three decades of building India's compliance backbone",
+  // Management Visibility
+  mgmtLabel: 'Management Visibility',
+  mgmtHeading: 'Our objective is to help management answer five questions clearly.',
+  mgmtQuestions: ['Where are we compliant?', 'Where are the gaps?', 'What is the risk?', 'What must be corrected?', 'By when?'],
+  // Team
+  teamHeading: 'Meet the Experts Behind Your Success',
+  teamSubtext: 'Our experienced team of labour law, payroll, HR, and compliance professionals is committed to delivering practical solutions that help your business stay compliant and grow with confidence.',
+  // Video CTA
+  ctaLabel: 'Ready to Get Compliant?',
+  ctaHeadingLine1: "Let's build your compliance",
+  ctaHeadingLine2: 'framework together',
+  ctaVideoUrl: '',
+  ctaButton1Text: 'Schedule a Consultation',
+  ctaButton2Text: 'Join Our Team',
 };
 
 export default function AdminAbout() {
@@ -92,12 +126,10 @@ export default function AdminAbout() {
           heroHeadlineBottom:    res.heroHeadlineBottom    ?? EMPTY.heroHeadlineBottom,
           heroSubtext:           res.heroSubtext           ?? EMPTY.heroSubtext,
           heroVideoUrl:          res.heroVideoUrl          ?? EMPTY.heroVideoUrl,
+          heroImageUrl:          res.heroImageUrl          ?? EMPTY.heroImageUrl,
           videoUrl:              res.videoUrl              ?? EMPTY.videoUrl,
-          // Fall back to the same defaults the public page uses when no images
-          // have been uploaded — this keeps the admin in sync with what the
-          // visitor actually sees.  The admin can still clear all images by
-          // saving an empty list; it will simply re-show the defaults on reload.
           storyImages:          res.storyImages?.length ? res.storyImages : EMPTY.storyImages,
+          estYear:              res.estYear               ?? EMPTY.estYear,
           heroStats:            res.heroStats?.length            ? res.heroStats            : EMPTY.heroStats,
           marqueeServices:      res.marqueeServices?.length      ? res.marqueeServices      : EMPTY.marqueeServices,
           storySlides:          res.storySlides?.length          ? res.storySlides          : EMPTY.storySlides,
@@ -109,6 +141,38 @@ export default function AdminAbout() {
           journeyMilestones:    res.journeyMilestones?.length    ? res.journeyMilestones    : EMPTY.journeyMilestones,
           whyChooseItems:       res.whyChooseItems?.length       ? res.whyChooseItems       : EMPTY.whyChooseItems,
           teamMembers:          res.teamMembers?.length          ? res.teamMembers          : EMPTY.teamMembers,
+          // Our Approach
+          approachLabel:       res.approachLabel       ?? EMPTY.approachLabel,
+          approachHeading:     res.approachHeading     ?? EMPTY.approachHeading,
+          approachDescription: res.approachDescription ?? EMPTY.approachDescription,
+          approachSteps:       res.approachSteps?.length ? res.approachSteps : EMPTY.approachSteps,
+          // Why MCS
+          whyMcsLabel:            res.whyMcsLabel            ?? EMPTY.whyMcsLabel,
+          whyMcsHeading:          res.whyMcsHeading          ?? EMPTY.whyMcsHeading,
+          whyMcsHeadingHighlight: res.whyMcsHeadingHighlight ?? EMPTY.whyMcsHeadingHighlight,
+          whyMcsHeadingEnd:       res.whyMcsHeadingEnd       ?? EMPTY.whyMcsHeadingEnd,
+          whyMcsBadge1Value:      res.whyMcsBadge1Value      ?? EMPTY.whyMcsBadge1Value,
+          whyMcsBadge1Label:      res.whyMcsBadge1Label      ?? EMPTY.whyMcsBadge1Label,
+          whyMcsBadge2Value:      res.whyMcsBadge2Value      ?? EMPTY.whyMcsBadge2Value,
+          whyMcsBadge2Label:      res.whyMcsBadge2Label      ?? EMPTY.whyMcsBadge2Label,
+          whyMcsImageUrl:         res.whyMcsImageUrl         ?? EMPTY.whyMcsImageUrl,
+          // Journey
+          journeyLabel:   res.journeyLabel   ?? EMPTY.journeyLabel,
+          journeyHeading: res.journeyHeading ?? EMPTY.journeyHeading,
+          // Management Visibility
+          mgmtLabel:     res.mgmtLabel     ?? EMPTY.mgmtLabel,
+          mgmtHeading:   res.mgmtHeading   ?? EMPTY.mgmtHeading,
+          mgmtQuestions: res.mgmtQuestions?.length ? res.mgmtQuestions : EMPTY.mgmtQuestions,
+          // Team
+          teamHeading: res.teamHeading ?? EMPTY.teamHeading,
+          teamSubtext: res.teamSubtext ?? EMPTY.teamSubtext,
+          // Video CTA
+          ctaLabel:        res.ctaLabel        ?? EMPTY.ctaLabel,
+          ctaHeadingLine1: res.ctaHeadingLine1 ?? EMPTY.ctaHeadingLine1,
+          ctaHeadingLine2: res.ctaHeadingLine2 ?? EMPTY.ctaHeadingLine2,
+          ctaVideoUrl:     res.ctaVideoUrl     ?? EMPTY.ctaVideoUrl,
+          ctaButton1Text:  res.ctaButton1Text  ?? EMPTY.ctaButton1Text,
+          ctaButton2Text:  res.ctaButton2Text  ?? EMPTY.ctaButton2Text,
         });
       })
       .catch(err => setError(err instanceof Error ? err.message : 'Failed to load'))
@@ -446,7 +510,13 @@ export default function AdminAbout() {
       </Section>
 
       {/* ── Team Members ── */}
-      <Section title="Team Members" description="The four cards in the 'Meet the Experts' section.">
+      <Section title="Team Members" description="The photo cards in the 'Meet the Experts' section.">
+        <Field label="Section heading">
+          <TextInput value={data.teamHeading} onChange={e => set('teamHeading', e.target.value)} placeholder="Meet the Experts Behind Your Success" />
+        </Field>
+        <Field label="Section subtext">
+          <TextArea rows={2} value={data.teamSubtext} onChange={e => set('teamSubtext', e.target.value)} />
+        </Field>
         {listOf<AboutTeamMember>(
           'teamMembers', data.teamMembers,
           (item, _i, onChange, onRemove) => (
@@ -466,6 +536,144 @@ export default function AdminAbout() {
           { name: '', qualification: '', role: '', img: '' },
           (item) => [item.img],
         )}
+      </Section>
+
+      {/* ── Hero Right-Panel Image ── */}
+      <Section title="Hero — Right Panel Image" description="Background image shown in the hero right panel when no video is set. Leave blank to use the built-in default.">
+        <ImageUploader label="Hero background image" value={data.heroImageUrl} onChange={v => set('heroImageUrl', v)} section="about" hint="Landscape or portrait, min 800 px wide" />
+      </Section>
+
+      {/* ── Our Approach ── */}
+      <Section title="Our Approach Section" description="The numbered step flow showing how MCS works.">
+        <div className="grid grid-cols-2 gap-4">
+          <Field label="Section label (small caps)">
+            <TextInput value={data.approachLabel} onChange={e => set('approachLabel', e.target.value)} placeholder="How We Work" />
+          </Field>
+          <Field label="Section heading">
+            <TextInput value={data.approachHeading} onChange={e => set('approachHeading', e.target.value)} placeholder="Our Approach" />
+          </Field>
+        </div>
+        <Field label="Description paragraph below the steps">
+          <TextArea rows={2} value={data.approachDescription} onChange={e => set('approachDescription', e.target.value)} />
+        </Field>
+        <Field label="Steps (each becomes a numbered node)">
+          <div className="space-y-2">
+            {(data.approachSteps ?? []).map((step, i) => (
+              <div key={i} className="flex gap-2 items-center">
+                <span className="text-xs font-bold text-gray-400 w-6 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                <TextInput value={step} onChange={e => { const n = [...(data.approachSteps ?? [])]; n[i] = e.target.value; set('approachSteps', n); }} placeholder="e.g. Understand" />
+                <DangerButton type="button" onClick={() => set('approachSteps', (data.approachSteps ?? []).filter((_, j) => j !== i))}><Trash2 size={13} /></DangerButton>
+              </div>
+            ))}
+            <SecondaryButton type="button" onClick={() => set('approachSteps', [...(data.approachSteps ?? []), ''])}>
+              <Plus size={13} /> Add step
+            </SecondaryButton>
+          </div>
+        </Field>
+      </Section>
+
+      {/* ── Why MCS ── */}
+      <Section title="Why MCS Section" description="The checklist section with the large image and floating stat badges.">
+        <div className="grid grid-cols-2 gap-4">
+          <Field label="Section label">
+            <TextInput value={data.whyMcsLabel} onChange={e => set('whyMcsLabel', e.target.value)} placeholder="Why MCS" />
+          </Field>
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          <Field label="Heading part 1">
+            <TextInput value={data.whyMcsHeading} onChange={e => set('whyMcsHeading', e.target.value)} placeholder="Experience." />
+          </Field>
+          <Field label="Heading highlight (brand colour)">
+            <TextInput value={data.whyMcsHeadingHighlight} onChange={e => set('whyMcsHeadingHighlight', e.target.value)} placeholder="Interpretation." />
+          </Field>
+          <Field label="Heading part 3">
+            <TextInput value={data.whyMcsHeadingEnd} onChange={e => set('whyMcsHeadingEnd', e.target.value)} placeholder="Execution." />
+          </Field>
+        </div>
+        <ImageUploader label="Section image (left panel)" value={data.whyMcsImageUrl} onChange={v => set('whyMcsImageUrl', v)} section="about" hint="Portrait, min 600 × 900 px. Leave blank to use the hero image." />
+        <div className="grid grid-cols-2 gap-4">
+          <div className="p-3 rounded-xl border border-gray-100 space-y-2">
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider" style={{ fontFamily: PP }}>Amber badge (bottom-right)</p>
+            <div className="flex gap-2">
+              <TextInput placeholder="Value (e.g. 98%)" value={data.whyMcsBadge1Value} onChange={e => set('whyMcsBadge1Value', e.target.value)} style={{ width: '90px' }} />
+              <TextInput placeholder="Label (e.g. Client Retention)" value={data.whyMcsBadge1Label} onChange={e => set('whyMcsBadge1Label', e.target.value)} />
+            </div>
+          </div>
+          <div className="p-3 rounded-xl border border-gray-100 space-y-2">
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider" style={{ fontFamily: PP }}>Dark badge (top-left)</p>
+            <div className="flex gap-2">
+              <TextInput placeholder="Value (e.g. 500+)" value={data.whyMcsBadge2Value} onChange={e => set('whyMcsBadge2Value', e.target.value)} style={{ width: '90px' }} />
+              <TextInput placeholder="Label (e.g. Clients Served)" value={data.whyMcsBadge2Label} onChange={e => set('whyMcsBadge2Label', e.target.value)} />
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* ── Journey Section ── */}
+      <Section title="Journey Section — Label & Heading" description="The label and headline above the timeline. Edit milestones in the Journey Timeline section above.">
+        <div className="grid grid-cols-2 gap-4">
+          <Field label="Label (amber caps)">
+            <TextInput value={data.journeyLabel} onChange={e => set('journeyLabel', e.target.value)} placeholder="Our Journey" />
+          </Field>
+          <Field label="Heading">
+            <TextInput value={data.journeyHeading} onChange={e => set('journeyHeading', e.target.value)} placeholder="Three decades of building India's compliance backbone" />
+          </Field>
+        </div>
+      </Section>
+
+      {/* ── Story Bento Est. Year ── */}
+      <Section title="Story Bento — Founded Year" description="The large 'Est. XXXX' overlay shown on the left image panel.">
+        <Field label="Year (e.g. 1979)">
+          <TextInput value={data.estYear} onChange={e => set('estYear', e.target.value)} placeholder="1979" style={{ maxWidth: '140px' }} />
+        </Field>
+      </Section>
+
+      {/* ── Management Visibility ── */}
+      <Section title="Management Visibility Section" description="The dark band with 5 numbered question cards.">
+        <Field label="Section label (amber caps)">
+          <TextInput value={data.mgmtLabel} onChange={e => set('mgmtLabel', e.target.value)} placeholder="Management Visibility" />
+        </Field>
+        <Field label="Section heading">
+          <TextArea rows={2} value={data.mgmtHeading} onChange={e => set('mgmtHeading', e.target.value)} />
+        </Field>
+        <Field label="Questions (each becomes a numbered card)">
+          <div className="space-y-2">
+            {(data.mgmtQuestions ?? []).map((q, i) => (
+              <div key={i} className="flex gap-2 items-center">
+                <span className="text-xs font-bold text-gray-400 w-6 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                <TextInput value={q} onChange={e => { const n = [...(data.mgmtQuestions ?? [])]; n[i] = e.target.value; set('mgmtQuestions', n); }} placeholder="e.g. Where are we compliant?" />
+                <DangerButton type="button" onClick={() => set('mgmtQuestions', (data.mgmtQuestions ?? []).filter((_, j) => j !== i))}><Trash2 size={13} /></DangerButton>
+              </div>
+            ))}
+            <SecondaryButton type="button" onClick={() => set('mgmtQuestions', [...(data.mgmtQuestions ?? []), ''])}>
+              <Plus size={13} /> Add question
+            </SecondaryButton>
+          </div>
+        </Field>
+      </Section>
+
+      {/* ── Video CTA ── */}
+      <Section title="Video CTA Section (bottom of page)" description="The full-width video section at the bottom with the two call-to-action buttons.">
+        <ImageUploader label="Background video" value={data.ctaVideoUrl} onChange={v => set('ctaVideoUrl', v)} accept="video/*" section="about" hint="Leave blank to keep the default background video." />
+        <Field label="Eyebrow label (small amber caps)">
+          <TextInput value={data.ctaLabel} onChange={e => set('ctaLabel', e.target.value)} placeholder="Ready to Get Compliant?" />
+        </Field>
+        <div className="grid grid-cols-2 gap-4">
+          <Field label="Headline line 1 (white)">
+            <TextInput value={data.ctaHeadingLine1} onChange={e => set('ctaHeadingLine1', e.target.value)} placeholder="Let's build your compliance" />
+          </Field>
+          <Field label="Headline line 2 (amber)">
+            <TextInput value={data.ctaHeadingLine2} onChange={e => set('ctaHeadingLine2', e.target.value)} placeholder="framework together" />
+          </Field>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <Field label="Button 1 text (links to /contact)">
+            <TextInput value={data.ctaButton1Text} onChange={e => set('ctaButton1Text', e.target.value)} placeholder="Schedule a Consultation" />
+          </Field>
+          <Field label="Button 2 text (links to /careers)">
+            <TextInput value={data.ctaButton2Text} onChange={e => set('ctaButton2Text', e.target.value)} placeholder="Join Our Team" />
+          </Field>
+        </div>
       </Section>
     </div>
   );

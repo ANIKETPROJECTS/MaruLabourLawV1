@@ -143,6 +143,50 @@ export type AboutContent = {
   journeyMilestones:    AboutMilestone[];
   whyChooseItems:       AboutWhyItem[];
   teamMembers:          AboutTeamMember[];
+
+  // Hero right-panel image
+  heroImageUrl:         string;
+
+  // Story bento
+  estYear:              string;
+
+  // Our Approach
+  approachLabel:        string;
+  approachHeading:      string;
+  approachDescription:  string;
+  approachSteps:        string[];
+
+  // Why MCS
+  whyMcsLabel:            string;
+  whyMcsHeading:          string;
+  whyMcsHeadingHighlight: string;
+  whyMcsHeadingEnd:       string;
+  whyMcsBadge1Value:      string;
+  whyMcsBadge1Label:      string;
+  whyMcsBadge2Value:      string;
+  whyMcsBadge2Label:      string;
+  whyMcsImageUrl:         string;
+
+  // Journey
+  journeyLabel:   string;
+  journeyHeading: string;
+
+  // Management Visibility
+  mgmtLabel:     string;
+  mgmtHeading:   string;
+  mgmtQuestions: string[];
+
+  // Team
+  teamHeading: string;
+  teamSubtext: string;
+
+  // Video CTA
+  ctaLabel:        string;
+  ctaHeadingLine1: string;
+  ctaHeadingLine2: string;
+  ctaVideoUrl:     string;
+  ctaButton1Text:  string;
+  ctaButton2Text:  string;
 };
 
 export type ClienteleStat        = { target: number; decimals: number; suffix: string; label: string };
