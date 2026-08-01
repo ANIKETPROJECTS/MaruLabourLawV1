@@ -129,18 +129,20 @@ function StatCounter({
   );
 }
 
-/* ── Hero image carousel ──────────────────────────────── */
-function HeroCarousel({ slides, className, minHeight }: { slides: string[]; className?: string; minHeight?: string }) {
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(
-      () => setActive((p) => (p + 1) % slides.length),
-      3500,
-    );
-    return () => clearInterval(id);
-  }, [slides.length]);
-
+/* ── Hero image carousel (controlled — active index from parent) ── */
+function HeroCarousel({
+  slides,
+  active,
+  onActiveChange,
+  className,
+  minHeight,
+}: {
+  slides: string[];
+  active: number;
+  onActiveChange?: (i: number) => void;
+  className?: string;
+  minHeight?: string;
+}) {
   return (
     <motion.div
       className={className ?? "hidden lg:flex flex-col"}
@@ -166,7 +168,7 @@ function HeroCarousel({ slides, className, minHeight }: { slides: string[]; clas
           {slides.map((_, i) => (
             <button
               key={i}
-              onClick={() => setActive(i)}
+              onClick={() => onActiveChange?.(i)}
               className="w-2 h-2 rounded-full transition-all duration-300"
               style={{
                 backgroundColor:
@@ -182,11 +184,52 @@ function HeroCarousel({ slides, className, minHeight }: { slides: string[]; clas
   );
 }
 
+/* ── One-shot typewriter (types once, no delete) ──────── */
+function useOneTimeTypewriter(text: string, speed = 28) {
+  const [displayed, setDisplayed] = useState("");
+  useEffect(() => {
+    setDisplayed("");
+    if (!text) return;
+    let i = 0;
+    let cancelled = false;
+    function tick() {
+      if (cancelled) return;
+      i++;
+      setDisplayed(text.slice(0, i));
+      if (i < text.length) setTimeout(tick, speed);
+    }
+    const timer = setTimeout(tick, 420);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [text, speed]);
+  return displayed;
+}
+
 const defaultPhrases = [
   "Labour Laws",
   "Labour Codes",
   "Industrial Relations",
   "Statutory Compliance",
+];
+
+const defaultHeroSlides = [
+  {
+    headline: "Five Decades of Experience.",
+    headlineAccent: "A New Era of Labour Laws.",
+    imageUrl: "",           // filled at runtime from static imports
+  },
+  {
+    headline: "Trusted Compliance Partner",
+    headlineAccent: "For 300+ Organisations.",
+    imageUrl: "",
+  },
+  {
+    headline: "India's Labour Law",
+    headlineAccent: "Experts Since 1979.",
+    imageUrl: "",
+  },
 ];
 
 const defaultTestimonials = [
@@ -333,6 +376,33 @@ const Home = () => {
     : defaultPhrases;
   const typewriterText = useTypewriter(phrases);
 
+  // ── Hero slides (text + image in sync) ─────────────────
+  const heroSlides = (
+    content?.heroSlides?.length
+      ? content.heroSlides.map((s) => ({
+          ...s,
+          // fall back to static images when admin hasn't set a URL
+          imageUrl: s.imageUrl || [heroIllustration, heroSlide2, heroSlide3][0],
+        }))
+      : defaultHeroSlides.map((s, i) => ({
+          ...s,
+          imageUrl: [heroIllustration, heroSlide2, heroSlide3][i] as string,
+        }))
+  );
+  const [slideIdx, setSlideIdx] = useState(0);
+  useEffect(() => {
+    const id = setInterval(
+      () => setSlideIdx((p) => (p + 1) % heroSlides.length),
+      4000,
+    );
+    return () => clearInterval(id);
+  }, [heroSlides.length]);
+
+  const heroDescription =
+    content?.heroDescription ||
+    "Established in Mumbai in 1979, Maru Consultancy Services provides specialised advisory, compliance, audit and representation support to organisations navigating India's labour and employment regulatory framework.";
+  const typewriterDesc = useOneTimeTypewriter(heroDescription, 28);
+
   const testimonials = content?.testimonials?.length
     ? content.testimonials
     : defaultTestimonials;
@@ -441,32 +511,49 @@ const Home = () => {
                 ))}
               </motion.div>
 
-              {/* Main headline */}
-              <motion.h1
-                className="font-bold text-white mb-4 lg:mb-6"
+              {/* Main headline — slides in sync with the image */}
+              <motion.div
+                className="relative mb-4 lg:mb-6"
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.65, delay: 0.14 }}
-                style={{
-                  fontFamily: "Poppins, sans-serif",
-                  fontSize: "clamp(1.9rem, 4vw, 3.6rem)",
-                  lineHeight: 1.1,
-                }}
+                style={{ minHeight: "clamp(7rem, 13vw, 14rem)" }}
               >
-                Five Decades of Experience.{" "}
-                <span style={{ color: "#fda102" }}>
-                  A New Era of Labour Laws.
-                </span>
-              </motion.h1>
+                {heroSlides.map((slide, i) => (
+                  <h1
+                    key={i}
+                    className="font-bold text-white"
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      opacity: i === slideIdx ? 1 : 0,
+                      transition: "opacity 0.7s ease",
+                      pointerEvents: i === slideIdx ? "auto" : "none",
+                      fontFamily: "Poppins, sans-serif",
+                      fontSize: "clamp(1.9rem, 4vw, 3.6rem)",
+                      lineHeight: 1.1,
+                    }}
+                  >
+                    {slide.headline}{" "}
+                    <span style={{ color: "#fda102" }}>
+                      {slide.headlineAccent}
+                    </span>
+                  </h1>
+                ))}
+              </motion.div>
 
               {/* Mobile-only image carousel — shown between headline and description */}
               <HeroCarousel
-                slides={[heroIllustration, heroSlide2, heroSlide3]}
+                slides={heroSlides.map((s) => s.imageUrl)}
+                active={slideIdx}
+                onActiveChange={setSlideIdx}
                 className="flex lg:hidden flex-col mb-4 rounded-2xl overflow-hidden"
                 minHeight="380px"
               />
 
-              {/* Description */}
+              {/* Description — typewriter effect */}
               <motion.p
                 className="mb-6 lg:mb-9"
                 initial={{ opacity: 0, y: 20 }}
@@ -478,12 +565,14 @@ const Home = () => {
                   lineHeight: 1.75,
                   color: "rgba(255,255,255,0.78)",
                   maxWidth: "36rem",
+                  minHeight: "4.5em",
                 }}
               >
-                Established in Mumbai in 1979, Maru Consultancy Services
-                provides specialised advisory, compliance, audit and
-                representation support to organisations navigating India's
-                labour and employment regulatory framework.
+                {typewriterDesc}
+                <span
+                  className="inline-block w-[2px] h-[1em] ml-[1px] align-middle animate-pulse"
+                  style={{ backgroundColor: "#fda102", verticalAlign: "middle" }}
+                />
               </motion.p>
 
               {/* CTA Buttons */}
@@ -537,7 +626,11 @@ const Home = () => {
             </div>
 
             {/* ── Right: auto-rotating image carousel (desktop only) ── */}
-            <HeroCarousel slides={[heroIllustration, heroSlide2, heroSlide3]} />
+            <HeroCarousel
+              slides={heroSlides.map((s) => s.imageUrl)}
+              active={slideIdx}
+              onActiveChange={setSlideIdx}
+            />
           </div>
         </div>
       </section>

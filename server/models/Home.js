@@ -59,6 +59,14 @@ const HomeSchema = new mongoose.Schema({
 
   stats: [StatItem],
 
+  // Hero slides — each slide pairs a headline with an image
+  heroSlides: [{
+    headline: String,
+    headlineAccent: String,
+    imageUrl: String,
+    _id: false,
+  }],
+
   // Which services appear on the homepage, in what order (array of slugs)
   featuredServiceSlugs: { type: [String], default: [] },
 

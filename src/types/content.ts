@@ -41,6 +41,7 @@ export type HomeContent = {
   _id?: string;
   heroLine1: string;
   heroPhrases: string[];
+  heroSlides: { headline: string; headlineAccent: string; imageUrl: string }[];
   heroLine2: string;
   heroDescription: string;
   heroVideoUrl: string;
