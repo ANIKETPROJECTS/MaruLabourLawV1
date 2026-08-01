@@ -10,12 +10,20 @@ const PP = 'Poppins, sans-serif';
 const ARTICLE_CATS = ['New Labour Codes', 'Compliance', 'Labour Audit', 'POSH', 'ESI & PF', 'Payroll'];
 
 const HERO_EMPTY: ResourcesPageContent = {
-  heroEyebrow: 'Knowledge Hub',
-  heroHeading: 'Insights, Blogs & Downloads',
-  heroSubtext: 'Expert insights, regulatory updates, and practical compliance resources to keep your business protected.',
+  heroEyebrow: 'Downloads & Templates',
+  heroHeading: 'Compliance Resources',
+  heroSubtext: 'Practical compliance templates, checklists and reference documents — free to download.',
   heroBgType: 'color',
   heroImageUrl: '',
   heroVideoUrl: '',
+  downloadsLabel:        'Free Resources',
+  downloadsHeading:      'Templates & Downloads',
+  downloadsSubtext:      'Practical compliance templates, checklists, and reference documents — free to download.',
+  newsletterLabel:       'Stay Updated',
+  newsletterHeading:     'Never miss a compliance update',
+  newsletterBody:        'Subscribe for critical regulatory alerts, new circulars, and expert analysis delivered directly to your inbox.',
+  newsletterButtonText:  'Subscribe',
+  newsletterPlaceholder: 'Your business email',
 };
 
 const EMPTY_ARTICLE: Omit<ResourceItem, '_id'> = {
@@ -101,8 +109,8 @@ export default function AdminResources() {
 
   useEffect(() => {
     api.get<ResourcesPageContent>('/resources-page')
-      .then(setHero)
-      .catch(err => setHeroError(err instanceof Error ? err.message : 'Failed to load hero content'))
+      .then(d => setHero({ ...HERO_EMPTY, ...d }))
+      .catch(err => setHeroError(err instanceof Error ? err.message : 'Failed to load page content'))
       .finally(() => setHeroLoading(false));
   }, []);
 
@@ -115,12 +123,12 @@ export default function AdminResources() {
     setHeroSaving(true); setHeroError('');
     try {
       const saved = await api.put<ResourcesPageContent>('/resources-page', hero);
-      setHero(saved);
+      setHero({ ...HERO_EMPTY, ...saved });
       setHeroDirty(false);
-      setHeroNotice('Saved — hero is live on the site.');
+      setHeroNotice('Saved — page content is live on the site.');
       setTimeout(() => setHeroNotice(''), 2500);
     } catch (err) {
-      setHeroError(err instanceof Error ? err.message : 'Failed to save hero content');
+      setHeroError(err instanceof Error ? err.message : 'Failed to save page content');
     } finally {
       setHeroSaving(false);
     }
@@ -286,66 +294,10 @@ export default function AdminResources() {
           <p className="text-gray-400 text-sm mt-1">Manage articles, insights, and downloadable templates.</p>
         </div>
         <div className="flex gap-2">
+          <SecondaryButton onClick={() => startCreate('articles')}><Plus size={15} /> New Article</SecondaryButton>
           <SecondaryButton onClick={() => startCreate('downloads')}><Plus size={15} /> New Download</SecondaryButton>
         </div>
       </div>
-
-      {!heroLoading && (
-        <Section title="Hero Section" description="The banner shown at the top of the public Resources page.">
-          {heroDirty && !heroSaving && (
-            <div className="flex items-center justify-between gap-3 rounded-xl px-4 py-3 shadow-sm -mt-2 mb-2"
-              style={{ backgroundColor: 'var(--primary-dark)', fontFamily: PP }}>
-              <span className="text-sm font-semibold text-white">You have unsaved changes.</span>
-              <button onClick={saveHero}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-opacity hover:opacity-90"
-                style={{ backgroundColor: '#fda102', color: '#111' }}>
-                <Save size={13} /> Save now
-              </button>
-            </div>
-          )}
-          {heroNotice && !heroDirty && (
-            <div className="flex items-center gap-2 text-sm text-green-700 bg-green-50 border border-green-200 rounded-xl px-4 py-2.5">
-              <CheckCircle2 size={15} /> {heroNotice}
-            </div>
-          )}
-          {heroError && <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">{heroError}</div>}
-
-          <div className="grid grid-cols-2 gap-4">
-            <Field label="Eyebrow text"><TextInput value={hero.heroEyebrow} onChange={(e) => updateHero('heroEyebrow', e.target.value)} /></Field>
-            <Field label="Heading"><TextInput value={hero.heroHeading} onChange={(e) => updateHero('heroHeading', e.target.value)} /></Field>
-          </div>
-          <Field label="Subtext"><TextArea rows={2} value={hero.heroSubtext} onChange={(e) => updateHero('heroSubtext', e.target.value)} /></Field>
-
-          <Field label="Background type">
-            <select
-              value={hero.heroBgType}
-              onChange={(e) => updateHero('heroBgType', e.target.value as ResourcesPageContent['heroBgType'])}
-              className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none"
-              style={{ fontFamily: PP, borderColor: '#e5e7eb' }}
-            >
-              <option value="color">Solid color (default)</option>
-              <option value="image">Image</option>
-              <option value="video">Video</option>
-            </select>
-          </Field>
-
-          {hero.heroBgType === 'image' && (
-            <ImageUploader label="Hero image" value={hero.heroImageUrl} onChange={(v) => updateHero('heroImageUrl', v)}
-              section="resources" hint="Landscape, min 1600 × 600 px — shown full-width behind the hero text." />
-          )}
-          {hero.heroBgType === 'video' && (
-            <ImageUploader label="Hero video" value={hero.heroVideoUrl} onChange={(v) => updateHero('heroVideoUrl', v)}
-              accept="video/*" section="resources" />
-          )}
-
-          <div className="flex justify-end">
-            <PrimaryButton onClick={saveHero} disabled={heroSaving}>
-              {heroSaving ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
-              {heroSaving ? 'Saving…' : 'Save Hero'}
-            </PrimaryButton>
-          </div>
-        </Section>
-      )}
 
       {notice && (
         <div className="mb-5 flex items-center gap-2 text-sm text-green-700 bg-green-50 border border-green-200 rounded-xl px-4 py-2.5">
@@ -354,15 +306,50 @@ export default function AdminResources() {
       )}
       {error && <div className="mb-5 text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">{error}</div>}
 
+      {/* Articles */}
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-3">
+          <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+            style={{ backgroundColor: 'var(--p-a08)', color: 'var(--primary)', fontFamily: PP }}>
+            <BookOpen size={12} /> Articles &amp; Insights
+          </span>
+          <span className="text-xs text-gray-400">{articles.length} item{articles.length !== 1 ? 's' : ''}</span>
+          <div className="flex-1 border-t border-gray-100" />
+          <SecondaryButton onClick={() => startCreate('articles')}><Plus size={13} /> New Article</SecondaryButton>
+        </div>
+        <div className="space-y-3">
+          {articles.map(r => (
+            <div key={r._id} className="bg-white rounded-2xl border shadow-sm p-4 flex items-center gap-4"
+              style={{ borderColor: 'var(--p-a12)' }}>
+              {r.img && <img src={r.img} alt="" className="w-12 h-12 rounded-xl object-cover shrink-0" />}
+              {!r.img && (
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                  style={{ backgroundColor: 'var(--p-a08)' }}>
+                  <BookOpen size={18} style={{ color: 'var(--primary)' }} />
+                </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-sm truncate" style={{ fontFamily: PP, color: '#111' }}>{r.title}</p>
+                <p className="text-gray-400 text-xs truncate">{r.category} · {r.date}</p>
+              </div>
+              <SecondaryButton onClick={() => startEdit(r)}><Pencil size={13} /> Edit</SecondaryButton>
+              <DangerButton onClick={() => remove(r._id)}><Trash2 size={13} /></DangerButton>
+            </div>
+          ))}
+          {articles.length === 0 && <p className="text-gray-400 text-sm">No articles yet. Click "New Article" to add one.</p>}
+        </div>
+      </div>
+
       {/* Downloads */}
-      <div>
+      <div className="mb-8">
         <div className="flex items-center gap-3 mb-3">
           <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
             style={{ backgroundColor: 'rgba(253,161,2,0.10)', color: '#c07a00', fontFamily: PP }}>
-            <FileText size={12} /> Downloads & Templates
+            <FileText size={12} /> Downloads &amp; Templates
           </span>
           <span className="text-xs text-gray-400">{downloads.length} item{downloads.length !== 1 ? 's' : ''}</span>
           <div className="flex-1 border-t border-gray-100" />
+          <SecondaryButton onClick={() => startCreate('downloads')}><Plus size={13} /> New Download</SecondaryButton>
         </div>
         <div className="space-y-3">
           {downloads.map(r => (
@@ -383,6 +370,110 @@ export default function AdminResources() {
           {downloads.length === 0 && <p className="text-gray-400 text-sm">No downloads yet.</p>}
         </div>
       </div>
+
+      {/* ── Page Content Editor ── */}
+      {!heroLoading && (
+        <div>
+          {heroError && <div className="mb-5 text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">{heroError}</div>}
+
+          {heroDirty && !heroSaving && (
+            <div className="sticky top-0 z-20 mb-5 flex items-center justify-between gap-3 rounded-xl px-4 py-3 shadow-md"
+              style={{ backgroundColor: 'var(--primary-dark)', fontFamily: PP }}>
+              <span className="text-sm font-semibold text-white">You have unsaved page content changes.</span>
+              <button onClick={saveHero}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-opacity hover:opacity-90"
+                style={{ backgroundColor: '#fda102', color: '#111' }}>
+                <Save size={13} /> Save now
+              </button>
+            </div>
+          )}
+          {heroNotice && !heroDirty && (
+            <div className="mb-5 flex items-center gap-2 text-sm text-green-700 bg-green-50 border border-green-200 rounded-xl px-4 py-2.5">
+              <CheckCircle2 size={15} /> {heroNotice}
+            </div>
+          )}
+
+          <Section title="Hero Section" description="The banner shown at the top of the public Resources page.">
+            <div className="grid grid-cols-2 gap-4">
+              <Field label="Eyebrow text"><TextInput value={hero.heroEyebrow} onChange={e => updateHero('heroEyebrow', e.target.value)} /></Field>
+              <Field label="Heading"><TextInput value={hero.heroHeading} onChange={e => updateHero('heroHeading', e.target.value)} /></Field>
+            </div>
+            <Field label="Subtext"><TextArea rows={2} value={hero.heroSubtext} onChange={e => updateHero('heroSubtext', e.target.value)} /></Field>
+            <Field label="Background type">
+              <select value={hero.heroBgType}
+                onChange={e => updateHero('heroBgType', e.target.value as ResourcesPageContent['heroBgType'])}
+                className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none"
+                style={{ fontFamily: PP, borderColor: '#e5e7eb' }}>
+                <option value="color">Solid color (default)</option>
+                <option value="image">Image</option>
+                <option value="video">Video</option>
+              </select>
+            </Field>
+            {hero.heroBgType === 'image' && (
+              <ImageUploader label="Hero image" value={hero.heroImageUrl} onChange={v => updateHero('heroImageUrl', v)}
+                section="resources" hint="Landscape, min 1600 × 600 px — shown full-width behind the hero text." />
+            )}
+            {hero.heroBgType === 'video' && (
+              <ImageUploader label="Hero video" value={hero.heroVideoUrl} onChange={v => updateHero('heroVideoUrl', v)}
+                accept="video/*" section="resources" />
+            )}
+            <div className="flex justify-end">
+              <PrimaryButton onClick={saveHero} disabled={heroSaving}>
+                {heroSaving ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+                {heroSaving ? 'Saving…' : 'Save Hero'}
+              </PrimaryButton>
+            </div>
+          </Section>
+
+          <Section title="Downloads Section" description="Labels and headings above the downloadable files grid.">
+            <div className="grid grid-cols-2 gap-4">
+              <Field label="Section eyebrow label">
+                <TextInput value={hero.downloadsLabel ?? ''} onChange={e => updateHero('downloadsLabel', e.target.value)} placeholder="Free Resources" />
+              </Field>
+              <Field label="Section heading">
+                <TextInput value={hero.downloadsHeading ?? ''} onChange={e => updateHero('downloadsHeading', e.target.value)} placeholder="Templates & Downloads" />
+              </Field>
+            </div>
+            <Field label="Section subtext">
+              <TextArea rows={2} value={hero.downloadsSubtext ?? ''} onChange={e => updateHero('downloadsSubtext', e.target.value)} />
+            </Field>
+            <div className="flex justify-end">
+              <PrimaryButton onClick={saveHero} disabled={heroSaving}>
+                {heroSaving ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+                {heroSaving ? 'Saving…' : 'Save'}
+              </PrimaryButton>
+            </div>
+          </Section>
+
+          <Section title="Newsletter Section" description="The email subscription band at the bottom of the Resources page.">
+            <div className="grid grid-cols-2 gap-4">
+              <Field label="Eyebrow label">
+                <TextInput value={hero.newsletterLabel ?? ''} onChange={e => updateHero('newsletterLabel', e.target.value)} placeholder="Stay Updated" />
+              </Field>
+              <Field label="Heading">
+                <TextInput value={hero.newsletterHeading ?? ''} onChange={e => updateHero('newsletterHeading', e.target.value)} placeholder="Never miss a compliance update" />
+              </Field>
+            </div>
+            <Field label="Body text">
+              <TextArea rows={3} value={hero.newsletterBody ?? ''} onChange={e => updateHero('newsletterBody', e.target.value)} />
+            </Field>
+            <div className="grid grid-cols-2 gap-4">
+              <Field label="Button text">
+                <TextInput value={hero.newsletterButtonText ?? ''} onChange={e => updateHero('newsletterButtonText', e.target.value)} placeholder="Subscribe" />
+              </Field>
+              <Field label="Input placeholder">
+                <TextInput value={hero.newsletterPlaceholder ?? ''} onChange={e => updateHero('newsletterPlaceholder', e.target.value)} placeholder="Your business email" />
+              </Field>
+            </div>
+            <div className="flex justify-end mb-8">
+              <PrimaryButton onClick={saveHero} disabled={heroSaving}>
+                {heroSaving ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+                {heroSaving ? 'Saving…' : 'Save Newsletter'}
+              </PrimaryButton>
+            </div>
+          </Section>
+        </div>
+      )}
     </div>
   );
 }

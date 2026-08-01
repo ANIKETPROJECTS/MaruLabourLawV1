@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Plus, Trash2, Save, Loader2, Pencil, X, CheckCircle2, ChevronUp, ChevronDown } from 'lucide-react';
 import { api, deleteCloudinaryAsset } from '../../lib/api';
-import type { LabourCodeContent } from '../../types/content';
+import type { LabourCodeContent, LabourCodesPageContent } from '../../types/content';
 import { Section, Field, TextInput, TextArea, PrimaryButton, SecondaryButton, DangerButton } from '../../components/admin/FormBits';
 import ImageUploader from '../../components/admin/ImageUploader';
 
@@ -10,6 +10,31 @@ const PP = 'Poppins, sans-serif';
 const EMPTY: Omit<LabourCodeContent, '_id'> = {
   slug: '', codeNumber: '', title: '', subtitle: '', intro: '', body: '',
   coveringAreas: [], ctaLabel: '', img: '',
+};
+
+const PAGE_EMPTY: LabourCodesPageContent = {
+  heroLabel:   'Labour Codes Advisory',
+  heroHeading: "Navigating India's New Labour Law Framework",
+  heroSubtext: 'India has consolidated 29 Central labour laws into four Labour Codes. MCS helps employers understand the business impact and implement compliant, workable processes.',
+  gridLabel:   'The four codes',
+  gridHeading: 'From interpretation to implementation.',
+  gridSubtext: 'Our Labour Codes readiness review can cover wage structures, payroll, social security, gratuity, bonus, appointment letters, HR policies, standing orders, contractor management, working conditions and related processes.',
+  ctaLabel:      'MCS Labour Codes Readiness Review',
+  ctaHeading:    'Is your organisation Labour Codes ready?',
+  ctaSteps:      ['Compliance Status', 'Gap Analysis', 'Risk Classification', 'Corrective Actions', 'Implementation Roadmap'],
+  ctaButtonText: 'Request a Readiness Assessment',
+  disclaimer: 'The information on this page is for general informational purposes and is not a substitute for advice based on the facts of a specific matter. Requirements may vary by establishment, workforce, location and applicable Central and State provisions.',
+  detailBreadcrumb:      'Labour Codes Advisory',
+  detailAboutHeading:    'About This Code',
+  detailCoveringHeading: 'What We Cover',
+  detailCoveringSubtext: 'Key areas addressed under this Code.',
+  detailOtherCodes:      'Other Labour Codes',
+  detailAllCodes:        'All Four Labour Codes',
+  sidebarTag:      'Get Expert Advice',
+  sidebarHeading:  'Ready to assess your compliance?',
+  sidebarBody:     'Speak with our experts to understand how this Code impacts your organisation.',
+  sidebarPhone:    '+919876543210',
+  sidebarCallText: 'Call Now',
 };
 
 export default function AdminLabourCodes() {
@@ -21,11 +46,46 @@ export default function AdminLabourCodes() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
 
+  // Page content state
+  const [page, setPage] = useState<LabourCodesPageContent>(PAGE_EMPTY);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [pageSaving, setPageSaving] = useState(false);
+  const [pageDirty, setPageDirty] = useState(false);
+  const [pageNotice, setPageNotice] = useState('');
+  const [pageError, setPageError] = useState('');
+
   const load = () => api.get<LabourCodeContent[]>('/labour-codes').then(setCodes);
 
   useEffect(() => {
     load().catch((err) => setError(err instanceof Error ? err.message : 'Failed to load')).finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    api.get<LabourCodesPageContent>('/labour-codes-page')
+      .then(d => setPage({ ...PAGE_EMPTY, ...d }))
+      .catch(err => setPageError(err instanceof Error ? err.message : 'Failed to load page content'))
+      .finally(() => setPageLoading(false));
+  }, []);
+
+  const setP = <K extends keyof LabourCodesPageContent>(key: K, value: LabourCodesPageContent[K]) => {
+    setPageDirty(true);
+    setPage(p => ({ ...p, [key]: value }));
+  };
+
+  const savePage = async () => {
+    setPageSaving(true); setPageError('');
+    try {
+      const saved = await api.put<LabourCodesPageContent>('/labour-codes-page', page);
+      setPage({ ...PAGE_EMPTY, ...saved });
+      setPageDirty(false);
+      setPageNotice('Saved — page content is live on the site.');
+      setTimeout(() => setPageNotice(''), 2500);
+    } catch (err) {
+      setPageError(err instanceof Error ? err.message : 'Failed to save page content');
+    } finally {
+      setPageSaving(false);
+    }
+  };
 
   const startCreate = () => { setError(''); setDirty(false); setEditing({ ...EMPTY, coveringAreas: [] }); };
   const startEdit = (c: LabourCodeContent) => { setError(''); setDirty(false); setEditing({ ...c, coveringAreas: c.coveringAreas || [] }); };
@@ -180,7 +240,7 @@ export default function AdminLabourCodes() {
       )}
       {error && <div className="mb-5 text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">{error}</div>}
 
-      <div className="space-y-3">
+      <div className="space-y-3 mb-10">
         {codes.map((c, i) => (
           <div key={c._id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex items-center gap-4">
             <div className="flex flex-col items-center gap-0.5 shrink-0">
@@ -212,6 +272,162 @@ export default function AdminLabourCodes() {
           <p className="text-gray-400 text-sm">No labour codes yet. Click "New Code" to add one.</p>
         )}
       </div>
+
+      {/* ── Page Content Editor ── */}
+      {!pageLoading && (
+        <div>
+          {pageError && <div className="mb-5 text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">{pageError}</div>}
+
+          {pageDirty && !pageSaving && (
+            <div className="sticky top-0 z-20 mb-5 flex items-center justify-between gap-3 rounded-xl px-4 py-3 shadow-md"
+              style={{ backgroundColor: 'var(--primary-dark)', fontFamily: PP }}>
+              <span className="text-sm font-semibold text-white">You have unsaved page content changes.</span>
+              <button onClick={savePage}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-opacity hover:opacity-90"
+                style={{ backgroundColor: '#fda102', color: '#111' }}>
+                <Save size={13} /> Save now
+              </button>
+            </div>
+          )}
+          {pageNotice && !pageDirty && (
+            <div className="mb-5 flex items-center gap-2 text-sm text-green-700 bg-green-50 border border-green-200 rounded-xl px-4 py-2.5">
+              <CheckCircle2 size={15} /> {pageNotice}
+            </div>
+          )}
+
+          <Section title="Hero Section" description="The banner at the top of the Labour Codes listing page.">
+            <Field label="Eyebrow label">
+              <TextInput value={page.heroLabel} onChange={e => setP('heroLabel', e.target.value)} placeholder="Labour Codes Advisory" />
+            </Field>
+            <Field label="Heading">
+              <TextInput value={page.heroHeading} onChange={e => setP('heroHeading', e.target.value)} />
+            </Field>
+            <Field label="Subtext">
+              <TextArea rows={3} value={page.heroSubtext} onChange={e => setP('heroSubtext', e.target.value)} />
+            </Field>
+            <div className="flex justify-end">
+              <PrimaryButton onClick={savePage} disabled={pageSaving}>
+                {pageSaving ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+                {pageSaving ? 'Saving…' : 'Save Page Content'}
+              </PrimaryButton>
+            </div>
+          </Section>
+
+          <Section title="Grid Section" description="Labels and copy above the four-code grid.">
+            <div className="grid grid-cols-2 gap-4">
+              <Field label="Section label (eyebrow)">
+                <TextInput value={page.gridLabel} onChange={e => setP('gridLabel', e.target.value)} placeholder="The four codes" />
+              </Field>
+              <Field label="Section heading">
+                <TextInput value={page.gridHeading} onChange={e => setP('gridHeading', e.target.value)} />
+              </Field>
+            </div>
+            <Field label="Section subtext">
+              <TextArea rows={3} value={page.gridSubtext} onChange={e => setP('gridSubtext', e.target.value)} />
+            </Field>
+            <div className="flex justify-end">
+              <PrimaryButton onClick={savePage} disabled={pageSaving}>
+                {pageSaving ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+                {pageSaving ? 'Saving…' : 'Save Page Content'}
+              </PrimaryButton>
+            </div>
+          </Section>
+
+          <Section title="CTA Strip" description="The call-to-action band shown below the codes grid.">
+            <div className="grid grid-cols-2 gap-4">
+              <Field label="CTA eyebrow label">
+                <TextInput value={page.ctaLabel} onChange={e => setP('ctaLabel', e.target.value)} />
+              </Field>
+              <Field label="CTA button text">
+                <TextInput value={page.ctaButtonText} onChange={e => setP('ctaButtonText', e.target.value)} />
+              </Field>
+            </div>
+            <Field label="CTA heading">
+              <TextInput value={page.ctaHeading} onChange={e => setP('ctaHeading', e.target.value)} />
+            </Field>
+            <Field label="CTA steps (one per line — shown as badge pills)">
+              <TextArea rows={6} value={page.ctaSteps.join('\n')} onChange={e => setP('ctaSteps', e.target.value.split('\n'))} />
+            </Field>
+            <div className="flex justify-end">
+              <PrimaryButton onClick={savePage} disabled={pageSaving}>
+                {pageSaving ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+                {pageSaving ? 'Saving…' : 'Save Page Content'}
+              </PrimaryButton>
+            </div>
+          </Section>
+
+          <Section title="Disclaimer" description="Legal disclaimer shown at the bottom of the listing and detail pages.">
+            <Field label="Disclaimer text">
+              <TextArea rows={4} value={page.disclaimer} onChange={e => setP('disclaimer', e.target.value)} />
+            </Field>
+            <div className="flex justify-end">
+              <PrimaryButton onClick={savePage} disabled={pageSaving}>
+                {pageSaving ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+                {pageSaving ? 'Saving…' : 'Save Page Content'}
+              </PrimaryButton>
+            </div>
+          </Section>
+
+          <Section title="Detail Page Labels" description="Section headings and navigation labels on individual code detail pages.">
+            <div className="grid grid-cols-2 gap-4">
+              <Field label="Breadcrumb text">
+                <TextInput value={page.detailBreadcrumb} onChange={e => setP('detailBreadcrumb', e.target.value)} />
+              </Field>
+              <Field label='"About This Code" heading'>
+                <TextInput value={page.detailAboutHeading} onChange={e => setP('detailAboutHeading', e.target.value)} />
+              </Field>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <Field label='"What We Cover" heading'>
+                <TextInput value={page.detailCoveringHeading} onChange={e => setP('detailCoveringHeading', e.target.value)} />
+              </Field>
+              <Field label='"What We Cover" subtext'>
+                <TextInput value={page.detailCoveringSubtext} onChange={e => setP('detailCoveringSubtext', e.target.value)} />
+              </Field>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <Field label='"Other Labour Codes" heading'>
+                <TextInput value={page.detailOtherCodes} onChange={e => setP('detailOtherCodes', e.target.value)} />
+              </Field>
+              <Field label='"All Four Labour Codes" link label'>
+                <TextInput value={page.detailAllCodes} onChange={e => setP('detailAllCodes', e.target.value)} />
+              </Field>
+            </div>
+            <div className="flex justify-end">
+              <PrimaryButton onClick={savePage} disabled={pageSaving}>
+                {pageSaving ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+                {pageSaving ? 'Saving…' : 'Save Page Content'}
+              </PrimaryButton>
+            </div>
+          </Section>
+
+          <Section title="Detail Page Sidebar" description="The contact/CTA sidebar shown on each code's detail page.">
+            <div className="grid grid-cols-2 gap-4">
+              <Field label="Sidebar tag/eyebrow">
+                <TextInput value={page.sidebarTag} onChange={e => setP('sidebarTag', e.target.value)} placeholder="Get Expert Advice" />
+              </Field>
+              <Field label="Phone number">
+                <TextInput value={page.sidebarPhone} onChange={e => setP('sidebarPhone', e.target.value)} placeholder="+919876543210" />
+              </Field>
+            </div>
+            <Field label="Sidebar heading">
+              <TextInput value={page.sidebarHeading} onChange={e => setP('sidebarHeading', e.target.value)} />
+            </Field>
+            <Field label="Sidebar body text">
+              <TextArea rows={3} value={page.sidebarBody} onChange={e => setP('sidebarBody', e.target.value)} />
+            </Field>
+            <Field label="Call button text">
+              <TextInput value={page.sidebarCallText} onChange={e => setP('sidebarCallText', e.target.value)} placeholder="Call Now" />
+            </Field>
+            <div className="flex justify-end mb-8">
+              <PrimaryButton onClick={savePage} disabled={pageSaving}>
+                {pageSaving ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+                {pageSaving ? 'Saving…' : 'Save Page Content'}
+              </PrimaryButton>
+            </div>
+          </Section>
+        </div>
+      )}
     </div>
   );
 }
