@@ -5,14 +5,34 @@ import { FileText, Phone, ChevronRight, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { api } from '../lib/api';
 import { useLiveContent } from '../hooks/useLiveContent';
-import type { ServiceContent } from '../types/content';
+import type { ServiceContent, ServicesPageContent } from '../types/content';
 
 const PP = 'Poppins, sans-serif';
+
+const FALLBACK_PAGE: ServicesPageContent = {
+  heroVideoUrl: '/assets/services-hero.mp4',
+  heroTitle: 'Our Consultancy Services',
+  heroSubtitle: '',
+  ctaLabel: 'Get Started',
+  ctaHeading: 'Need a custom compliance structure?',
+  ctaBody: '',
+  ctaButtonText: 'Request Custom Consultation',
+  sidebarCtaTag: 'Get Expert Advice',
+  sidebarCtaHeading: 'Ready to secure your compliance?',
+  sidebarCtaBody: 'Speak directly with our legal experts to discuss how this service applies to your specific industry and workforce size.',
+  sidebarCtaButton1: 'Request Proposal',
+  sidebarCtaButton2: 'Call Now',
+  sidebarPhone: '+919876543210',
+  insightsLabel: 'Latest Insights',
+  insightsHeading: 'Stay informed with expert guidance',
+  latestInsights: [],
+};
 
 const ServiceDetail = () => {
   const { slug } = useParams();
   const [detail, setDetail] = useState<ServiceContent | null>(null);
   const [allServices, setAllServices] = useState<ServiceContent[]>([]);
+  const [page, setPage] = useState<ServicesPageContent>(FALLBACK_PAGE);
   const [status, setStatus] = useState<'loading' | 'ready' | 'not-found' | 'error'>('loading');
 
   const detailReqRef = useRef(0);
@@ -21,7 +41,7 @@ const ServiceDetail = () => {
     const currentSlug = slug;
     api.get<ServiceContent>(`/services/${currentSlug}`)
       .then((data) => {
-        if (reqId !== detailReqRef.current) return; // a newer request already resolved/superseded this one
+        if (reqId !== detailReqRef.current) return;
         setDetail(data); setStatus('ready');
       })
       .catch((err) => {
@@ -41,6 +61,12 @@ const ServiceDetail = () => {
   };
   useEffect(fetchAllServices, []);
   useLiveContent(fetchAllServices);
+
+  const fetchPage = () => {
+    api.get<ServicesPageContent>('/services-page').then(setPage).catch(() => {});
+  };
+  useEffect(fetchPage, []);
+  useLiveContent(fetchPage);
 
   const title = detail?.title || slug?.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') || 'Service';
   const otherServices = allServices.filter((s) => s.slug !== slug);
@@ -256,7 +282,7 @@ const ServiceDetail = () => {
 
                 <div className="p-2" style={{ backgroundColor: 'var(--primary)' }}>
                   <p className="text-center text-xs font-semibold uppercase tracking-widest" style={{ color: '#fda102', fontFamily: PP }}>
-                    Get Expert Advice
+                    {page.sidebarCtaTag}
                   </p>
                 </div>
 
@@ -264,26 +290,28 @@ const ServiceDetail = () => {
                   <h3
                     className="font-bold mb-3 text-lg lg:text-[1.35rem]"
                     style={{ fontFamily: PP, color: '#111', lineHeight: 1.3 }}>
-                    Ready to secure your compliance?
+                    {page.sidebarCtaHeading}
                   </h3>
                   <p
                     className="text-gray-500 mb-6 lg:mb-7 leading-relaxed text-sm lg:text-[0.93rem]"
                     style={{ fontFamily: PP, lineHeight: 1.7 }}>
-                    Speak directly with our legal experts to discuss how this service applies to your specific industry and workforce size.
+                    {page.sidebarCtaBody}
                   </p>
                   <div className="space-y-3">
                     <Link
                       to="/contact"
                       className="w-full text-white py-3.5 lg:py-4 rounded-xl font-semibold flex items-center justify-center gap-2 shadow-md transition-opacity hover:opacity-90 text-sm lg:text-[0.95rem]"
                       style={{ backgroundColor: 'var(--primary)', fontFamily: PP }}>
-                      <FileText size={16} /> Request Proposal
+                      <FileText size={16} /> {page.sidebarCtaButton1}
                     </Link>
-                    <a
-                      href="tel:+919876543210"
-                      className="w-full py-3.5 lg:py-4 rounded-xl font-semibold flex items-center justify-center gap-2 border-2 transition-all hover:bg-[var(--primary)] hover:text-white text-sm lg:text-[0.95rem]"
-                      style={{ fontFamily: PP, color: 'var(--primary)', borderColor: 'var(--primary)', backgroundColor: 'transparent' }}>
-                      <Phone size={16} /> Call Now
-                    </a>
+                    {page.sidebarPhone && (
+                      <a
+                        href={`tel:${page.sidebarPhone}`}
+                        className="w-full py-3.5 lg:py-4 rounded-xl font-semibold flex items-center justify-center gap-2 border-2 transition-all hover:bg-[var(--primary)] hover:text-white text-sm lg:text-[0.95rem]"
+                        style={{ fontFamily: PP, color: 'var(--primary)', borderColor: 'var(--primary)', backgroundColor: 'transparent' }}>
+                        <Phone size={16} /> {page.sidebarCtaButton2}
+                      </a>
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -319,57 +347,55 @@ const ServiceDetail = () => {
       </section>
 
       {/* ── Latest Insights ── */}
-      <section className="py-12 lg:py-20 bg-[#f8fafb]">
-        <div className="max-w-7xl mx-auto px-4 lg:px-10">
-          <div className="flex justify-between items-end mb-8 lg:mb-12">
-            <div>
-              <p className="font-bold tracking-[0.18em] uppercase text-xs mb-2"
-                style={{ fontFamily: PP, color: 'var(--primary)' }}>Latest Insights</p>
-              <h2 className="text-xl lg:text-4xl font-bold leading-tight"
-                style={{ fontFamily: PP, color: '#111' }}>Stay informed with expert guidance</h2>
+      {page.latestInsights && page.latestInsights.length > 0 && (
+        <section className="py-12 lg:py-20 bg-[#f8fafb]">
+          <div className="max-w-7xl mx-auto px-4 lg:px-10">
+            <div className="flex justify-between items-end mb-8 lg:mb-12">
+              <div>
+                <p className="font-bold tracking-[0.18em] uppercase text-xs mb-2"
+                  style={{ fontFamily: PP, color: 'var(--primary)' }}>{page.insightsLabel}</p>
+                <h2 className="text-xl lg:text-4xl font-bold leading-tight"
+                  style={{ fontFamily: PP, color: '#111' }}>{page.insightsHeading}</h2>
+              </div>
+              <Link to="/resources"
+                className="hidden md:flex items-center gap-2 font-semibold text-sm transition-colors border-b pb-0.5 hover:opacity-70 shrink-0"
+                style={{ fontFamily: PP, color: '#111', borderColor: '#111' }}>
+                View All <ArrowRight size={15} />
+              </Link>
             </div>
-            <Link to="/resources"
-              className="hidden md:flex items-center gap-2 font-semibold text-sm transition-colors border-b pb-0.5 hover:opacity-70 shrink-0"
-              style={{ fontFamily: PP, color: '#111', borderColor: '#111' }}>
-              View All <ArrowRight size={15} />
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-7">
-            {[
-              { category: 'New Labour Codes', title: 'Understanding the New Wage Code', desc: 'A comprehensive guide to how the new definitions of wages impact your salary structure and PF contributions.', img: '/assets/service-payroll.png', date: 'Oct 15, 2024' },
-              { category: 'Compliance', title: 'Navigating State-Specific Leave Policies', desc: 'Analyzing the variations in sick, casual, and earned leaves across different Indian states.', img: '/assets/service-hr.png', date: 'Oct 02, 2024' },
-              { category: 'Labour Audit', title: 'Preparing for Labour Inspections', desc: 'Key documents and statutory registers you must have updated before an unexpected factory inspection.', img: '/assets/service-audits.png', date: 'Sep 28, 2024' },
-            ].map((post, i) => (
-              <motion.div key={i}
-                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.45, delay: i * 0.1 }}
-                className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow flex flex-col group">
-                <div className="relative overflow-hidden h-40 lg:h-48">
-                  <img src={post.img} alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div className="absolute top-3 left-3 text-white text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-wider"
-                    style={{ backgroundColor: 'var(--primary)' }}>
-                    {post.category}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-7">
+              {page.latestInsights.map((post, i) => (
+                <motion.div key={i}
+                  initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }} transition={{ duration: 0.45, delay: i * 0.1 }}
+                  className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow flex flex-col group">
+                  <div className="relative overflow-hidden h-40 lg:h-48">
+                    <img src={post.img} alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="absolute top-3 left-3 text-white text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-wider"
+                      style={{ backgroundColor: 'var(--primary)' }}>
+                      {post.category}
+                    </div>
                   </div>
-                </div>
-                <div className="p-5 lg:p-6 flex flex-col flex-grow">
-                  <p className="text-[11px] font-semibold mb-2 uppercase tracking-wider"
-                    style={{ color: 'var(--primary)', fontFamily: PP }}>{post.date}</p>
-                  <h3 className="text-base font-bold mb-3 line-clamp-2"
-                    style={{ fontFamily: PP, color: '#111' }}>{post.title}</h3>
-                  <p className="text-gray-500 text-sm mb-5 flex-grow leading-relaxed"
-                    style={{ fontFamily: PP }}>{post.desc}</p>
-                  <Link to="/resources"
-                    className="font-bold text-sm flex items-center gap-1.5 transition-colors mt-auto hover:opacity-70"
-                    style={{ color: 'var(--primary)', fontFamily: PP }}>
-                    Read Article <ChevronRight size={14} />
-                  </Link>
-                </div>
-              </motion.div>
-            ))}
+                  <div className="p-5 lg:p-6 flex flex-col flex-grow">
+                    <p className="text-[11px] font-semibold mb-2 uppercase tracking-wider"
+                      style={{ color: 'var(--primary)', fontFamily: PP }}>{post.date}</p>
+                    <h3 className="text-base font-bold mb-3 line-clamp-2"
+                      style={{ fontFamily: PP, color: '#111' }}>{post.title}</h3>
+                    <p className="text-gray-500 text-sm mb-5 flex-grow leading-relaxed"
+                      style={{ fontFamily: PP }}>{post.desc}</p>
+                    <Link to={post.articleUrl || '/resources'}
+                      className="font-bold text-sm flex items-center gap-1.5 transition-colors mt-auto hover:opacity-70"
+                      style={{ color: 'var(--primary)', fontFamily: PP }}>
+                      Read Article <ChevronRight size={14} />
+                    </Link>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 };

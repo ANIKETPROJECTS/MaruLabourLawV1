@@ -95,6 +95,30 @@ export type HomeContent = {
 
 export type Deliverable = { title: string; desc: string; slug?: string };
 
+export type ServicesPageContent = {
+  _id?: string;
+  // Services listing hero
+  heroVideoUrl: string;
+  heroTitle: string;
+  heroSubtitle: string;
+  // Services listing CTA section
+  ctaLabel: string;
+  ctaHeading: string;
+  ctaBody: string;
+  ctaButtonText: string;
+  // ServiceDetail sidebar
+  sidebarCtaTag: string;
+  sidebarCtaHeading: string;
+  sidebarCtaBody: string;
+  sidebarCtaButton1: string;
+  sidebarCtaButton2: string;
+  sidebarPhone: string;
+  // ServiceDetail latest insights
+  insightsLabel: string;
+  insightsHeading: string;
+  latestInsights: InsightCard[];
+};
+
 export type ServiceContent = {
   _id: string;
   slug: string;

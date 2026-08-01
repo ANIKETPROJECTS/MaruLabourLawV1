@@ -23,6 +23,8 @@ import LabourCode from './models/LabourCode.js';
 import { labourCodesSeed } from './seedData/labourCodes.js';
 import Footer from './models/Footer.js';
 import { footerSeed } from './seedData/footer.js';
+import ServicesPage from './models/ServicesPage.js';
+import { servicesPageSeed } from './seedData/servicesPage.js';
 
 async function run() {
   await connectDB();
@@ -127,6 +129,15 @@ async function run() {
     console.log('[seed] Created Footer content');
   } else {
     console.log('[seed] Footer content already exists — skipped');
+  }
+
+  // Services Page
+  const existingServicesPage = await ServicesPage.findOne({ singleton: 'services-page' });
+  if (!existingServicesPage) {
+    await ServicesPage.create({ singleton: 'services-page', ...servicesPageSeed });
+    console.log('[seed] Created Services Page content');
+  } else {
+    console.log('[seed] Services Page content already exists — skipped');
   }
 
   console.log('[seed] Done.');
