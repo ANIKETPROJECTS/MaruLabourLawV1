@@ -336,10 +336,24 @@ const oneStopAnims = [
 ];
 
 const defaultStats = [
-  { target: 1979, decimals: 0, suffix: "", label: "Serving Since" },
+  { target: 500, decimals: 0, suffix: "+", label: "Clients Served" },
+  { target: 4.9, decimals: 1, suffix: "★", label: "Average Rating" },
+  { target: 15, decimals: 0, suffix: "+", label: "Years of Expertise" },
+  { target: 98, decimals: 0, suffix: "%", label: "Retention Rate" },
+];
+
+const defaultHeroStats = [
+  { target: 1979, decimals: 0, suffix: "", label: "Established Since" },
   { target: 45, decimals: 0, suffix: "+", label: "Years of Experience" },
-  { target: 4, decimals: 0, suffix: "", label: "Labour Codes" },
   { target: 300, decimals: 0, suffix: "+", label: "Clients Served" },
+  { target: 4, decimals: 0, suffix: "", label: "Labour Codes" },
+];
+
+const defaultHeroCategories = [
+  "Labour Laws",
+  "Labour Codes",
+  "Industrial Relations",
+  "Statutory Compliance",
 ];
 
 const Home = () => {
@@ -402,6 +416,21 @@ const Home = () => {
     content?.heroDescription ||
     "Established in Mumbai in 1979, Maru Consultancy Services provides specialised advisory, compliance, audit and representation support to organisations navigating India's labour and employment regulatory framework.";
   const typewriterDesc = useOneTimeTypewriter(heroDescription, 28);
+
+  const heroCategories = content?.heroCategories?.length ? content.heroCategories : defaultHeroCategories;
+  const heroStats = content?.heroStats?.length ? content.heroStats : defaultHeroStats;
+  const ctaPrimary = content?.ctaPrimaryText || "Talk to Our Experts";
+  const ctaSecondary = content?.ctaSecondaryText || "Request a Compliance Review";
+  const labourCodesCalloutHeading = content?.labourCodesCalloutHeading || "Is Your Organisation Labour Codes Ready?";
+  const labourCodesCalloutBody = content?.labourCodesCalloutBody || "Assess the impact on wages, payroll, PF, gratuity, bonus, employment documentation, HR policies, contractors, social security, industrial relations and working conditions.";
+  const labourCodesCalloutCta = content?.labourCodesCalloutCta || "Request a Labour Codes Readiness Assessment";
+  const clientsLabel = content?.clientsLabel || "Serving 500+ Corporations Across India";
+  const insightsLabel = content?.insightsLabel || "Latest Insights";
+  const insightsHeading = content?.insightsHeading || "Stay informed with expert guidance";
+  const ctaBannerHeading = content?.ctaBannerHeading || "Ready to secure your compliance?";
+  const ctaBannerBody = content?.ctaBannerBody || "Schedule a detailed consultation with our legal experts to audit your current HR practices and identify risks before they become liabilities.";
+  const ctaBannerButtonText = content?.ctaBannerButtonText || "Schedule Consultation";
+  const ctaBannerImage = content?.ctaBannerImageUrl || "/assets/cta-gavel.png";
 
   const testimonials = content?.testimonials?.length
     ? content.testimonials
@@ -485,12 +514,7 @@ const Home = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.08 }}
               >
-                {[
-                  "Labour Laws",
-                  "Labour Codes",
-                  "Industrial Relations",
-                  "Statutory Compliance",
-                ].map((cat, i, arr) => (
+                {heroCategories.map((cat, i, arr) => (
                   <span key={cat} className="flex items-center gap-2">
                     <span
                       className="font-semibold text-white/90"
@@ -597,7 +621,7 @@ const Home = () => {
                       "#fda102";
                   }}
                 >
-                  Talk to Our Experts
+                  {ctaPrimary}
                 </Link>
                 <Link
                   to="/contact"
@@ -616,7 +640,7 @@ const Home = () => {
                       "transparent";
                   }}
                 >
-                  Request a Compliance Review
+                  {ctaSecondary}
                 </Link>
               </motion.div>
             </div>
@@ -655,27 +679,7 @@ const Home = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <div className="grid grid-cols-2 lg:grid-cols-4">
-                {[
-                  {
-                    target: 1979,
-                    suffix: "",
-                    decimals: 0,
-                    label: "Established Since",
-                  },
-                  {
-                    target: 45,
-                    suffix: "+",
-                    decimals: 0,
-                    label: "Years of Experience",
-                  },
-                  {
-                    target: 300,
-                    suffix: "+",
-                    decimals: 0,
-                    label: "Clients Served",
-                  },
-                  { target: 4, suffix: "", decimals: 0, label: "Labour Codes" },
-                ].map(({ target, suffix, decimals, label }, i, arr) => (
+                {heroStats.map(({ target, suffix, decimals, label }, i, arr) => (
                   <div
                     key={label}
                     className={`flex flex-col items-center justify-center text-center px-4 py-4 lg:py-5
@@ -836,7 +840,7 @@ const Home = () => {
               lineHeight: 1.2,
             }}
           >
-            Is Your Organisation Labour Codes Ready?
+            {labourCodesCalloutHeading}
           </motion.h2>
           <motion.p
             className="leading-relaxed text-xs lg:text-base mb-7 lg:mb-9"
@@ -881,7 +885,7 @@ const Home = () => {
                 (e.currentTarget as HTMLElement).style.color = "#ffffff";
               }}
             >
-              Request a Labour Codes Readiness Assessment{" "}
+              {labourCodesCalloutCta}{" "}
               <ArrowRight size={15} />
             </Link>
           </motion.div>
@@ -1354,7 +1358,7 @@ const Home = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.45 }}
         >
-          Serving 500+ Corporations Across India
+          {clientsLabel}
         </motion.p>
 
         {/* Row 1 — scrolls LEFT */}

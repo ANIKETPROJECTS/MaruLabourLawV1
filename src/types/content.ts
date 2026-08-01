@@ -37,22 +37,33 @@ export type InsightCard = {
   articleUrl: string;
 };
 
+export type HeroSlide = { headline: string; headlineAccent: string; imageUrl: string };
+
 export type HomeContent = {
   _id?: string;
+  // Hero
   heroLine1: string;
-  heroPhrases: string[];
-  heroSlides: { headline: string; headlineAccent: string; imageUrl: string }[];
   heroLine2: string;
+  heroPhrases: string[];
+  heroCategories: string[];
+  heroSlides: HeroSlide[];
+  heroStats: StatItem[];
   heroDescription: string;
   heroVideoUrl: string;
   heroImage1Url: string;
   heroImage2Url: string;
   ctaPrimaryText: string;
   ctaSecondaryText: string;
+  // Core Capabilities
   oneStopLabel: string;
   oneStopTitle: string;
   oneStopBody: string;
   oneStopCards: OneStopCard[];
+  // Labour Codes Callout
+  labourCodesCalloutHeading: string;
+  labourCodesCalloutBody: string;
+  labourCodesCalloutCta: string;
+  // Why Choose Us
   whyUsLogoUrl: string;
   whyUsHeading: string;
   whyUsBody: string;
@@ -60,14 +71,26 @@ export type HomeContent = {
   whyUsVideoUrl: string;
   whyUsImage1Url: string;
   whyUsImage2Url: string;
+  // Services Preview
   servicesPreviewLabel: string;
   servicesPreviewTitle: string;
   servicesPreviewDescription: string;
+  featuredServiceSlugs: string[];
+  // Client logos
+  clientsLabel: string;
+  // Testimonials
   testimonialsHeading: string;
   testimonials: Testimonial[];
   stats: StatItem[];
-  featuredServiceSlugs: string[];
+  // Latest Insights
+  insightsLabel: string;
+  insightsHeading: string;
   latestInsights: InsightCard[];
+  // CTA Banner
+  ctaBannerHeading: string;
+  ctaBannerBody: string;
+  ctaBannerButtonText: string;
+  ctaBannerImageUrl: string;
 };
 
 export type Deliverable = { title: string; desc: string; slug?: string };

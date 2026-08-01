@@ -27,9 +27,11 @@ const OneStopCard = new mongoose.Schema({
 const HomeSchema = new mongoose.Schema({
   singleton: { type: String, default: 'home', unique: true },
 
-  heroLine1: String,
-  heroPhrases: [String],
-  heroLine2: String,
+  // ── Hero ──────────────────────────────────────────────
+  heroLine1: String,        // legacy (kept for compat)
+  heroLine2: String,        // legacy (kept for compat)
+  heroPhrases: [String],    // typewriter phrases
+  heroCategories: [String], // pipe-separated strip under brand name
   heroDescription: String,
   heroVideoUrl: String,
   heroImage1Url: String,
@@ -37,11 +39,35 @@ const HomeSchema = new mongoose.Schema({
   ctaPrimaryText: String,
   ctaSecondaryText: String,
 
+  // Hero slides — headline + accent + image cycling together
+  heroSlides: [{
+    headline: String,
+    headlineAccent: String,
+    imageUrl: String,
+    _id: false,
+  }],
+
+  // Credibility stats card (overlapping bottom of hero)
+  heroStats: [{
+    target: Number,
+    decimals: { type: Number, default: 0 },
+    suffix: String,
+    label: String,
+    _id: false,
+  }],
+
+  // ── Core Capabilities (dark section) ──────────────────
   oneStopLabel: String,
   oneStopTitle: String,
   oneStopBody: String,
   oneStopCards: [OneStopCard],
 
+  // ── Labour Codes Callout ───────────────────────────────
+  labourCodesCalloutHeading: String,
+  labourCodesCalloutBody: String,
+  labourCodesCalloutCta: String,
+
+  // ── Why Choose Us ─────────────────────────────────────
   whyUsLogoUrl: String,
   whyUsHeading: String,
   whyUsBody: String,
@@ -50,27 +76,23 @@ const HomeSchema = new mongoose.Schema({
   whyUsImage1Url: String,
   whyUsImage2Url: String,
 
+  // ── Services Preview ──────────────────────────────────
   servicesPreviewLabel: String,
   servicesPreviewTitle: String,
   servicesPreviewDescription: String,
-
-  testimonialsHeading: String,
-  testimonials: [Testimonial],
-
-  stats: [StatItem],
-
-  // Hero slides — each slide pairs a headline with an image
-  heroSlides: [{
-    headline: String,
-    headlineAccent: String,
-    imageUrl: String,
-    _id: false,
-  }],
-
-  // Which services appear on the homepage, in what order (array of slugs)
   featuredServiceSlugs: { type: [String], default: [] },
 
-  // Latest Insights cards shown on the homepage
+  // ── Client Logos ──────────────────────────────────────
+  clientsLabel: String,
+
+  // ── Testimonials ──────────────────────────────────────
+  testimonialsHeading: String,
+  testimonials: [Testimonial],
+  stats: [StatItem],   // count-up bar inside testimonials section
+
+  // ── Latest Insights ───────────────────────────────────
+  insightsLabel: String,
+  insightsHeading: String,
   latestInsights: [{
     category: String,
     title: String,
@@ -80,6 +102,13 @@ const HomeSchema = new mongoose.Schema({
     articleUrl: String,
     _id: false,
   }],
+
+  // ── CTA Banner ────────────────────────────────────────
+  ctaBannerHeading: String,
+  ctaBannerBody: String,
+  ctaBannerButtonText: String,
+  ctaBannerImageUrl: String,
+
 }, { timestamps: true });
 
 export default mongoose.models.Home || mongoose.model('Home', HomeSchema);
