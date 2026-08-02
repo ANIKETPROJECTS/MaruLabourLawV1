@@ -7,7 +7,7 @@ import heroImageDefault from "@assets/pexels-vlada-karpovich-7433855_17834208740
 import customerReviewIcon from "@assets/customer-review_1783487769231.png";
 const maruLogoDefault = "/assets/maru-logo-new.png";
 import { motion, useInView } from "framer-motion";
-import { ArrowRight, ChevronRight, Star, ImageIcon } from "lucide-react";
+import { ArrowRight, ChevronRight, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ALL_CLIENTS } from "../components/ClientLogos";
 import lottie from "lottie-web";
@@ -19,7 +19,7 @@ import animPayrollRecords from "../assets/animations/anim-payroll-records.json";
 import animHr from "../assets/animations/anim-hr.json";
 import { api } from "../lib/api";
 import { useLiveContent } from "../hooks/useLiveContent";
-import type { HomeContent, ServiceContent } from "../types/content";
+import type { HomeContent, ServiceContent, OneStopCard } from "../types/content";
 
 /* ── Lottie player wrapper (uses lottie-web directly, no duplicate-React risk) ── */
 function LottieAnim({
@@ -45,51 +45,6 @@ function LottieAnim({
   return <div ref={containerRef} className={className} />;
 }
 
-/* ── Typewriter effect ────────────────────────────────────── */
-function useTypewriter(
-  phrases: string[],
-  typingSpeed = 75,
-  deletingSpeed = 38,
-  pauseMs = 1800,
-) {
-  const [displayed, setDisplayed] = useState("");
-  const [phraseIdx, setPhraseIdx] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    const current = phrases[phraseIdx] ?? "";
-    if (!isDeleting && displayed === current) {
-      const t = setTimeout(() => setIsDeleting(true), pauseMs);
-      return () => clearTimeout(t);
-    }
-    if (isDeleting && displayed === "") {
-      setIsDeleting(false);
-      setPhraseIdx((p) => (p + 1) % phrases.length);
-      return;
-    }
-    const t = setTimeout(
-      () => {
-        setDisplayed(
-          isDeleting
-            ? current.slice(0, displayed.length - 1)
-            : current.slice(0, displayed.length + 1),
-        );
-      },
-      isDeleting ? deletingSpeed : typingSpeed,
-    );
-    return () => clearTimeout(t);
-  }, [
-    displayed,
-    isDeleting,
-    phraseIdx,
-    phrases,
-    typingSpeed,
-    deletingSpeed,
-    pauseMs,
-  ]);
-
-  return displayed;
-}
 
 /* ── Animated count-up stat ───────────────────────────────── */
 function StatCounter({
@@ -184,35 +139,6 @@ function HeroCarousel({
   );
 }
 
-/* ── One-shot typewriter (types once, no delete) ──────── */
-function useOneTimeTypewriter(text: string, speed = 28) {
-  const [displayed, setDisplayed] = useState("");
-  useEffect(() => {
-    setDisplayed("");
-    if (!text) return;
-    let i = 0;
-    let cancelled = false;
-    function tick() {
-      if (cancelled) return;
-      i++;
-      setDisplayed(text.slice(0, i));
-      if (i < text.length) setTimeout(tick, speed);
-    }
-    const timer = setTimeout(tick, 420);
-    return () => {
-      cancelled = true;
-      clearTimeout(timer);
-    };
-  }, [text, speed]);
-  return displayed;
-}
-
-const defaultPhrases = [
-  "Labour Laws",
-  "Labour Codes",
-  "Industrial Relations",
-  "Statutory Compliance",
-];
 
 const defaultHeroSlides = [
   {
@@ -290,7 +216,7 @@ const defaultWhyUs = [
   },
 ];
 
-const defaultOneStopCards = [
+const defaultOneStopCards: OneStopCard[] = [
   {
     title: "Labour Codes Advisory & Implementation",
     desc: "End-to-end guidance on the four Labour Codes",
@@ -325,14 +251,14 @@ const defaultOneStopCards = [
   },
 ];
 const oneStopAnims = [
-  animStatutory,
-  animStatutory,
-  animStatutory,
-  animStatutory,
-  animStatutory,
-  animStatutory,
-  animStatutory,
-  animStatutory,
+  animLabourActs,       // Labour Codes Advisory & Implementation
+  animStatutory,        // Labour Law & Statutory Compliance
+  animEstablishment,    // Labour Law Audits & Due Diligence
+  animPayrollRecords,   // Contract Labour & Principal Employer Compliance
+  animPayrollPlanning,  // Payroll & Wage Structure Advisory
+  animHr,              // Industrial Relations & Employment Advisory
+  animStatutory,        // Inspections, Notices & Representation
+  animEstablishment,   // Registrations, Licensing & Establishment Compliance
 ];
 
 const defaultStats = [
@@ -385,11 +311,6 @@ const Home = () => {
   useEffect(fetchHome, []);
   useLiveContent(fetchHome);
 
-  const phrases = content?.heroPhrases?.length
-    ? content.heroPhrases
-    : defaultPhrases;
-  const typewriterText = useTypewriter(phrases);
-
   // ── Hero slides (text + image in sync) ─────────────────
   const heroSlides = (
     content?.heroSlides?.length
@@ -415,7 +336,6 @@ const Home = () => {
   const heroDescription =
     content?.heroDescription ||
     "Established in Mumbai in 1979, Maru Consultancy Services provides specialised advisory, compliance, audit and representation support to organisations navigating India's labour and employment regulatory framework.";
-  const typewriterDesc = useOneTimeTypewriter(heroDescription, 28);
 
   const heroCategories = content?.heroCategories?.length ? content.heroCategories : defaultHeroCategories;
   const heroStats = content?.heroStats?.length ? content.heroStats : defaultHeroStats;
@@ -854,9 +774,7 @@ const Home = () => {
               color: "rgba(255,255,255,0.78)",
             }}
           >
-            Assess the impact on wages, payroll, PF, gratuity, bonus, employment
-            documentation, HR policies, contractors, social security, industrial
-            relations and working conditions.
+            {labourCodesCalloutBody}
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1412,7 +1330,7 @@ const Home = () => {
                   color: "var(--primary)",
                 }}
               >
-                Latest Insights
+                {insightsLabel}
               </p>
               <h2
                 className="font-bold text-navy-900 whitespace-nowrap"
@@ -1421,7 +1339,7 @@ const Home = () => {
                   fontSize: "clamp(1.05rem, 4vw, 2.25rem)",
                 }}
               >
-                Stay informed with expert guidance
+                {insightsHeading}
               </h2>
             </div>
             <Link
@@ -1523,7 +1441,7 @@ const Home = () => {
                 fontSize: "clamp(1rem, 3.5vw, 3rem)",
               }}
             >
-              Ready to secure your compliance?
+              {ctaBannerHeading}
             </h2>
             <p
               className="text-xs lg:text-base leading-relaxed mb-5 lg:mb-8 text-center md:text-left"
@@ -1532,9 +1450,7 @@ const Home = () => {
                 color: "rgba(255,255,255,0.85)",
               }}
             >
-              Schedule a detailed consultation with our legal experts to audit
-              your current HR practices and identify risks before they become
-              liabilities.
+              {ctaBannerBody}
             </p>
             <div className="flex justify-center md:justify-start">
               <Link
@@ -1560,7 +1476,7 @@ const Home = () => {
                   (e.currentTarget as HTMLElement).style.boxShadow = "";
                 }}
               >
-                Schedule Consultation <ArrowRight size={15} />
+                {ctaBannerButtonText} <ArrowRight size={15} />
               </Link>
             </div>
           </motion.div>
@@ -1575,7 +1491,7 @@ const Home = () => {
             style={{ backgroundColor: "var(--primary)" }}
           >
             <img
-              src="/assets/cta-gavel.png"
+              src={ctaBannerImage}
               alt="Labour law compliance gavel"
               className="w-full h-auto object-contain md:h-full md:object-cover object-center md:min-h-[320px] md:max-h-[480px]"
               style={{ display: "block" }}

@@ -190,7 +190,7 @@ export default function AdminKnowledgeCentre() {
       <div>
         <div className="flex items-center justify-between mb-6">
           <h1 className="font-bold" style={{ fontFamily: PP, fontSize: '1.5rem', color: '#111' }}>
-            {'_id' in editing && editing._id ? 'Edit Article' : 'New Article'}
+            {'_id' in editing && editing._id ? `Edit Article — ${catLabel}` : 'New Article'}
           </h1>
           <div className="flex items-center gap-3">
             <SecondaryButton onClick={cancelEdit}><X size={13} /> Cancel</SecondaryButton>

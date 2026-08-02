@@ -1,0 +1,114 @@
+root@srv1232657:/var/www/labourlawjssr# npm run build
+
+> labourcodes@0.0.0 build
+> tsc -b && vite build
+
+src/components/Layout.tsx:3:41 - error TS6133: 'Phone' is declared but its value                                                                                                              is never read.
+
+3 import { Menu, X, ChevronDown, ArrowUp, Phone, Mail } from 'lucide-react';
+                                          ~~~~~
+
+src/components/Layout.tsx:3:48 - error TS6133: 'Mail' is declared but its value                                                                                                              is never read.
+
+3 import { Menu, X, ChevronDown, ArrowUp, Phone, Mail } from 'lucide-react';
+                                                 ~~~~
+
+src/pages/Contact.tsx:2:35 - error TS6133: 'Clock' is declared but its value is                                                                                                              never read.
+
+2 import { ArrowRight, CheckCircle, Clock } from 'lucide-react';
+                                    ~~~~~
+
+src/pages/Home.tsx:10:42 - error TS6133: 'ImageIcon' is declared but its value i                                                                                                             s never read.
+
+10 import { ArrowRight, ChevronRight, Star, ImageIcon } from "lucide-react";
+                                            ~~~~~~~~~
+
+src/pages/Home.tsx:15:1 - error TS6133: 'animLabourActs' is declared but its val                                                                                                             ue is never read.
+
+15 import animLabourActs from "../assets/animations/anim-labour-acts.json";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/pages/Home.tsx:16:1 - error TS6133: 'animEstablishment' is declared but its                                                                                                              value is never read.
+
+16 import animEstablishment from "../assets/animations/anim-establishment.json";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/pages/Home.tsx:17:1 - error TS6133: 'animPayrollPlanning' is declared but it                                                                                                             s value is never read.
+
+17 import animPayrollPlanning from "../assets/animations/anim-payroll-planning.j                                                                                                             son";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                                                                                             ~~~~~
+
+src/pages/Home.tsx:18:1 - error TS6133: 'animPayrollRecords' is declared but its                                                                                                              value is never read.
+
+18 import animPayrollRecords from "../assets/animations/anim-payroll-records.jso                                                                                                             n";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                                                                                             ~~~
+
+src/pages/Home.tsx:19:1 - error TS6133: 'animHr' is declared but its value is ne                                                                                                             ver read.
+
+19 import animHr from "../assets/animations/anim-hr.json";
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/pages/Home.tsx:391:9 - error TS6133: 'typewriterText' is declared but its va                                                                                                             lue is never read.
+
+391   const typewriterText = useTypewriter(phrases);
+            ~~~~~~~~~~~~~~
+
+src/pages/Home.tsx:418:9 - error TS6133: 'typewriterDesc' is declared but its va                                                                                                             lue is never read.
+
+418   const typewriterDesc = useOneTimeTypewriter(heroDescription, 28);
+            ~~~~~~~~~~~~~~
+
+src/pages/Home.tsx:425:9 - error TS6133: 'labourCodesCalloutBody' is declared bu                                                                                                             t its value is never read.
+
+425   const labourCodesCalloutBody = content?.labourCodesCalloutBody || "Assess                                                                                                              the impact on wages, payroll, PF, gratuity, bonus, employment documentation, HR                                                                                                              policies, contractors, social security, industrial relations and working conditi                                                                                                             ons.";
+            ~~~~~~~~~~~~~~~~~~~~~~
+
+src/pages/Home.tsx:428:9 - error TS6133: 'insightsLabel' is declared but its val                                                                                                             ue is never read.
+
+428   const insightsLabel = content?.insightsLabel || "Latest Insights";
+            ~~~~~~~~~~~~~
+
+src/pages/Home.tsx:429:9 - error TS6133: 'insightsHeading' is declared but its v                                                                                                             alue is never read.
+
+429   const insightsHeading = content?.insightsHeading || "Stay informed with ex                                                                                                             pert guidance";
+            ~~~~~~~~~~~~~~~
+
+src/pages/Home.tsx:430:9 - error TS6133: 'ctaBannerHeading' is declared but its                                                                                                              value is never read.
+
+430   const ctaBannerHeading = content?.ctaBannerHeading || "Ready to secure you                                                                                                             r compliance?";
+            ~~~~~~~~~~~~~~~~
+
+src/pages/Home.tsx:431:9 - error TS6133: 'ctaBannerBody' is declared but its val                                                                                                             ue is never read.
+
+431   const ctaBannerBody = content?.ctaBannerBody || "Schedule a detailed consu                                                                                                             ltation with our legal experts to audit your current HR practices and identify r                                                                                                             isks before they become liabilities.";
+            ~~~~~~~~~~~~~
+
+src/pages/Home.tsx:432:9 - error TS6133: 'ctaBannerButtonText' is declared but i                                                                                                             ts value is never read.
+
+432   const ctaBannerButtonText = content?.ctaBannerButtonText || "Schedule Cons                                                                                                             ultation";
+            ~~~~~~~~~~~~~~~~~~~
+
+src/pages/Home.tsx:433:9 - error TS6133: 'ctaBannerImage' is declared but its va                                                                                                             lue is never read.
+
+433   const ctaBannerImage = content?.ctaBannerImageUrl || "/assets/cta-gavel.pn                                                                                                             g";
+            ~~~~~~~~~~~~~~
+
+src/pages/Home.tsx:795:23 - error TS2339: Property 'imgUrl' does not exist on ty                                                                                                             pe '{ anim: { v: string; meta: { g: string; a: string; k: string; d: string; tc:                                                                                                              string; }; fr: number; ip: number; op: number; w: number; h: number; nm: string                                                                                                             ; ddd: number; assets: never[]; fonts: { list: { fName: string; fFamily: string;                                                                                                              fStyle: string; ascent: number; }[]; }; layers: ({ ...; } | ... 6 more ... | {                                                                                                              ....'.
+
+795                 {item.imgUrl ? (
+                          ~~~~~~
+
+src/pages/Home.tsx:797:31 - error TS2339: Property 'imgUrl' does not exist on ty                                                                                                             pe '{ anim: { v: string; meta: { g: string; a: string; k: string; d: string; tc:                                                                                                              string; }; fr: number; ip: number; op: number; w: number; h: number; nm: string                                                                                                             ; ddd: number; assets: never[]; fonts: { list: { fName: string; fFamily: string;                                                                                                              fStyle: string; ascent: number; }[]; }; layers: ({ ...; } | ... 6 more ... | {                                                                                                              ....'.
+
+797                     src={item.imgUrl}
+                                  ~~~~~~
+
+src/pages/admin/AdminKnowledgeCentre.tsx:188:11 - error TS6133: 'catLabel' is de                                                                                                             clared but its value is never read.
+
+188     const catLabel = KCAT.find(c => c.value === (editing as KnowledgeArticle                                                                                                             Type).category)?.label ?? editing.category;
+              ~~~~~~~~
+
+
+Found 21 errors.
+
+root@srv1232657:/var/www/labourlawjssr#

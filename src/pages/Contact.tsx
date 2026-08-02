@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowRight, CheckCircle, Clock } from 'lucide-react';
+import { ArrowRight, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { api } from '../lib/api';
 import { useLiveContent } from '../hooks/useLiveContent';

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, ArrowUp, Phone, Mail } from 'lucide-react';
+import { Menu, X, ChevronDown, ArrowUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import iconLocation from '@assets/placeholder_1783488477011.png';
 import iconCall from '@assets/call_1783488542810.png';
