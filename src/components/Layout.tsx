@@ -124,8 +124,8 @@ const Layout = () => {
       {/* Sticky Header */}
       <header className={`sticky top-0 z-50 transition-shadow duration-300 ${scrolled ? 'shadow-xl' : 'shadow-md'}`}>
 
-        {/* ── Main nav bar (dark) ── */}
-        <div style={{ backgroundColor: '#172632' }}>
+        {/* ── Main nav bar ── */}
+        <div style={{ backgroundColor: '#ffffff' }}>
           <div className="max-w-7xl mx-auto px-4 lg:px-6 h-[56px] lg:h-[76px] flex justify-between items-center">
 
             {/* Logo */}
@@ -158,7 +158,7 @@ const Layout = () => {
                     <Link
                       to={link.path}
                       className="flex items-center gap-0.5 font-semibold text-[0.88rem] px-2.5 py-2.5 transition-colors duration-200"
-                      style={{ fontFamily: 'Poppins, sans-serif', color: highlighted ? '#fda102' : '#ffffff' }}
+                       style={{ fontFamily: 'Poppins, sans-serif', color: highlighted ? '#fda102' : '#172632' }}
                     >
                       {link.name}
                       <ChevronDown size={12} className="group-hover:rotate-180 transition-transform duration-200" />
@@ -216,7 +216,7 @@ const Layout = () => {
                     <Link
                       to={link.path}
                       className="font-semibold text-[0.88rem] px-2.5 py-2.5 block transition-colors duration-200"
-                      style={{ fontFamily: 'Poppins, sans-serif', color: highlighted ? '#fda102' : '#ffffff' }}
+                       style={{ fontFamily: 'Poppins, sans-serif', color: highlighted ? '#fda102' : '#172632' }}
                     >
                       {link.name}
                     </Link>
@@ -243,13 +243,13 @@ const Layout = () => {
             {/* Mobile Hamburger */}
             <button
               className="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg transition-colors"
-              style={{ color: '#ffffff' }}
+               style={{ color: '#172632' }}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Menu">
               <Menu size={22} />
             </button>
           </div>
-        </div>{/* end dark nav bar */}
+        </div>{/* end nav bar */}
 
         {/* Mobile Nav — slides in from the RIGHT */}
         <AnimatePresence>
@@ -276,9 +276,9 @@ const Layout = () => {
                 className="lg:hidden fixed top-0 right-0 h-full w-full bg-white shadow-2xl z-[60] flex flex-col overflow-y-auto">
 
                 {/* Drawer header */}
-                <div className="flex justify-between items-center px-5 py-4 shrink-0" style={{ backgroundColor: '#172632' }}>
+                 <div className="flex justify-between items-center px-5 py-4 shrink-0 border-b border-gray-100" style={{ backgroundColor: '#ffffff' }}>
                   <img src="/assets/maru-logo-new.png" alt="Maru Labour Laws" className="h-9 w-auto object-contain" />
-                  <button onClick={() => setIsMenuOpen(false)} style={{ color: '#ffffff' }} aria-label="Close menu">
+                   <button onClick={() => setIsMenuOpen(false)} style={{ color: '#172632' }} aria-label="Close menu">
                     <X size={22} />
                   </button>
                 </div>
