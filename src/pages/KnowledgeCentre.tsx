@@ -3,14 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
   ChevronDown, ChevronUp, BookOpen,
-  Clock, Calendar, ArrowRight, ChevronRight,
+  Clock, Calendar, ArrowLeft, ArrowRight, ChevronRight,
 } from 'lucide-react';
 import { api } from '../lib/api';
 import { useLiveContent } from '../hooks/useLiveContent';
 import type {
   KnowledgeCentrePageContent,
-  ResourceItem,
+  KnowledgeArticleType,
 } from '../types/content';
+import { KNOWLEDGE_CATEGORIES } from '../types/content';
 import heroVideo from '@assets/7683053-hd_1920_1080_24fps_1783584828907.mp4';
 
 const PP = 'Poppins, sans-serif';
@@ -23,12 +24,21 @@ const PAGE_DEFAULTS: KnowledgeCentrePageContent = {
   heroVideoUrl: '',
   heroImageUrl: '',
   introText:    '',
+  articlesLabel:   'Knowledge Base',
+  articlesHeading: 'Articles & Insights',
   faqTitle:     'Frequently Asked Questions',
   faqSubtext:   "Common questions from employers and HR professionals about India's Labour Codes and MCS services.",
   faqs: [],
 };
 
-const ARTICLE_CATEGORIES = ['All', 'New Labour Codes', 'Compliance', 'Labour Audit', 'POSH', 'ESI & PF', 'Payroll'];
+const ARTICLE_CATEGORIES = [
+  { value: 'all', label: 'All' },
+  ...KNOWLEDGE_CATEGORIES.filter(category => category.value !== 'downloads'),
+];
+
+function categoryLabel(category: string) {
+  return KNOWLEDGE_CATEGORIES.find(item => item.value === category)?.label ?? category;
+}
 
 /* ── FAQ Item ── */
 function FAQItem({ question, answer }: { question: string; answer: string }) {
@@ -67,10 +77,10 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 /* ── Main page ── */
 export default function KnowledgeCentre() {
   const [page, setPage]           = useState<KnowledgeCentrePageContent>(PAGE_DEFAULTS);
-  const [blogPosts, setBlogPosts] = useState<ResourceItem[]>([]);
+  const [blogPosts, setBlogPosts] = useState<KnowledgeArticleType[]>([]);
 
   // Articles & Insights UI state
-  const [catFilter, setCatFilter] = useState('All');
+  const [catFilter, setCatFilter] = useState('all');
 
   const fetchPage = () => {
     api.get<KnowledgeCentrePageContent>('/knowledge-centre/page')
@@ -78,15 +88,15 @@ export default function KnowledgeCentre() {
       .catch(() => {});
   };
   const fetchBlogPosts = () => {
-    api.get<ResourceItem[]>('/resources')
-      .then(data => setBlogPosts(data.filter(r => r.tab === 'articles').sort((a, b) => (a.order ?? 0) - (b.order ?? 0))))
+    api.get<KnowledgeArticleType[]>('/knowledge-centre/articles')
+      .then(data => setBlogPosts(data.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))))
       .catch(() => {});
   };
 
   useEffect(() => { fetchPage(); fetchBlogPosts(); }, []);
   useLiveContent(() => { fetchPage(); fetchBlogPosts(); });
 
-  const filteredBlogs = catFilter === 'All'
+  const filteredBlogs = catFilter === 'all'
     ? blogPosts
     : blogPosts.filter(p => p.category === catFilter);
 
@@ -130,31 +140,45 @@ export default function KnowledgeCentre() {
       <section className="py-8 lg:py-14" style={{ backgroundColor: '#f8fafb' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-10">
 
+          <Link
+            to="/resources"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border text-xs font-semibold transition-all hover:bg-white mb-6 lg:mb-8"
+            style={{ fontFamily: PP, color: 'var(--primary)', borderColor: 'var(--p-a25)' }}>
+            <ArrowLeft size={13} /> Back to Resources
+          </Link>
+
           {/* Section heading */}
           <div className="flex items-center gap-3 mb-6 lg:mb-8">
             <BookOpen size={22} style={{ color: 'var(--primary)' }} />
             <div>
               <p className="font-bold tracking-[0.2em] uppercase text-xs"
-                style={{ fontFamily: PP, color: 'var(--primary)' }}>Knowledge Base</p>
+                style={{ fontFamily: PP, color: 'var(--primary)' }}>{page.articlesLabel || 'Knowledge Base'}</p>
               <h2 className="font-bold" style={{ fontFamily: PP, fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', color: '#111' }}>
-                Articles &amp; Insights
+                {page.articlesHeading || 'Articles & Insights'}
               </h2>
             </div>
           </div>
 
+          {page.introText && (
+            <p className="max-w-3xl text-gray-500 text-sm leading-relaxed mb-6 lg:mb-8"
+              style={{ fontFamily: PP }}>
+              {page.introText}
+            </p>
+          )}
+
           {/* Category filters */}
           <div className="flex flex-wrap gap-2 mb-8 lg:mb-12">
             {ARTICLE_CATEGORIES.map(cat => (
-              <button key={cat}
-                onClick={() => setCatFilter(cat)}
+              <button key={cat.value}
+                onClick={() => setCatFilter(cat.value)}
                 className="px-3.5 lg:px-5 py-1.5 lg:py-2 rounded-full font-semibold text-xs lg:text-sm transition-all border"
                 style={{
                   fontFamily: PP,
-                  backgroundColor: catFilter === cat ? 'var(--primary)' : '#fff',
-                  color: catFilter === cat ? '#fff' : 'var(--primary)',
-                  borderColor: catFilter === cat ? 'var(--primary)' : 'var(--p-a25)',
+                  backgroundColor: catFilter === cat.value ? 'var(--primary)' : '#fff',
+                  color: catFilter === cat.value ? '#fff' : 'var(--primary)',
+                  borderColor: catFilter === cat.value ? 'var(--primary)' : 'var(--p-a25)',
                 }}>
-                {cat}
+                {cat.label}
               </button>
             ))}
           </div>
@@ -177,7 +201,7 @@ export default function KnowledgeCentre() {
                       <div className="flex items-center gap-2 lg:gap-3 mb-4 flex-wrap">
                         <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full"
                           style={{ backgroundColor: 'var(--p-a10)', color: 'var(--primary)', fontFamily: PP }}>
-                          {filteredBlogs[0].category}
+                           {categoryLabel(filteredBlogs[0].category)}
                         </span>
                         <span className="text-xs text-gray-400 flex items-center gap-1" style={{ fontFamily: PP }}>
                           <Calendar size={11} /> {filteredBlogs[0].date}
@@ -220,7 +244,7 @@ export default function KnowledgeCentre() {
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         <div className="absolute top-3 left-3 text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"
                           style={{ backgroundColor: 'var(--primary)', color: '#fff', fontFamily: PP }}>
-                          {post.category}
+                           {categoryLabel(post.category)}
                         </div>
                       </div>
                       <div className="p-6 flex flex-col flex-grow">

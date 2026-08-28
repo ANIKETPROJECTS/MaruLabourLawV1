@@ -4,16 +4,18 @@ import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowLeft, CheckCircle, ChevronRight, ArrowRight } from 'lucide-react';
 import { api } from '../lib/api';
 import { useLiveContent } from '../hooks/useLiveContent';
-import type { ResourceItem } from '../types/content';
+import type { KnowledgeArticleType, ResourceItem } from '../types/content';
+import { KNOWLEDGE_CATEGORIES } from '../types/content';
 
 const PP = 'Poppins, sans-serif';
 
 const ResourceDetail = () => {
   const { slug } = useParams();
   const location = useLocation();
-  const fromKC = (location.state as { from?: string } | null)?.from === 'knowledge-centre';
-  const [post, setPost] = useState<ResourceItem | null>(null);
-  const [allArticles, setAllArticles] = useState<ResourceItem[]>([]);
+  const fromKC = location.pathname.startsWith('/knowledge-centre')
+    || (location.state as { from?: string } | null)?.from === 'knowledge-centre';
+  const [post, setPost] = useState<ResourceItem | KnowledgeArticleType | null>(null);
+  const [allArticles, setAllArticles] = useState<(ResourceItem | KnowledgeArticleType)[]>([]);
   const [status, setStatus] = useState<'loading' | 'ready' | 'not-found' | 'error'>('loading');
 
   const reqRef = useRef(0);
@@ -21,8 +23,12 @@ const ResourceDetail = () => {
     const reqId = ++reqRef.current;
     const currentSlug = slug;
     Promise.all([
-      api.get<ResourceItem>(`/resources/slug/${currentSlug}`),
-      api.get<ResourceItem[]>('/resources?tab=articles'),
+      fromKC
+        ? api.get<KnowledgeArticleType>(`/knowledge-centre/articles/slug/${currentSlug}`)
+        : api.get<ResourceItem>(`/resources/slug/${currentSlug}`),
+      fromKC
+        ? api.get<KnowledgeArticleType[]>('/knowledge-centre/articles')
+        : api.get<ResourceItem[]>('/resources?tab=articles'),
     ])
       .then(([article, articles]) => {
         if (reqId !== reqRef.current) return; // superseded by a newer request
@@ -40,7 +46,7 @@ const ResourceDetail = () => {
   useEffect(() => {
     setStatus('loading');
     fetchArticle();
-  }, [slug]);
+  }, [slug, fromKC]);
 
   if (status === 'loading') {
     return (
@@ -73,6 +79,10 @@ const ResourceDetail = () => {
   }
 
   const related = allArticles.slice(0, 3);
+  const articlePath = fromKC ? '/knowledge-centre' : '/resources';
+  const categoryLabel = fromKC
+    ? KNOWLEDGE_CATEGORIES.find(item => item.value === post.category)?.label ?? post.category
+    : post.category;
 
   return (
     <div className="w-full" style={{ fontFamily: PP }}>
@@ -89,7 +99,7 @@ const ResourceDetail = () => {
           className="text-center px-5 lg:px-8 w-full max-w-4xl mx-auto">
           <p className="uppercase tracking-[0.25em] lg:tracking-[0.3em] font-semibold mb-2"
             style={{ fontFamily: PP, fontSize: '0.78rem', color: '#fda102' }}>
-            {post.category}
+             {categoryLabel}
           </p>
           <h1 className="font-bold mb-3 leading-tight"
             style={{ fontFamily: PP, fontSize: 'clamp(1.2rem, 2.8vw, 2.2rem)', color: '#fff', maxWidth: '780px', margin: '0 auto 12px' }}>
@@ -191,13 +201,18 @@ const ResourceDetail = () => {
                 </h2>
                 <div className="space-y-4">
                   {related.map((r, i) => (
-                    <Link key={i} to={`/resources/${r.slug}`}
+                    <Link key={i} to={`${articlePath}/${r.slug}`}
+                      state={fromKC ? { from: 'knowledge-centre' } : undefined}
                       className="flex items-center gap-3 lg:gap-4 p-3 lg:p-4 rounded-xl border border-gray-100 hover:border-[var(--p-a30)] hover:shadow-sm transition-all group">
                       <img src={r.img} alt={r.title}
                         className="w-16 h-16 rounded-xl object-cover shrink-0" />
                       <div className="flex-1 min-w-0">
                         <span className="text-xs font-bold uppercase tracking-wider"
-                          style={{ color: 'var(--primary)', fontFamily: PP }}>{r.category}</span>
+                          style={{ color: 'var(--primary)', fontFamily: PP }}>
+                          {fromKC
+                            ? KNOWLEDGE_CATEGORIES.find(item => item.value === r.category)?.label ?? r.category
+                            : r.category}
+                          </span>
                         <p className="font-semibold mt-0.5 line-clamp-2"
                           style={{ fontFamily: PP, fontSize: '0.95rem', color: '#111' }}>{r.title}</p>
                       </div>
@@ -280,7 +295,7 @@ const ResourceDetail = () => {
                   <ul className="space-y-0.5">
                     {allArticles.map((p, i) => (
                       <li key={i}>
-                        <Link to={`/resources/${p.slug}`}
+                        <Link to={`${articlePath}/${p.slug}`}
                           state={fromKC ? { from: 'knowledge-centre' } : undefined}
                           className="flex items-center gap-3 py-2.5 border-b border-gray-50 last:border-0 group transition-colors hover:text-[var(--primary)]"
                           style={{ fontFamily: PP, color: '#333', fontSize: '0.88rem', fontWeight: 500 }}>

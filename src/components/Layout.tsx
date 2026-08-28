@@ -133,7 +133,7 @@ const Layout = () => {
               <img
                 src="/assets/maru-logo-new.png"
                 alt="Maru Labour Laws — Consultants & Practitioners"
-                className="w-auto object-contain block h-[46px] lg:h-[68px]"
+                className="w-auto object-contain block h-[46px] lg:h-[68px] bg-white rounded-md p-1"
               />
             </Link>
 
@@ -277,7 +277,7 @@ const Layout = () => {
 
                 {/* Drawer header */}
                 <div className="flex justify-between items-center px-5 py-4 shrink-0" style={{ backgroundColor: '#172632' }}>
-                  <img src="/assets/maru-logo-new.png" alt="Maru Labour Laws" className="h-9 w-auto object-contain" />
+                  <img src="/assets/maru-logo-new.png" alt="Maru Labour Laws" className="h-9 w-auto object-contain bg-white rounded-md p-1" />
                   <button onClick={() => setIsMenuOpen(false)} style={{ color: '#ffffff' }} aria-label="Close menu">
                     <X size={22} />
                   </button>
@@ -371,7 +371,7 @@ const Layout = () => {
               viewport={{ once: true }} transition={{ duration: 0.5 }}>
               <div className="mb-3 lg:mb-5">
                 <img src="/assets/maru-logo-new.png" alt="Maru Consultancy Services"
-                  className="h-12 lg:h-16 w-auto object-contain" />
+                  className="h-12 lg:h-16 w-auto object-contain bg-white rounded-md p-1" />
               </div>
               <p className="text-xs lg:text-sm leading-relaxed mb-4 lg:mb-6 text-justify"
                 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 400, color: '#111111' }}>
