@@ -96,8 +96,7 @@ const Layout = () => {
     { name: 'Labour Codes', path: '/labour-codes' },
     { name: 'Services', path: '/services', hasDropdown: true },
     { name: 'Industries', path: '/industries' },
-    { name: 'Resources', path: '/resources' },
-    { name: 'Knowledge Centre', path: '/knowledge-centre' },
+    { name: 'Resources & Knowledge', path: '/resources' },
     { name: 'Careers', path: '/careers' },
   ];
 
