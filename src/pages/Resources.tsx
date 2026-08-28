@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Download, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import { useLiveContent } from '../hooks/useLiveContent';
 import type { ResourceItem, ResourcesPageContent } from '../types/content';
@@ -108,6 +109,33 @@ const Resources = () => {
       {/* ── Downloads ── */}
       <section className="py-8 lg:py-14" style={{ backgroundColor: '#f8fafb' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-10">
+          {/* ── Resources & Knowledge switcher ── */}
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-7 lg:mb-9">
+            <Link
+              to="/resources"
+              aria-current="page"
+              className="px-5 py-2.5 rounded-full text-sm font-semibold transition-all"
+              style={{
+                fontFamily: PP,
+                backgroundColor: 'var(--primary)',
+                color: '#fff',
+                border: '1px solid var(--primary)',
+              }}>
+              Resources
+            </Link>
+            <Link
+              to="/knowledge-centre"
+              className="px-5 py-2.5 rounded-full text-sm font-semibold transition-all hover:bg-white"
+              style={{
+                fontFamily: PP,
+                backgroundColor: 'transparent',
+                color: 'var(--primary)',
+                border: '1px solid var(--p-a25)',
+              }}>
+              Knowledge Centre
+            </Link>
+          </div>
+
           <motion.div className="mb-6 lg:mb-10"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.5 }}>
