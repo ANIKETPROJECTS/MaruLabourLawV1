@@ -4,6 +4,7 @@ import { api, deleteCloudinaryAsset } from '../../lib/api';
 import type { ServiceContent, ServicesPageContent, InsightCard } from '../../types/content';
 import { Section, Field, TextInput, TextArea, PrimaryButton, SecondaryButton, DangerButton } from '../../components/admin/FormBits';
 import ImageUploader from '../../components/admin/ImageUploader';
+import ConfirmDialog from '../../components/admin/ConfirmDialog';
 
 const PP = 'Poppins, sans-serif';
 
@@ -44,6 +45,8 @@ export default function AdminServices() {
   const [dirty, setDirty] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; label: string } | null>(null);
+  const [deleteBusy, setDeleteBusy] = useState(false);
 
   // ── Page settings state ───────────────────────────────────────────────────
   const [pageData, setPageData] = useState<ServicesPageContent>(EMPTY_PAGE);
@@ -97,7 +100,7 @@ export default function AdminServices() {
   };
 
   const remove = async (id: string) => {
-    if (!confirm('Delete this service? This cannot be undone.')) return;
+    setDeleteBusy(true);
     try {
       const svc = services.find(s => s._id === id);
       await api.del(`/services/${id}`);
@@ -105,8 +108,13 @@ export default function AdminServices() {
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to delete');
+    } finally {
+      setDeleteBusy(false);
+      setDeleteTarget(null);
     }
   };
+
+  const requestRemove = (id: string, label: string) => setDeleteTarget({ id, label });
 
   const move = async (index: number, direction: -1 | 1) => {
     const target = index + direction;
@@ -332,7 +340,7 @@ export default function AdminServices() {
                     <p className="text-gray-400 text-xs truncate">/services/{s.slug}</p>
                   </div>
                   <SecondaryButton onClick={() => startEdit(s)}><Pencil size={13} /> Edit</SecondaryButton>
-                  <DangerButton onClick={() => remove(s._id)}><Trash2 size={13} /></DangerButton>
+                  <DangerButton onClick={() => requestRemove(s._id, s.title)}><Trash2 size={13} /></DangerButton>
                 </div>
               ))}
               {services.length === 0 && <p className="text-gray-400 text-sm">No services yet.</p>}
@@ -485,6 +493,14 @@ export default function AdminServices() {
           )}
         </>
       )}
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        title="Delete service?"
+        message={deleteTarget ? `Delete “${deleteTarget.label}”? This action cannot be undone.` : ''}
+        busy={deleteBusy}
+        onCancel={() => { if (!deleteBusy) setDeleteTarget(null); }}
+        onConfirm={() => deleteTarget ? remove(deleteTarget.id) : undefined}
+      />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { api, deleteCloudinaryAsset } from '../../lib/api';
 import type { ResourceItem, ResourceSection, ResourcesPageContent } from '../../types/content';
 import { Section, Field, TextInput, TextArea, PrimaryButton, SecondaryButton, DangerButton } from '../../components/admin/FormBits';
 import ImageUploader from '../../components/admin/ImageUploader';
+import ConfirmDialog from '../../components/admin/ConfirmDialog';
 
 const PP = 'Poppins, sans-serif';
 
@@ -91,6 +92,8 @@ export default function AdminResources() {
   const [dirty, setDirty] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; label: string } | null>(null);
+  const [deleteBusy, setDeleteBusy] = useState(false);
 
   const [hero, setHero] = useState<ResourcesPageContent>(HERO_EMPTY);
   const [heroLoading, setHeroLoading] = useState(true);
@@ -169,7 +172,7 @@ export default function AdminResources() {
   };
 
   const remove = async (id: string) => {
-    if (!confirm('Delete this resource? This cannot be undone.')) return;
+    setDeleteBusy(true);
     try {
       const res = resources.find(r => r._id === id);
       await api.del(`/resources/${id}`);
@@ -177,7 +180,13 @@ export default function AdminResources() {
       if (res?.fileUrl) deleteCloudinaryAsset(res.fileUrl).catch(() => {});
       await load();
     } catch (err) { setError(err instanceof Error ? err.message : 'Failed to delete'); }
+    finally {
+      setDeleteBusy(false);
+      setDeleteTarget(null);
+    }
   };
+
+  const requestRemove = (id: string, label: string) => setDeleteTarget({ id, label });
 
   if (loading) return <p className="text-gray-400 text-sm">Loading…</p>;
 
@@ -333,7 +342,7 @@ export default function AdminResources() {
                 <p className="text-gray-400 text-xs truncate">{r.category} · {r.date}</p>
               </div>
               <SecondaryButton onClick={() => startEdit(r)}><Pencil size={13} /> Edit</SecondaryButton>
-              <DangerButton onClick={() => remove(r._id)}><Trash2 size={13} /></DangerButton>
+              <DangerButton onClick={() => requestRemove(r._id, r.title)}><Trash2 size={13} /></DangerButton>
             </div>
           ))}
           {articles.length === 0 && <p className="text-gray-400 text-sm">No articles yet. Click "New Article" to add one.</p>}
@@ -364,7 +373,7 @@ export default function AdminResources() {
                 <p className="text-gray-400 text-xs truncate">{r.format} · {r.size} · {r.downloadType}</p>
               </div>
               <SecondaryButton onClick={() => startEdit(r)}><Pencil size={13} /> Edit</SecondaryButton>
-              <DangerButton onClick={() => remove(r._id)}><Trash2 size={13} /></DangerButton>
+              <DangerButton onClick={() => requestRemove(r._id, r.title)}><Trash2 size={13} /></DangerButton>
             </div>
           ))}
           {downloads.length === 0 && <p className="text-gray-400 text-sm">No downloads yet.</p>}
@@ -474,6 +483,14 @@ export default function AdminResources() {
           </Section>
         </div>
       )}
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        title="Delete resource?"
+        message={deleteTarget ? `Delete “${deleteTarget.label}”? This action cannot be undone.` : ''}
+        busy={deleteBusy}
+        onCancel={() => { if (!deleteBusy) setDeleteTarget(null); }}
+        onConfirm={() => deleteTarget ? remove(deleteTarget.id) : undefined}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FileText, Trash2, ExternalLink, ChevronDown, ChevronUp, Loader2, User, Phone, Mail, MessageSquare } from 'lucide-react';
 import { api } from '../../lib/api';
+import ConfirmDialog from '../../components/admin/ConfirmDialog';
 
 const PP = 'Poppins, sans-serif';
 
@@ -42,13 +43,20 @@ function ApplicationCard({ app, onDelete, onStatusChange }: {
   const [expanded, setExpanded] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const s = STATUS_STYLES[app.status];
 
-  const handleDelete = async () => {
-    if (!confirm(`Delete application from ${app.name}? This cannot be undone.`)) return;
+  const handleDelete = () => setConfirmOpen(true);
+
+  const confirmDelete = async () => {
     setDeleting(true);
-    await api.del(`/applications/${app._id}`).catch(() => {});
-    onDelete(app._id);
+    try {
+      await api.del(`/applications/${app._id}`).catch(() => {});
+      onDelete(app._id);
+    } finally {
+      setDeleting(false);
+      setConfirmOpen(false);
+    }
   };
 
   const handleStatus = async (status: Application['status']) => {
@@ -155,6 +163,14 @@ function ApplicationCard({ app, onDelete, onStatusChange }: {
           </div>
         </div>
       )}
+      <ConfirmDialog
+        open={confirmOpen}
+        title="Delete application?"
+        message={`Delete the application from “${app.name}”? This action cannot be undone.`}
+        busy={deleting}
+        onCancel={() => { if (!deleting) setConfirmOpen(false); }}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

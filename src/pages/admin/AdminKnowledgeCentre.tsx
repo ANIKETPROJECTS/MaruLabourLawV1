@@ -5,6 +5,7 @@ import type { KnowledgeCentrePageContent, KnowledgeFAQ, KnowledgeArticleType, Re
 import { KNOWLEDGE_CATEGORIES as KCAT } from '../../types/content';
 import { Section, Field, TextInput, TextArea, PrimaryButton, SecondaryButton, DangerButton } from '../../components/admin/FormBits';
 import ImageUploader from '../../components/admin/ImageUploader';
+import ConfirmDialog from '../../components/admin/ConfirmDialog';
 
 const PP = 'Poppins, sans-serif';
 
@@ -102,6 +103,8 @@ export default function AdminKnowledgeCentre() {
   const [editing, setEditing]         = useState<KnowledgeArticleType | Omit<KnowledgeArticleType, '_id'> | null>(null);
   const [artSaving, setArtSaving]     = useState(false);
   const [artDirty, setArtDirty]       = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; label: string } | null>(null);
+  const [deleteBusy, setDeleteBusy]     = useState(false);
 
   /* ── Load page ── */
   useEffect(() => {
@@ -172,7 +175,7 @@ export default function AdminKnowledgeCentre() {
   };
 
   const removeArticle = async (id: string) => {
-    if (!confirm('Delete this article? This cannot be undone.')) return;
+    setDeleteBusy(true);
     try {
       const art = articles.find(a => a._id === id);
       await api.del(`/knowledge-centre/articles/${id}`);
@@ -180,8 +183,13 @@ export default function AdminKnowledgeCentre() {
       await loadArticles();
     } catch (err) {
       setArtError(err instanceof Error ? err.message : 'Failed to delete');
+    } finally {
+      setDeleteBusy(false);
+      setDeleteTarget(null);
     }
   };
+
+  const requestRemoveArticle = (id: string, label: string) => setDeleteTarget({ id, label });
 
   /* ── Article editor view ── */
   if (editing) {
@@ -401,7 +409,7 @@ export default function AdminKnowledgeCentre() {
                     </span>
                   )}
                   <SecondaryButton onClick={() => startEdit(a)}><Pencil size={13} /> Edit</SecondaryButton>
-                  <DangerButton onClick={() => removeArticle(a._id)}><Trash2 size={13} /></DangerButton>
+                  <DangerButton onClick={() => requestRemoveArticle(a._id, a.title)}><Trash2 size={13} /></DangerButton>
                 </div>
               );
             })}
@@ -459,6 +467,14 @@ export default function AdminKnowledgeCentre() {
           </div>
         </div>
       )}
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        title="Delete article?"
+        message={deleteTarget ? `Delete “${deleteTarget.label}”? This action cannot be undone.` : ''}
+        busy={deleteBusy}
+        onCancel={() => { if (!deleteBusy) setDeleteTarget(null); }}
+        onConfirm={() => deleteTarget ? removeArticle(deleteTarget.id) : undefined}
+      />
     </div>
   );
 }

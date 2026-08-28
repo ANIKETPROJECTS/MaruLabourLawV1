@@ -4,6 +4,7 @@ import { api } from '../../lib/api';
 import type { JobContent, CareersPageContent } from '../../types/content';
 import { Section, Field, TextInput, TextArea, PrimaryButton, SecondaryButton, DangerButton } from '../../components/admin/FormBits';
 import ImageUploader from '../../components/admin/ImageUploader';
+import ConfirmDialog from '../../components/admin/ConfirmDialog';
 
 const HERO_EMPTY: CareersPageContent = {
   heroEyebrow: 'Join Our Team',
@@ -48,6 +49,8 @@ export default function AdminCareers() {
   const [dirty, setDirty] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; label: string } | null>(null);
+  const [deleteBusy, setDeleteBusy] = useState(false);
 
   const [hero, setHero] = useState<CareersPageContent>(HERO_EMPTY);
   const [heroLoading, setHeroLoading] = useState(true);
@@ -117,14 +120,19 @@ export default function AdminCareers() {
   };
 
   const remove = async (id: string) => {
-    if (!confirm('Delete this job posting? This cannot be undone.')) return;
+    setDeleteBusy(true);
     try {
       await api.del(`/careers/${id}`);
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to delete');
+    } finally {
+      setDeleteBusy(false);
+      setDeleteTarget(null);
     }
   };
+
+  const requestRemove = (id: string, label: string) => setDeleteTarget({ id, label });
 
   // Reorder within a category group. `groupIndex` is the position of the job inside its
   // filtered (internal/client) list, not the raw `jobs` array.
@@ -351,13 +359,21 @@ export default function AdminCareers() {
                     <p className="text-gray-400 text-xs truncate">{j.location} · {j.type}</p>
                   </div>
                   <SecondaryButton onClick={() => startEdit(j)}><Pencil size={13} /> Edit</SecondaryButton>
-                  <DangerButton onClick={() => remove(j._id)}><Trash2 size={13} /></DangerButton>
+                  <DangerButton onClick={() => requestRemove(j._id, j.title)}><Trash2 size={13} /></DangerButton>
                 </div>
               ))}
             </div>
           </div>
         );
       })}
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        title="Delete job posting?"
+        message={deleteTarget ? `Delete “${deleteTarget.label}”? This action cannot be undone.` : ''}
+        busy={deleteBusy}
+        onCancel={() => { if (!deleteBusy) setDeleteTarget(null); }}
+        onConfirm={() => deleteTarget ? remove(deleteTarget.id) : undefined}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Trash2, ChevronDown, ChevronUp, Loader2, Mail, Phone, Building2, Tag, MessageSquare, Eye, EyeOff } from 'lucide-react';
 import { api } from '../../lib/api';
+import ConfirmDialog from '../../components/admin/ConfirmDialog';
 
 const PP = 'Poppins, sans-serif';
 
@@ -31,12 +32,19 @@ function EnquiryCard({ enq, onDelete, onReadChange }: {
   const [expanded, setExpanded] = useState(!enq.read);
   const [deleting, setDeleting] = useState(false);
   const [toggling, setToggling] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
-  const handleDelete = async () => {
-    if (!confirm(`Delete enquiry from ${enq.name}? This cannot be undone.`)) return;
+  const handleDelete = () => setConfirmOpen(true);
+
+  const confirmDelete = async () => {
     setDeleting(true);
-    await api.del(`/enquiries/${enq._id}`).catch(() => {});
-    onDelete(enq._id);
+    try {
+      await api.del(`/enquiries/${enq._id}`).catch(() => {});
+      onDelete(enq._id);
+    } finally {
+      setDeleting(false);
+      setConfirmOpen(false);
+    }
   };
 
   const toggleRead = async () => {
@@ -144,6 +152,14 @@ function EnquiryCard({ enq, onDelete, onReadChange }: {
           </div>
         </div>
       )}
+      <ConfirmDialog
+        open={confirmOpen}
+        title="Delete enquiry?"
+        message={`Delete the enquiry from “${enq.name}”? This action cannot be undone.`}
+        busy={deleting}
+        onCancel={() => { if (!deleting) setConfirmOpen(false); }}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

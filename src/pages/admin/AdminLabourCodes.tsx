@@ -4,6 +4,7 @@ import { api, deleteCloudinaryAsset } from '../../lib/api';
 import type { LabourCodeContent, LabourCodesPageContent } from '../../types/content';
 import { Section, Field, TextInput, TextArea, PrimaryButton, SecondaryButton, DangerButton } from '../../components/admin/FormBits';
 import ImageUploader from '../../components/admin/ImageUploader';
+import ConfirmDialog from '../../components/admin/ConfirmDialog';
 
 const PP = 'Poppins, sans-serif';
 
@@ -45,6 +46,8 @@ export default function AdminLabourCodes() {
   const [dirty, setDirty] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; label: string } | null>(null);
+  const [deleteBusy, setDeleteBusy] = useState(false);
 
   // Page content state
   const [page, setPage] = useState<LabourCodesPageContent>(PAGE_EMPTY);
@@ -110,14 +113,20 @@ export default function AdminLabourCodes() {
   };
 
   const remove = async (id: string) => {
-    if (!confirm('Delete this labour code? This cannot be undone.')) return;
+    setDeleteBusy(true);
     try {
       const c = codes.find((x) => x._id === id);
       await api.del(`/labour-codes/${id}`);
       if (c?.img) deleteCloudinaryAsset(c.img).catch(() => {});
       await load();
     } catch (err) { setError(err instanceof Error ? err.message : 'Failed to delete'); }
+    finally {
+      setDeleteBusy(false);
+      setDeleteTarget(null);
+    }
   };
+
+  const requestRemove = (id: string, label: string) => setDeleteTarget({ id, label });
 
   const move = async (index: number, direction: -1 | 1) => {
     const target = index + direction;
@@ -265,7 +274,7 @@ export default function AdminLabourCodes() {
               <p className="text-gray-400 text-xs truncate">/labour-codes/{c.slug}</p>
             </div>
             <SecondaryButton onClick={() => startEdit(c)}><Pencil size={13} /> Edit</SecondaryButton>
-            <DangerButton onClick={() => remove(c._id)}><Trash2 size={13} /></DangerButton>
+            <DangerButton onClick={() => requestRemove(c._id, c.title)}><Trash2 size={13} /></DangerButton>
           </div>
         ))}
         {codes.length === 0 && (
@@ -428,6 +437,14 @@ export default function AdminLabourCodes() {
           </Section>
         </div>
       )}
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        title="Delete labour code?"
+        message={deleteTarget ? `Delete “${deleteTarget.label}”? This action cannot be undone.` : ''}
+        busy={deleteBusy}
+        onCancel={() => { if (!deleteBusy) setDeleteTarget(null); }}
+        onConfirm={() => deleteTarget ? remove(deleteTarget.id) : undefined}
+      />
     </div>
   );
 }
