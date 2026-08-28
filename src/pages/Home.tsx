@@ -1162,9 +1162,8 @@ const Home = () => {
               {[...testimonials, ...testimonials].map((test, i) => (
                 <div
                   key={i}
-                  className="shrink-0 mx-2.5 rounded-xl flex flex-col relative overflow-hidden bg-white"
+                  className="shrink-0 w-[86vw] sm:w-[320px] md:w-[350px] lg:w-[380px] xl:w-[420px] mx-2.5 rounded-xl flex flex-col relative overflow-hidden bg-white"
                   style={{
-                    width: "260px",
                     boxShadow: "0 6px 24px rgba(0,0,0,0.15)",
                   }}
                 >
