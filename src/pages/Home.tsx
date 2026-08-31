@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from "react";
-import heroIllustration from "@assets/image_1785489395059.png";
 import heroSlide2 from "@assets/image_1785489614194.png";
 import heroSlide3 from "@assets/image_1785489629521.png";
 import heroVideoDefault from "@assets/7552418-hd_1080_1920_25fps_1783420764090.mp4";
 import heroImageDefault from "@assets/pexels-vlada-karpovich-7433855_1783420874088.jpg";
 import customerReviewIcon from "@assets/customer-review_1783487769231.png";
 const maruLogoDefault = "/assets/maru-logo-new.png";
+const heroOrganisationsDefault = "/assets/home-hero-organisations.png";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight, ChevronRight, Star } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -312,11 +312,11 @@ const Home = () => {
       ? content.heroSlides.map((s) => ({
           ...s,
           // fall back to static images when admin hasn't set a URL
-          imageUrl: s.imageUrl || [heroIllustration, heroSlide2, heroSlide3][0],
+      imageUrl: s.imageUrl || [heroOrganisationsDefault, heroSlide2, heroSlide3][0],
         }))
       : defaultHeroSlides.map((s, i) => ({
           ...s,
-          imageUrl: [heroIllustration, heroSlide2, heroSlide3][i] as string,
+          imageUrl: [heroOrganisationsDefault, heroSlide2, heroSlide3][i] as string,
         }))
   );
   const [slideIdx, setSlideIdx] = useState(0);
