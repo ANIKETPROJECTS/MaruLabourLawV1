@@ -877,11 +877,11 @@ const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: i * 0.08 }}
-                className="rounded-2xl overflow-hidden flex flex-col group cursor-default"
+                className="rounded-2xl overflow-hidden flex flex-col group cursor-default h-[320px] sm:h-[350px] lg:h-[360px]"
                 style={{ backgroundColor: '#ffffff' }}>
 
                 {/* Photo */}
-                <div className="relative overflow-hidden h-[220px] lg:h-[360px]">
+                <div className="relative overflow-hidden shrink-0 h-[220px] sm:h-[245px] lg:h-[260px]">
                   <img src={m.img} alt={m.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-400"
@@ -889,9 +889,9 @@ const About = () => {
                 </div>
 
                 {/* Details */}
-                <div className="flex-1 flex flex-col items-center text-center px-3 py-3 lg:px-6 lg:py-7">
-                  <h4 className="font-bold text-sm lg:text-lg mb-1" style={{ fontFamily: PP, color: '#111' }}>{m.name}</h4>
-                  <p className="text-[10px] lg:text-xs mb-2" style={{ fontFamily: PP, color: '#999' }}>{m.qualification}</p>
+                <div className="flex-1 min-h-0 flex flex-col items-center justify-center text-center px-2 py-2 sm:px-3 lg:px-4 lg:py-3">
+                  <h4 className="font-bold text-sm lg:text-lg mb-0.5" style={{ fontFamily: PP, color: '#111' }}>{m.name}</h4>
+                  <p className="text-[10px] lg:text-xs mb-1.5" style={{ fontFamily: PP, color: '#999' }}>{m.qualification}</p>
                   <p className="font-semibold text-[9px] lg:text-xs uppercase tracking-wide whitespace-pre-line leading-relaxed"
                     style={{ fontFamily: PP, color: 'var(--primary)' }}>{m.role}</p>
                 </div>
