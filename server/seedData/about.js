@@ -106,7 +106,7 @@ export const aboutSeed = {
   whyMcsBadge1Label: 'Client Retention',
   whyMcsBadge2Value: '500+',
   whyMcsBadge2Label: 'Clients Served',
-  whyMcsImageUrl: '',
+  whyMcsImageUrl: '/assets/why-mcs-infographic.png',
 
   // Journey
   journeyLabel: 'Our Journey',
