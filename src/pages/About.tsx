@@ -881,9 +881,10 @@ const About = () => {
                 style={{ backgroundColor: '#ffffff' }}>
 
                 {/* Photo */}
-                <div className="relative overflow-hidden shrink-0 h-[220px] sm:h-[245px] lg:h-[260px]">
+                <div className="relative overflow-hidden shrink-0 h-[235px] sm:h-[265px] lg:h-[280px]"
+                  style={{ backgroundColor: '#ffffff' }}>
                   <img src={m.img} alt={m.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                    className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-400"
                     style={{ backgroundColor: 'var(--primary)' }} />
                 </div>
