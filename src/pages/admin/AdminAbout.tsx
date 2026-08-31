@@ -83,7 +83,7 @@ const EMPTY: AboutContent = {
   whyMcsBadge1Label: 'Client Retention',
   whyMcsBadge2Value: '500+',
   whyMcsBadge2Label: 'Clients Served',
-  whyMcsImageUrl: '/assets/why-mcs-infographic.png',
+  whyMcsImageUrl: '',
   // Journey
   journeyLabel: 'Our Journey',
   journeyHeading: "Three decades of building India's compliance backbone",
@@ -590,7 +590,7 @@ export default function AdminAbout() {
             <TextInput value={data.whyMcsHeadingEnd} onChange={e => set('whyMcsHeadingEnd', e.target.value)} placeholder="Execution." />
           </Field>
         </div>
-        <ImageUploader label="Why MCS image (left panel)" value={data.whyMcsImageUrl} onChange={v => set('whyMcsImageUrl', v)} section="about" hint="Upload the infographic or image shown beside the Why MCS content. Leave blank to use the hero image." />
+        <ImageUploader label="Section image (left panel)" value={data.whyMcsImageUrl} onChange={v => set('whyMcsImageUrl', v)} section="about" hint="Portrait, min 600 × 900 px. Leave blank to use the hero image." />
         <div className="grid grid-cols-2 gap-4">
           <div className="p-3 rounded-xl border border-gray-100 space-y-2">
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider" style={{ fontFamily: PP }}>Amber badge (bottom-right)</p>

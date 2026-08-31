@@ -771,7 +771,7 @@ const About = () => {
               initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.65 }}>
               <div className="rounded-3xl overflow-hidden h-[340px] lg:h-[680px]">
-                <img src={whyMcsImageUrl || heroImage} alt="" className="w-full h-full object-contain bg-[#f7f4ef]" />
+                <img src={whyMcsImageUrl || heroImage} alt="" className="w-full h-full object-cover" />
               </div>
               {/* Floating amber badge */}
               <div className="absolute -bottom-4 -right-2 lg:-bottom-6 lg:-right-4 rounded-2xl p-3 lg:p-6 shadow-2xl"
