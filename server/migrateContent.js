@@ -289,10 +289,10 @@ const about = {
     { point: 'Management visibility', sub: 'Clear answers on where the organisation is compliant, what is at risk and what must be corrected.' },
   ],
   teamMembers: [
-    { name: 'Deepak Maru', qualification: 'B.Com (Hons.), LL.B., Advocate', role: 'Founder & Managing Partner', img: '/assets/service-legal.png' },
-    { name: 'Sanjeev Maru', qualification: 'B.Com., LL.B.', role: 'Co-founder & Managing Partner', img: '/assets/service-staffing.png' },
-    { name: 'Pankhil Maru', qualification: 'B.E. (I.T.), MBA (HR)', role: 'Managing Partner', img: '/assets/service-hr.png' },
-    { name: 'Nishit Maru', qualification: 'BLS, LL.B., CS', role: 'Managing Partner', img: '/assets/service-audits.png' },
+    { name: 'Deepak Maru', qualification: 'B.Com (Hons.), LL.B., Advocate', role: 'Founder & Managing Partner', img: '/assets/team-deepak.png' },
+    { name: 'Sanjeev Maru', qualification: 'B.Com., LL.B.', role: 'Co-founder & Managing Partner', img: '/assets/team-sanjeev.png' },
+    { name: 'Pankhil Maru', qualification: 'B.E. (I.T.), MBA (HR)', role: 'Managing Partner', img: '/assets/team-pankhil.png' },
+    { name: 'Nishit Maru', qualification: 'BLS, LL.B., CS', role: 'Managing Partner', img: '/assets/team-nishit.png' },
   ],
 };
 
