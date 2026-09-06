@@ -1265,12 +1265,12 @@ const Home = () => {
               <div
                 key={i}
                 title={client.name}
-                className="flex items-center justify-center mx-6 lg:mx-12 shrink-0 h-14 lg:h-20 cursor-default opacity-75 hover:opacity-100 transition-opacity duration-300"
+                className="flex items-center justify-center mx-6 lg:mx-12 shrink-0 w-[180px] lg:w-[240px] h-14 lg:h-20 cursor-default"
               >
                 <img
                   src={client.logoUrl}
                   alt={client.name}
-                  className="max-h-12 lg:max-h-16 max-w-[180px] lg:max-w-[240px] object-contain"
+                  className="w-full h-full object-contain"
                 />
               </div>
             ))}
@@ -1285,12 +1285,12 @@ const Home = () => {
                 <div
                   key={i}
                   title={client.name}
-                  className="flex items-center justify-center mx-6 lg:mx-12 shrink-0 h-14 lg:h-20 cursor-default opacity-75 hover:opacity-100 transition-opacity duration-300"
+                  className="flex items-center justify-center mx-6 lg:mx-12 shrink-0 w-[180px] lg:w-[240px] h-14 lg:h-20 cursor-default"
                 >
                   <img
                     src={client.logoUrl}
                     alt={client.name}
-                    className="max-h-12 lg:max-h-16 max-w-[180px] lg:max-w-[240px] object-contain"
+                    className="w-full h-full object-contain"
                   />
                 </div>
               ),

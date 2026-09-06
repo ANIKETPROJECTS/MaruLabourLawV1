@@ -29,7 +29,7 @@
   100% { transform: translateX(-50%); }
 }
 .animate-marquee {
-  animation: marquee 30s linear infinite;
+  animation: marquee 70s linear infinite;
   display: flex;
   width: max-content;
 }
@@ -40,7 +40,7 @@
   100% { transform: translateX(0); }
 }
 .animate-marquee-reverse {
-  animation: marquee-reverse 34s linear infinite;
+  animation: marquee-reverse 78s linear infinite;
   display: flex;
   width: max-content;
 }
