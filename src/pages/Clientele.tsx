@@ -5,7 +5,7 @@ import { ArrowRight, Star } from 'lucide-react';
 import { api } from '../lib/api';
 import { useLiveContent } from '../hooks/useLiveContent';
 import type { ClienteleContent } from '../types/content';
-import { ALL_CLIENTS, HdfcLogo, TataLogo, RelianceLogo, InfosysLogo, WiproLogo, MahindraLogo, LandTLogo, ItcLogo, GodrejLogo, BajajLogo } from '../components/ClientLogos';
+import { HdfcLogo, TataLogo, RelianceLogo, InfosysLogo, WiproLogo, MahindraLogo, LandTLogo, ItcLogo, GodrejLogo, BajajLogo } from '../components/ClientLogos';
 import { useInView } from 'framer-motion';
 import customerReviewIcon from '@assets/customer-review_1783487769231.png';
 import manufacturingImg from '../assets/sectors/manufacturing.jpg';
@@ -86,15 +86,51 @@ const BUILTIN_LOGOS: Record<string, () => React.JSX.Element> = {
 
 /* ── Default portfolio (fallback when DB is empty) ── */
 const DEFAULT_PORTFOLIO = [
-  { sector: 'Manufacturing & Conglomerates', clients: [
-    { name: 'Tata', logoUrl: '' }, { name: 'Mahindra', logoUrl: '' }, { name: 'L&T', logoUrl: '' },
-    { name: 'Reliance', logoUrl: '' }, { name: 'ITC', logoUrl: '' }, { name: 'Godrej', logoUrl: '' },
+  { sector: 'Manufacturing & Chemicals', clients: [
+    { name: 'Barmag India Pvt Ltd', logoUrl: '/assets/client-logos/barmag-india-private-limited.png' },
+    { name: 'BASF India Limited', logoUrl: '/assets/client-logos/basf-india-limited.png' },
+    { name: 'Calibre Chemicals Pvt Ltd', logoUrl: '/assets/client-logos/calibre-chemicals-private-limited.jpg' },
+    { name: 'Chemical Process Piping Pvt Ltd', logoUrl: '/assets/client-logos/chemical-process-piping-pvt-ltd.jpg' },
+    { name: 'Covestro India Pvt Ltd', logoUrl: '/assets/client-logos/covestro-india-private-ltd.jpg' },
+    { name: 'Endress + Hauser India Pvt Ltd', logoUrl: '/assets/client-logos/endress-hauser-india-private-limited.png' },
+    { name: 'Firetech Equipments & Systems Pvt Ltd', logoUrl: '/assets/client-logos/firetech-equuipments-systems-pvt-ltd.jpg' },
+    { name: 'Henkel Adhesives Technologies India Pvt Ltd', logoUrl: '/assets/client-logos/henkel-adhesives-technologies-india-private-limited.png' },
+    { name: 'JSW MI Steel Service Centre Pvt Ltd', logoUrl: '/assets/client-logos/jsw-mi-steel-service-centre-private-limited.jpg' },
+    { name: 'Polyrub Extrusions India Pvt Ltd', logoUrl: '/assets/client-logos/polyrub-extrusions-india-priavte-limited.png' },
+    { name: 'Raychem RPG Pvt Ltd', logoUrl: '/assets/client-logos/raychem-rpg-private-limited.jpg' },
+    { name: 'SML Limited', logoUrl: '/assets/client-logos/sml-limited.png' },
   ]},
-  { sector: 'Banking & Finance', clients: [
-    { name: 'HDFC Bank', logoUrl: '' }, { name: 'Bajaj', logoUrl: '' },
+  { sector: 'Infrastructure & Logistics', clients: [
+    { name: 'KEC Asian Cables Limited', logoUrl: '/assets/client-logos/kec-asian-cables-limited.jpg' },
+    { name: 'Kalmar India Pvt Ltd', logoUrl: '/assets/client-logos/kalmar-india-pvt-ltd.png' },
+    { name: 'KGC Logistics Pvt Ltd', logoUrl: '/assets/client-logos/kgc-logistics-private-limited.jpg' },
+    { name: 'Maharashtra Industrial Township Limited', logoUrl: '/assets/client-logos/maharashtra-industrial-township-limited.jpg' },
+    { name: 'Markolines Infra Pvt Ltd', logoUrl: '/assets/client-logos/markolines-infra-private-limited.jpg' },
+    { name: 'OM Freight Forwarders', logoUrl: '/assets/client-logos/om-freight-forwarders.png' },
+    { name: 'PERI India Pvt Ltd', logoUrl: '/assets/client-logos/peri-india-private-limited.jpg' },
+    { name: 'Walchand Peoplefirst Limited', logoUrl: '/assets/client-logos/walchand-peoplefirst-limited.png' },
   ]},
-  { sector: 'Information Technology', clients: [
-    { name: 'Infosys', logoUrl: '' }, { name: 'Wipro', logoUrl: '' },
+  { sector: 'Technology & Professional Services', clients: [
+    { name: 'AZB & Partners', logoUrl: '/assets/client-logos/azb-partners.jpg' },
+    { name: 'Bombay Chamber of Commerce & Industry', logoUrl: '/assets/client-logos/bombay-chamber-of-commerce-industry.jpg' },
+    { name: 'Interspence Solutions LLP', logoUrl: '/assets/client-logos/interspence-solutions-llp.jpg' },
+    { name: 'Jarvis Technology & Strategy Consulting Pvt Ltd', logoUrl: '/assets/client-logos/jarvis-technology-and-strategy-consulting-private-limited.png' },
+    { name: 'Midas Research & Development Centre India Pvt Ltd', logoUrl: '/assets/client-logos/midas-research-and-development-centre-india-private-limited.jpg' },
+    { name: 'Paramatrix Technologies Limited', logoUrl: '/assets/client-logos/paramatrix-technologies-limited.jpg' },
+    { name: 'Programmers.io India Pvt Ltd', logoUrl: '/assets/client-logos/programmers-io-india-private-limited.png' },
+    { name: 'Vedam Design & Tech Consultant Pvt Ltd', logoUrl: '/assets/client-logos/vedam-design-tech-consultant-pvt-ltd.jpg' },
+  ]},
+  { sector: 'Consumer, Food & Hospitality', clients: [
+    { name: 'Harshdeep Hortico Limited', logoUrl: '/assets/client-logos/harshdeep-hortico-limited.png' },
+    { name: 'Hotel Oleander Restaurant', logoUrl: '/assets/client-logos/hotel-oleander-restaurant.jpg' },
+    { name: 'MRK Foods Pvt Ltd', logoUrl: '/assets/client-logos/mrk-foods-private-limited.jpg' },
+    { name: 'Organic Recycling Systems Limited', logoUrl: '/assets/client-logos/organic-recycling-systems-limited.png' },
+    { name: 'Pravesh Gold', logoUrl: '/assets/client-logos/pravesh-gold.jpg' },
+    { name: 'Swiss Bake Ingredients Pvt Ltd', logoUrl: '/assets/client-logos/swiss-bake-ingredients-private-limited.jpg' },
+  ]},
+  { sector: 'Healthcare & Media', clients: [
+    { name: 'Invengene Limited', logoUrl: '/assets/client-logos/invengene-limited.jpg' },
+    { name: 'Phonographic Performance Limited', logoUrl: '/assets/client-logos/phonographic-performance-limited.png' },
   ]},
 ];
 
@@ -110,6 +146,7 @@ const Clientele = () => {
   const industries   = apiData?.industries?.length   ? apiData.industries   : DEFAULT_INDUSTRIES;
   const testimonials = apiData?.testimonials?.length ? apiData.testimonials : DEFAULT_TESTIMONIALS;
   const portfolio    = apiData?.portfolio?.length    ? apiData.portfolio    : DEFAULT_PORTFOLIO;
+  const allPortfolioClients = portfolio.flatMap(sector => sector.clients);
 
   const heroEyebrow  = apiData?.heroEyebrow  ?? 'Trusted Partners';
   const heroHeadline = apiData?.heroHeadline ?? 'Our Esteemed Clientele';
@@ -280,8 +317,9 @@ const Clientele = () => {
                   transition={{ delay: i * 0.07 }}
                   className="bg-[#f8fafb] border border-gray-100 aspect-[3/2] rounded-2xl flex items-center justify-center px-4 lg:px-8 shadow-sm hover:shadow-md hover:border-[var(--p-a20)] transition-all"
                   title={client.name}>
-                  {LogoComp ? <LogoComp /> : client.logoUrl
-                    ? <img src={client.logoUrl} alt={client.name} className="max-h-12 max-w-full object-contain" />
+                  {client.logoUrl
+                    ? <img src={client.logoUrl} alt={client.name} className="max-h-16 max-w-full object-contain" />
+                    : LogoComp ? <LogoComp />
                     : <span className="font-semibold text-sm text-center" style={{ fontFamily: PP, color: 'var(--primary)' }}>{client.name}</span>
                   }
                 </motion.div>
@@ -301,11 +339,11 @@ const Clientele = () => {
               <div className="absolute inset-y-0 right-0 w-24 z-10 pointer-events-none"
                 style={{ background: 'linear-gradient(to left, #fff, transparent)' }} />
               <div className="animate-marquee pb-2">
-                {[...ALL_CLIENTS, ...ALL_CLIENTS].map(({ name, Logo }, i) => (
-                  <div key={i} title={name}
+                {[...allPortfolioClients, ...allPortfolioClients].map((client, i) => (
+                  <div key={i} title={client.name}
                     className="shrink-0 mx-4 bg-[#f8fafb] border border-gray-100 rounded-xl px-8 flex items-center justify-center hover:border-[var(--p-a20)] transition-all"
                     style={{ width: '180px', height: '80px' }}>
-                    <Logo />
+                    <img src={client.logoUrl} alt={client.name} className="max-h-12 max-w-full object-contain" />
                   </div>
                 ))}
               </div>

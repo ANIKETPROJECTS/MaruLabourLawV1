@@ -251,7 +251,7 @@ export default function AdminClientele() {
       </Section>
 
       {/* ── Our Portfolio ── */}
-      <Section title="Our Portfolio" description="The sector tabs and client logos grid. For built-in logos (Tata, HDFC Bank, etc.) the name alone is enough — leave Logo URL blank. For other clients paste a logo image URL.">
+      <Section title="Our Portfolio" description="The sector tabs and client logos grid. Upload a real client logo or paste an image URL for each company.">
         <div className="space-y-4">
           {data.portfolio.map((sector, si) => (
             <div key={si} className="p-4 rounded-xl border border-gray-100 space-y-3">
@@ -270,16 +270,12 @@ export default function AdminClientele() {
               </div>
               <div className="space-y-2 pl-3 border-l-2 border-gray-100">
                 {sector.clients.map((client, ci) => (
-                  <div key={ci} className="flex gap-2 items-center">
+                  <div key={ci} className="p-3 rounded-xl border border-gray-100 space-y-2">
+                    <div className="flex gap-2 items-center">
                     <TextInput placeholder="Client name" value={client.name}
                       onChange={e => {
                         const n = [...data.portfolio]; const cs = [...n[si].clients];
                         cs[ci] = { ...client, name: e.target.value }; n[si] = { ...n[si], clients: cs }; set('portfolio', n);
-                      }} />
-                    <TextInput placeholder="Logo URL (blank = built-in SVG)" value={client.logoUrl}
-                      onChange={e => {
-                        const n = [...data.portfolio]; const cs = [...n[si].clients];
-                        cs[ci] = { ...client, logoUrl: e.target.value }; n[si] = { ...n[si], clients: cs }; set('portfolio', n);
                       }} />
                     <DangerButton type="button" onClick={() => {
                       if (client.logoUrl) deleteCloudinaryAsset(client.logoUrl).catch(() => {});
@@ -289,6 +285,17 @@ export default function AdminClientele() {
                     }}>
                       <Trash2 size={13} />
                     </DangerButton>
+                    </div>
+                    <ImageUploader
+                      label="Client logo"
+                      value={client.logoUrl}
+                      onChange={url => {
+                        const n = [...data.portfolio]; const cs = [...n[si].clients];
+                        cs[ci] = { ...client, logoUrl: url }; n[si] = { ...n[si], clients: cs }; set('portfolio', n);
+                      }}
+                      section="clientele"
+                      hint="Transparent PNG preferred, or a clear square/landscape logo"
+                    />
                   </div>
                 ))}
                 <SecondaryButton type="button" onClick={() => {
