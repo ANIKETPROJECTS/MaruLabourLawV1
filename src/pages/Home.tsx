@@ -109,15 +109,17 @@ function HeroCarousel({
         className="relative w-full h-full rounded-2xl overflow-hidden"
         style={{ minHeight: minHeight ?? "320px" }}
       >
-        {slides.map((src, i) => (
-          <img
-            key={i}
-            src={src}
-            alt={`Hero slide ${i + 1}`}
-            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
-            style={{ opacity: i === active ? 1 : 0 }}
-          />
-        ))}
+        <div className="absolute inset-2 lg:inset-3 rounded-xl overflow-hidden">
+          {slides.map((src, i) => (
+            <img
+              key={i}
+              src={src}
+              alt={`Hero slide ${i + 1}`}
+              className="absolute inset-0 w-full h-full object-contain rounded-xl transition-opacity duration-700"
+              style={{ opacity: i === active ? 1 : 0 }}
+            />
+          ))}
+        </div>
         {/* Dot indicators */}
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
           {slides.map((_, i) => (
