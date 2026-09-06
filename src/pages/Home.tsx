@@ -88,13 +88,11 @@ function StatCounter({
 function HeroCarousel({
   slides,
   active,
-  onActiveChange,
   className,
   minHeight,
 }: {
   slides: string[];
   active: number;
-  onActiveChange?: (i: number) => void;
   className?: string;
   minHeight?: string;
 }) {
@@ -109,30 +107,14 @@ function HeroCarousel({
         className="relative w-full h-full rounded-2xl overflow-hidden"
         style={{ minHeight: minHeight ?? "320px" }}
       >
-        <div className="absolute inset-2 lg:inset-3 rounded-xl overflow-hidden">
+        <div className="absolute inset-0 rounded-2xl overflow-hidden">
           {slides.map((src, i) => (
             <img
               key={i}
               src={src}
               alt={`Hero slide ${i + 1}`}
-              className="absolute inset-0 w-full h-full object-contain rounded-xl transition-opacity duration-700"
+              className="absolute inset-0 w-full h-full object-contain rounded-2xl transition-opacity duration-700"
               style={{ opacity: i === active ? 1 : 0 }}
-            />
-          ))}
-        </div>
-        {/* Dot indicators */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => onActiveChange?.(i)}
-              className="w-2 h-2 rounded-full transition-all duration-300"
-              style={{
-                backgroundColor:
-                  i === active ? "#fda102" : "rgba(255,255,255,0.5)",
-                transform: i === active ? "scale(1.3)" : "scale(1)",
-              }}
-              aria-label={`Slide ${i + 1}`}
             />
           ))}
         </div>
@@ -490,7 +472,6 @@ const Home = () => {
               <HeroCarousel
                 slides={heroSlides.map((s) => s.imageUrl)}
                 active={slideIdx}
-                onActiveChange={setSlideIdx}
                 className="flex lg:hidden flex-col mb-4 rounded-2xl overflow-hidden"
                 minHeight="380px"
               />
@@ -566,7 +547,6 @@ const Home = () => {
             <HeroCarousel
               slides={heroSlides.map((s) => s.imageUrl)}
               active={slideIdx}
-              onActiveChange={setSlideIdx}
             />
           </div>
         </div>
