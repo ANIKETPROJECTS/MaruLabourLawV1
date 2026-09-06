@@ -126,19 +126,19 @@ const Layout = () => {
 
         {/* ── Main nav bar ── */}
         <div style={{ backgroundColor: '#ffffff' }}>
-          <div className="max-w-7xl mx-auto px-4 lg:px-6 h-[56px] lg:h-[76px] flex justify-between items-center">
+          <div className="max-w-7xl mx-auto px-4 lg:px-8 h-[60px] lg:h-[84px] flex justify-between items-center">
 
             {/* Logo */}
             <Link to="/" className="self-stretch flex items-center lg:-ml-10 shrink-0">
               <img
                 src="/assets/maru-logo-new.png"
                 alt="Maru Labour Laws — Consultants & Practitioners"
-                className="w-auto object-contain block h-[46px] lg:h-[68px]"
+                className="w-auto object-contain block h-[50px] lg:h-[74px]"
               />
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-0">
+            <nav className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => {
                 const active = isActive(link.path);
                 const highlighted = active || hoveredLink === link.name;
@@ -157,7 +157,7 @@ const Layout = () => {
                   >
                     <Link
                       to={link.path}
-                      className="flex items-center gap-0.5 font-semibold text-[0.88rem] px-2.5 py-2.5 transition-colors duration-200"
+                      className="flex items-center gap-1 font-semibold text-[0.96rem] px-3 py-3 transition-colors duration-200"
                        style={{ fontFamily: 'Poppins, sans-serif', color: highlighted ? '#fda102' : '#172632' }}
                     >
                       {link.name}
@@ -165,7 +165,7 @@ const Layout = () => {
                     </Link>
                     {/* Hover underline */}
                     <span
-                      className="absolute bottom-1 left-2.5 right-2.5 h-[2px] transition-transform duration-300 pointer-events-none"
+                      className="absolute bottom-1 left-3 right-3 h-[2px] transition-transform duration-300 pointer-events-none"
                       style={{ backgroundColor: '#fda102', transform: highlighted ? 'scaleX(1)' : 'scaleX(0)', transformOrigin: 'left' }}
                     />
                     <div className="absolute top-full left-0 mt-1 w-[560px] bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
@@ -215,14 +215,14 @@ const Layout = () => {
                   >
                     <Link
                       to={link.path}
-                      className="font-semibold text-[0.88rem] px-2.5 py-2.5 block transition-colors duration-200"
+                      className="font-semibold text-[0.96rem] px-3 py-3 block transition-colors duration-200"
                        style={{ fontFamily: 'Poppins, sans-serif', color: highlighted ? '#fda102' : '#172632' }}
                     >
                       {link.name}
                     </Link>
                     {/* Hover underline */}
                     <span
-                      className="absolute bottom-1 left-2.5 right-2.5 h-[2px] transition-transform duration-300 pointer-events-none"
+                      className="absolute bottom-1 left-3 right-3 h-[2px] transition-transform duration-300 pointer-events-none"
                       style={{ backgroundColor: '#fda102', transform: highlighted ? 'scaleX(1)' : 'scaleX(0)', transformOrigin: 'left' }}
                     />
                   </div>
@@ -230,9 +230,9 @@ const Layout = () => {
               })}
             </nav>
 
-            <div className="hidden lg:flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-4">
               <Link to="/contact"
-                className="px-5 py-2 rounded-full font-bold text-[0.82rem] transition-all duration-200 shadow-sm whitespace-nowrap"
+                className="px-6 py-2.5 rounded-full font-bold text-[0.9rem] transition-all duration-200 shadow-sm whitespace-nowrap"
                 style={{ fontFamily: 'Poppins, sans-serif', backgroundColor: '#fda102', color: '#ffffff', border: '2px solid #fda102' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#fda102'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#fda102'; (e.currentTarget as HTMLElement).style.color = '#ffffff'; }}>
