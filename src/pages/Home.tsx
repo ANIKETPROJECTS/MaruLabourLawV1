@@ -473,7 +473,7 @@ const Home = () => {
                 slides={heroSlides.map((s) => s.imageUrl)}
                 active={slideIdx}
                 className="flex lg:hidden flex-col mb-4 rounded-2xl overflow-hidden"
-                minHeight="380px"
+                minHeight="460px"
               />
 
               {/* Description */}
@@ -547,6 +547,7 @@ const Home = () => {
             <HeroCarousel
               slides={heroSlides.map((s) => s.imageUrl)}
               active={slideIdx}
+                minHeight="530px"
             />
           </div>
         </div>
