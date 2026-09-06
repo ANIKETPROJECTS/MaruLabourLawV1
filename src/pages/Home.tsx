@@ -732,37 +732,41 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: i * 0.08 }}
-                className="flex flex-col items-center text-center rounded-2xl p-4 lg:p-8"
+                className="flex flex-col items-center text-center rounded-2xl overflow-hidden"
                 style={{
                   backgroundColor: "#ffffff",
                   border: "1px solid #e5e7eb",
                 }}
               >
-                {/* Icon: custom image if set, else built-in Lottie animation */}
-                {item.imgUrl ? (
-                  <img
-                    src={item.imgUrl}
-                    alt={item.title}
-                    className="w-24 h-24 lg:w-40 lg:h-40 mb-3 lg:mb-5 shrink-0 object-contain"
-                  />
-                ) : (
-                  <LottieAnim
-                    animationData={item.anim}
-                    className="w-24 h-24 lg:w-40 lg:h-40 mb-3 lg:mb-5 shrink-0"
-                  />
-                )}
+                {/* Full-width image banner: custom upload or built-in Lottie fallback */}
+                <div className="w-full h-32 md:h-36 lg:h-44 shrink-0 overflow-hidden bg-white">
+                  {item.imgUrl ? (
+                    <img
+                      src={item.imgUrl}
+                      alt={item.title}
+                      className="w-full h-full object-cover object-center"
+                    />
+                  ) : (
+                    <LottieAnim
+                      animationData={item.anim}
+                      className="w-full h-full"
+                    />
+                  )}
+                </div>
 
                 {/* Title */}
-                <h3
-                  className="font-semibold text-gray-900 mb-0"
-                  style={{
-                    fontFamily: "Poppins, sans-serif",
-                    fontSize: "clamp(0.78rem, 1.4vw, 1rem)",
-                    lineHeight: 1.35,
-                  }}
-                >
-                  {item.title}
-                </h3>
+                <div className="flex flex-1 items-center justify-center w-full px-3 py-4 lg:px-5 lg:py-5">
+                  <h3
+                    className="font-semibold text-gray-900 mb-0"
+                    style={{
+                      fontFamily: "Poppins, sans-serif",
+                      fontSize: "clamp(0.78rem, 1.4vw, 1rem)",
+                      lineHeight: 1.35,
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+                </div>
               </motion.div>
             ))}
           </div>
