@@ -394,6 +394,11 @@ const Home = () => {
       ? content.whyUsImages.filter(Boolean)
       : [content?.whyUsImage1Url || heroImage1, content?.whyUsImage2Url || heroImage2, heroImageDefault]
   ).filter(Boolean);
+  const clientLogoRows = [
+    clientLogos.filter((_, i) => i % 3 === 0),
+    clientLogos.filter((_, i) => i % 3 === 1),
+    clientLogos.filter((_, i) => i % 3 === 2),
+  ];
 
   return (
     <div className="w-full">
@@ -1239,7 +1244,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ── Scrolling Client Logos — two rows, opposite directions ── */}
+        {/* ── Scrolling Client Logos — three rows, alternating directions ── */}
       <section className="py-8 lg:py-14 bg-white border-y border-gray-100 overflow-hidden">
         {/* Section label — one line, tighter tracking */}
         <motion.p
@@ -1258,34 +1263,17 @@ const Home = () => {
           {clientsLabel}
         </motion.p>
 
-        {/* Row 1 — scrolls LEFT */}
-        <div className="overflow-hidden relative mb-5 lg:mb-8">
-          <div className="animate-marquee">
-            {[...clientLogos, ...clientLogos].map((client, i) => (
-              <div
-                key={i}
-                title={client.name}
-                className="flex items-center justify-center mx-6 lg:mx-12 shrink-0 w-[180px] lg:w-[240px] h-14 lg:h-20 cursor-default"
-              >
-                <img
-                  src={client.logoUrl}
-                  alt={client.name}
-                  className="w-full h-full object-contain"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Row 2 — scrolls RIGHT */}
-        <div className="overflow-hidden relative">
-          <div className="animate-marquee-reverse">
-            {[...clientLogos.slice().reverse(), ...clientLogos.slice().reverse()].map(
-              (client, i) => (
+        {clientLogoRows.map((row, rowIndex) => (
+          <div
+            key={rowIndex}
+            className={`overflow-hidden relative ${rowIndex < clientLogoRows.length - 1 ? "mb-5 lg:mb-8" : ""}`}
+          >
+            <div className={rowIndex === 1 ? "animate-marquee-reverse" : "animate-marquee"}>
+              {[...row, ...row].map((client, i) => (
                 <div
-                  key={i}
+                  key={`${client.name}-${i}`}
                   title={client.name}
-                  className="flex items-center justify-center mx-6 lg:mx-12 shrink-0 w-[180px] lg:w-[240px] h-14 lg:h-20 cursor-default"
+                  className="flex items-center justify-center mx-2 lg:mx-4 shrink-0 w-[180px] lg:w-[240px] h-14 lg:h-20 cursor-default"
                 >
                   <img
                     src={client.logoUrl}
@@ -1293,10 +1281,10 @@ const Home = () => {
                     className="w-full h-full object-contain"
                   />
                 </div>
-              ),
-            )}
+              ))}
+            </div>
           </div>
-        </div>
+        ))}
       </section>
 
       {/* ── Recent Insights ───────────────────────────────── */}
