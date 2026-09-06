@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import heroSlide2 from "@assets/image_1785489614194.png";
 import heroSlide3 from "@assets/image_1785489629521.png";
-import heroVideoDefault from "@assets/7552418-hd_1080_1920_25fps_1783420764090.mp4";
 import heroImageDefault from "@assets/pexels-vlada-karpovich-7433855_1783420874088.jpg";
 import customerReviewIcon from "@assets/customer-review_1783487769231.png";
 const maruLogoDefault = "/assets/maru-logo-new.png";
@@ -120,6 +119,35 @@ function HeroCarousel({
         </div>
       </div>
     </motion.div>
+  );
+}
+
+function ExpertiseImageCarousel({ images }: { images: string[] }) {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    if (images.length < 2) return;
+    const id = window.setInterval(() => {
+      setActive((current) => (current + 1) % images.length);
+    }, 4500);
+    return () => window.clearInterval(id);
+  }, [images.length]);
+
+  const activeIndex = images.length ? active % images.length : 0;
+
+  return (
+    <div className="relative h-full min-h-[280px] sm:min-h-[340px] rounded-2xl overflow-hidden shadow-md bg-gray-100">
+      {images.map((src, i) => (
+        <img
+          key={`${src}-${i}`}
+          src={src}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
+          style={{ opacity: i === activeIndex ? 1 : 0 }}
+        />
+      ))}
+    </div>
   );
 }
 
@@ -342,14 +370,15 @@ const Home = () => {
     anim: oneStopAnims[i % oneStopAnims.length],
   }));
   const stats = content?.stats?.length ? content.stats : defaultStats;
-  const heroVideo = content?.heroVideoUrl || heroVideoDefault;
   const heroImage1 = content?.heroImage1Url || heroImageDefault;
   const heroImage2 = content?.heroImage2Url || heroImageDefault;
   const maruLogo = content?.whyUsLogoUrl || maruLogoDefault;
-  // Expertise section collage — falls back to hero media if not set separately
-  const expertiseVideo = content?.whyUsVideoUrl || heroVideo;
-  const expertiseImage1 = content?.whyUsImage1Url || heroImage1;
-  const expertiseImage2 = content?.whyUsImage2Url || heroImage2;
+  // Expertise carousel — falls back to the existing Home image fields until images are uploaded.
+  const expertiseImages = (
+    content?.whyUsImages?.filter(Boolean).length
+      ? content.whyUsImages.filter(Boolean)
+      : [content?.whyUsImage1Url || heroImage1, content?.whyUsImage2Url || heroImage2, heroImageDefault]
+  ).filter(Boolean);
 
   return (
     <div className="w-full">
@@ -792,7 +821,7 @@ const Home = () => {
       <section className="py-8 lg:py-16" style={{ backgroundColor: "#f9f5f2" }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-10">
           <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 items-stretch">
-            {/* ── Left: collage (same as hero) ── */}
+            {/* ── Left: expertise image carousel ── */}
             <motion.div
               className="w-full lg:w-[48%] shrink-0 flex flex-col"
               initial={{ opacity: 0, x: -24 }}
@@ -800,51 +829,8 @@ const Home = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="flex gap-2.5 h-[280px] sm:h-[340px] lg:h-full">
-                {/* Left column: tall video */}
-                <div className="flex flex-col" style={{ width: "58%" }}>
-                  <div
-                    className="rounded-2xl overflow-hidden shadow-md"
-                    style={{ flex: 1 }}
-                  >
-                    <video
-                      src={expertiseVideo}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      aria-hidden="true"
-                      className="w-full h-full object-cover"
-                      style={{ display: "block" }}
-                    />
-                  </div>
-                </div>
-
-                {/* Right column: two stacked images */}
-                <div className="flex flex-col gap-3" style={{ width: "42%" }}>
-                  <div
-                    className="rounded-2xl overflow-hidden shadow-md"
-                    style={{ flex: "0 0 42%" }}
-                  >
-                    <img
-                      src={expertiseImage1}
-                      alt=""
-                      aria-hidden="true"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div
-                    className="rounded-2xl overflow-hidden shadow-md"
-                    style={{ flex: 1 }}
-                  >
-                    <img
-                      src={expertiseImage2}
-                      alt=""
-                      aria-hidden="true"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
+              <div className="h-[280px] sm:h-[340px] lg:h-full">
+                <ExpertiseImageCarousel images={expertiseImages} />
               </div>
             </motion.div>
 

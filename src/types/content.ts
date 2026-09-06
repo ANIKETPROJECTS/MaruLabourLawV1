@@ -68,6 +68,8 @@ export type HomeContent = {
   whyUsHeading: string;
   whyUsBody: string;
   whyUsItems: WhyUsItem[];
+  whyUsImages: string[];
+  // Legacy media fields retained for existing saved Home documents.
   whyUsVideoUrl: string;
   whyUsImage1Url: string;
   whyUsImage2Url: string;

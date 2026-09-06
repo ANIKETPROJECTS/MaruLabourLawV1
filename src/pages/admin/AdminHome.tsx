@@ -16,6 +16,7 @@ const EMPTY: HomeContent = {
   oneStopLabel: '', oneStopTitle: '', oneStopBody: '', oneStopCards: [],
   labourCodesCalloutHeading: '', labourCodesCalloutBody: '', labourCodesCalloutCta: '',
   whyUsLogoUrl: '', whyUsHeading: '', whyUsBody: '', whyUsItems: [],
+  whyUsImages: ['', '', ''],
   whyUsVideoUrl: '', whyUsImage1Url: '', whyUsImage2Url: '',
   servicesPreviewLabel: '', servicesPreviewTitle: '', servicesPreviewDescription: '',
   featuredServiceSlugs: [],
@@ -53,6 +54,7 @@ export default function AdminHome() {
           heroCategories: home.heroCategories ?? [],
           oneStopCards: home.oneStopCards ?? [],
           whyUsItems: home.whyUsItems ?? [],
+          whyUsImages: home.whyUsImages ?? ['', '', ''],
           testimonials: home.testimonials ?? [],
           stats: home.stats ?? [],
           featuredServiceSlugs: home.featuredServiceSlugs ?? [],
@@ -293,9 +295,28 @@ export default function AdminHome() {
       {/* ── Why Choose Us ── */}
       <Section title="Why Choose Us Section">
         <ImageUploader label="Logo" value={data.whyUsLogoUrl} onChange={(v) => update('whyUsLogoUrl', v)} section="home" hint="PNG with transparent background, ~80 px tall" />
-        <ImageUploader label="Left panel video" value={data.whyUsVideoUrl} onChange={(v) => update('whyUsVideoUrl', v)} accept="video/*" section="home" hint="Tall video for the large left collage slot. If blank, the Hero video is used." />
-        <ImageUploader label="Collage image 1 (top-right)" value={data.whyUsImage1Url} onChange={(v) => update('whyUsImage1Url', v)} section="home" hint="Portrait 2:3. If blank, Hero image 1 is used." />
-        <ImageUploader label="Collage image 2 (bottom-right)" value={data.whyUsImage2Url} onChange={(v) => update('whyUsImage2Url', v)} section="home" hint="Portrait 2:3. If blank, Hero image 2 is used." />
+        <div className="space-y-4">
+          <div>
+            <p className="text-sm font-semibold mb-1" style={{ fontFamily: PP, color: '#333' }}>Expertise carousel images</p>
+            <p className="text-xs text-gray-500 leading-relaxed" style={{ fontFamily: PP }}>
+              Upload up to 3 images. They will rotate automatically in the single large image panel on the left side of this section.
+            </p>
+          </div>
+          {[0, 1, 2].map((i) => (
+            <ImageUploader
+              key={i}
+              label={`Carousel image ${i + 1}`}
+              value={data.whyUsImages?.[i] ?? ''}
+              onChange={(v) => {
+                const next = [...(data.whyUsImages ?? ['', '', ''])];
+                next[i] = v;
+                update('whyUsImages', next.slice(0, 3));
+              }}
+              section="home"
+              hint="Portrait 4:5 — recommended 1200 × 1500 px"
+            />
+          ))}
+        </div>
         <Field label="Heading"><TextInput value={data.whyUsHeading} onChange={(e) => update('whyUsHeading', e.target.value)} /></Field>
         <Field label="Body text"><TextArea rows={3} value={data.whyUsBody} onChange={(e) => update('whyUsBody', e.target.value)} /></Field>
         <Field label="Numbered reasons">

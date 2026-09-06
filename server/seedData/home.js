@@ -80,6 +80,7 @@ export const homeSeed = {
     { title: 'Practical Compliance Solutions', desc: 'We translate legislation and regulatory requirements into implementable HR, payroll and compliance processes.' },
     { title: 'Risk-Based Approach', desc: 'We examine whether compliance can be demonstrated through reliable records and processes, not merely whether a document exists.' },
   ],
+  whyUsImages: [],
 
   // ── Services Preview ──────────────────────────────────
   servicesPreviewLabel: 'Our Expertise',

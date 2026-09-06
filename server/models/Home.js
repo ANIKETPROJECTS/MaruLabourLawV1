@@ -72,6 +72,8 @@ const HomeSchema = new mongoose.Schema({
   whyUsHeading: String,
   whyUsBody: String,
   whyUsItems: [WhyUsItem],
+  whyUsImages: { type: [String], default: [] },
+  // Legacy media fields retained for existing saved Home documents.
   whyUsVideoUrl: String,
   whyUsImage1Url: String,
   whyUsImage2Url: String,
