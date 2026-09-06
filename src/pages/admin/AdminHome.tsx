@@ -244,7 +244,7 @@ export default function AdminHome() {
       </Section>
 
       {/* ── Core Capabilities ── */}
-      <Section title="Core Capabilities Section" description="The dark amber section showing 8 service capability cards.">
+      <Section title="Core Capabilities Section" description="The dark amber section showing 8 service capability cards with full-width image banners.">
         <div className="grid grid-cols-2 gap-4">
           <Field label="Label (e.g. Our Core Capabilities)"><TextInput value={data.oneStopLabel} onChange={(e) => update('oneStopLabel', e.target.value)} /></Field>
           <Field label="Heading (e.g. Compliance Beyond Checklists)"><TextInput value={data.oneStopTitle} onChange={(e) => update('oneStopTitle', e.target.value)} /></Field>
@@ -270,11 +270,11 @@ export default function AdminHome() {
                   </DangerButton>
                 </div>
                 <ImageUploader
-                  label="Card icon / image (replaces default animation)"
+                  label="Card image (replaces default animation)"
                   value={c.imgUrl ?? ''}
                   onChange={(v) => { const next = [...(data.oneStopCards ?? [])]; next[i] = { ...c, imgUrl: v }; update('oneStopCards', next); }}
                   section="home"
-                  hint="Square, e.g. 400×400 px. Leave blank to use built-in animated icon."
+                  hint="Recommended: 1200×900 px (4:3 landscape), minimum 800×600 px. The image fills the full card width above the title. Leave blank to use the built-in animated icon."
                 />
               </div>
             ))}
