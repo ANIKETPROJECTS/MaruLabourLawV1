@@ -857,12 +857,13 @@ const Home = () => {
               transition={{ duration: 0.6 }}
             >
               <div className="rounded-2xl pt-4 pb-6 px-4 lg:pt-6 lg:pb-12 lg:px-12 shadow-xl" style={{ backgroundColor: "#172632" }}>
-                <img
-                  src={maruLogo}
-                  alt="Maru Consultancy Services"
-                  className="h-14 lg:h-20 w-auto object-contain mb-3 lg:mb-5 mx-auto block"
-                
-                />
+                <div className="w-fit max-w-full mx-auto rounded-xl bg-white px-4 py-2 lg:px-6 lg:py-3 mb-3 lg:mb-5">
+                  <img
+                    src={maruLogo}
+                    alt="Maru Consultancy Services"
+                    className="h-14 lg:h-20 w-auto object-contain block"
+                  />
+                </div>
                 <h2
                   className="font-bold leading-[1.2] mb-3 lg:mb-5 line-clamp-2 lg:line-clamp-none"
                   style={{
