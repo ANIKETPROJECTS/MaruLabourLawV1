@@ -8,7 +8,6 @@ const heroOrganisationsDefault = "/assets/home-hero-organisations.png";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight, ChevronRight, Star } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ALL_CLIENTS } from "../components/ClientLogos";
 import lottie from "lottie-web";
 import animStatutory from "../assets/animations/anim-statutory.json";
 import animLabourActs from "../assets/animations/anim-labour-acts.json";
@@ -18,7 +17,7 @@ import animPayrollRecords from "../assets/animations/anim-payroll-records.json";
 import animHr from "../assets/animations/anim-hr.json";
 import { api } from "../lib/api";
 import { useLiveContent } from "../hooks/useLiveContent";
-import type { HomeContent, ServiceContent, OneStopCard } from "../types/content";
+import type { HomeContent, ServiceContent, OneStopCard, ClienteleContent, PortfolioClient } from "../types/content";
 
 /* ── Lottie player wrapper (uses lottie-web directly, no duplicate-React risk) ── */
 function LottieAnim({
@@ -275,6 +274,17 @@ const defaultStats = [
   { target: 98, decimals: 0, suffix: "%", label: "Retention Rate" },
 ];
 
+const fallbackClientLogos: PortfolioClient[] = [
+  { name: "BASF India Limited", logoUrl: "/assets/client-logos/basf-india-limited.png" },
+  { name: "Henkel Adhesives Technologies India Pvt Ltd", logoUrl: "/assets/client-logos/henkel-adhesives-technologies-india-private-limited.png" },
+  { name: "Kalmar India Pvt Ltd", logoUrl: "/assets/client-logos/kalmar-india-pvt-ltd.png" },
+  { name: "Programmers.io India Pvt Ltd", logoUrl: "/assets/client-logos/programmers-io-india-private-limited.png" },
+  { name: "Harshdeep Hortico Limited", logoUrl: "/assets/client-logos/harshdeep-hortico-limited.png" },
+  { name: "OM Freight Forwarders", logoUrl: "/assets/client-logos/om-freight-forwarders.png" },
+  { name: "Organic Recycling Systems Limited", logoUrl: "/assets/client-logos/organic-recycling-systems-limited.png" },
+  { name: "Walchand Peoplefirst Limited", logoUrl: "/assets/client-logos/walchand-peoplefirst-limited.png" },
+];
+
 const defaultHeroStats = [
   { target: 1979, decimals: 0, suffix: "", label: "Established Since" },
   { target: 45, decimals: 0, suffix: "+", label: "Years of Experience" },
@@ -292,17 +302,22 @@ const defaultHeroCategories = [
 const Home = () => {
   const [content, setContent] = useState<HomeContent | null>(null);
   const [previewServices, setPreviewServices] = useState<ServiceContent[]>([]);
+  const [clientLogos, setClientLogos] = useState<PortfolioClient[]>(fallbackClientLogos);
 
   const fetchHome = () => {
     Promise.all([
       api.get<HomeContent>("/home"),
       api.get<ServiceContent[]>("/services"),
+      api.get<ClienteleContent>("/industries"),
     ])
-      .then(([home, services]) => {
+      .then(([home, services, clientele]) => {
         const parentServices = services.filter(
           (service) => !service.parentSlug,
         );
         setContent(home);
+        const logos = clientele.portfolio?.flatMap((sector) => sector.clients ?? [])
+          .filter((client) => Boolean(client.logoUrl));
+        setClientLogos(logos?.length ? logos : fallbackClientLogos);
         if (home.featuredServiceSlugs?.length) {
           const map = new Map(parentServices.map((s) => [s.slug, s]));
           const ordered = home.featuredServiceSlugs
@@ -1246,13 +1261,17 @@ const Home = () => {
         {/* Row 1 — scrolls LEFT */}
         <div className="overflow-hidden relative mb-5 lg:mb-8">
           <div className="animate-marquee">
-            {[...ALL_CLIENTS, ...ALL_CLIENTS].map(({ name, Logo }, i) => (
+            {[...clientLogos, ...clientLogos].map((client, i) => (
               <div
                 key={i}
-                title={name}
+                title={client.name}
                 className="flex items-center justify-center mx-6 lg:mx-12 shrink-0 h-14 lg:h-20 cursor-default opacity-75 hover:opacity-100 transition-opacity duration-300"
               >
-                <Logo />
+                <img
+                  src={client.logoUrl}
+                  alt={client.name}
+                  className="max-h-12 lg:max-h-16 max-w-[180px] lg:max-w-[240px] object-contain"
+                />
               </div>
             ))}
           </div>
@@ -1261,14 +1280,18 @@ const Home = () => {
         {/* Row 2 — scrolls RIGHT */}
         <div className="overflow-hidden relative">
           <div className="animate-marquee-reverse">
-            {[...[...ALL_CLIENTS].reverse(), ...[...ALL_CLIENTS].reverse()].map(
-              ({ name, Logo }, i) => (
+            {[...clientLogos.slice().reverse(), ...clientLogos.slice().reverse()].map(
+              (client, i) => (
                 <div
                   key={i}
-                  title={name}
+                  title={client.name}
                   className="flex items-center justify-center mx-6 lg:mx-12 shrink-0 h-14 lg:h-20 cursor-default opacity-75 hover:opacity-100 transition-opacity duration-300"
                 >
-                  <Logo />
+                  <img
+                    src={client.logoUrl}
+                    alt={client.name}
+                    className="max-h-12 lg:max-h-16 max-w-[180px] lg:max-w-[240px] object-contain"
+                  />
                 </div>
               ),
             )}
