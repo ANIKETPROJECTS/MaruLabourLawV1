@@ -330,9 +330,9 @@ const contact = {
   phone2: '022-35725001',
   email1: 'info@labourlaws.co.in',
   email2: 'info@labourlaws.co.in',
-  addressLine1: '614, Exim-Link (Property Registration Building),',
-  addressLine2: 'Near Runwal Greens, Mulund-Goregaon Link Road,',
-  addressLine3: 'Nahur (West), Mumbai – 400 078',
+  addressLine1: '614, Mulund - Goregaon Link Rd,',
+  addressLine2: 'Nahur West, Industrial Area, Bhandup West,',
+  addressLine3: 'Mumbai, Maharashtra 400080',
   hoursWeekdays: 'Monday – Friday: 9:30 AM – 6:30 PM',
   hoursWeekend: 'Saturday & Sunday: Closed',
   serviceOptions: [

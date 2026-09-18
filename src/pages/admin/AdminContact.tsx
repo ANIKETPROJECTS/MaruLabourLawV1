@@ -32,9 +32,9 @@ const EMPTY: ContactContent = {
   partner2Role:   'Managing Partner',
   partner2Phone:  '+91-9833872761',
   partner2Email:  'nishit.maru@labourlaws.co.in',
-  addressLine1:   '614, Exim-Link (property registration bldg) Near Runwal Greens,',
-  addressLine2:   'Mulund Goregaon Link Road, Nahur(west), Mumbai 400 078',
-  addressLine3:   '',
+  addressLine1:   '614, Mulund - Goregaon Link Rd,',
+  addressLine2:   'Nahur West, Industrial Area, Bhandup West,',
+  addressLine3:   'Mumbai, Maharashtra 400080',
   hoursWeekdays:  'Monday – Friday: 9:30 AM – 6:30 PM',
   hoursWeekend:   'Saturday & Sunday: Closed',
   serviceOptions: [
@@ -49,7 +49,7 @@ const EMPTY: ContactContent = {
     'Training & Workshops',
     'Other / General Inquiry',
   ],
-  mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3773.9!2d72.8232!3d18.9256!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7d1c6cfb3b99b%3A0x4a5a3a6d7e5f4f1a!2sNariman%20Point%2C%20Mumbai%2C%20Maharashtra%20400021!5e0!3m2!1sen!2sin!4v1700000000000',
+  mapEmbedUrl: 'https://www.google.com/maps?q=614%2C%20Mulund%20-%20Goregaon%20Link%20Rd%2C%20Nahur%20West%2C%20Industrial%20Area%2C%20Bhandup%20West%2C%20Mumbai%2C%20Maharashtra%20400080&output=embed',
 };
 
 export default function AdminContact() {
@@ -273,11 +273,11 @@ export default function AdminContact() {
       <Section title="Office Address" description="Three lines shown in the contact details sidebar.">
         <Field label="Address line 1">
           <TextInput value={data.addressLine1} onChange={e => set('addressLine1', e.target.value)}
-            placeholder="15th Floor, Nariman Point," />
+            placeholder="614, Mulund - Goregaon Link Rd," />
         </Field>
         <Field label="Address line 2">
           <TextInput value={data.addressLine2} onChange={e => set('addressLine2', e.target.value)}
-            placeholder="Mumbai, Maharashtra 400021" />
+            placeholder="Mumbai, Maharashtra 400080" />
         </Field>
         <Field label="Address line 3">
           <TextInput value={data.addressLine3} onChange={e => set('addressLine3', e.target.value)}
