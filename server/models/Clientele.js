@@ -35,14 +35,14 @@ const ClienteleSchema = new mongoose.Schema({
   sectionPortfolioSubtext: { type: String, default: 'From nimble startups to Fortune 500 conglomerates — our expertise spans every scale of Indian industry.' },
 
   // Marquee strip
-  marqueeText: { type: String, default: 'Serving 500+ Corporations Across India' },
+  marqueeText: { type: String, default: 'Serving 300+ Corporations Across India' },
 
   // Testimonials section
   testimonialsHeading: { type: String, default: 'Trusted by Industry Leaders' },
   testimonialsStats: { type: [TestimonialsStatSchema], default: [
-    { target: 500, decimals: 0, suffix: '+',  label: 'Clients Served' },
+    { target: 300, decimals: 0, suffix: '+',  label: 'Clients Served' },
     { target: 4.9, decimals: 1, suffix: '★', label: 'Average Rating' },
-    { target: 15,  decimals: 0, suffix: '+',  label: 'Years of Expertise' },
+    { target: 40,  decimals: 0, suffix: '+',  label: 'Years of Expertise' },
     { target: 98,  decimals: 0, suffix: '%',  label: 'Retention Rate' },
   ]},
 

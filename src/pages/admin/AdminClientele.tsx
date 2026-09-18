@@ -10,7 +10,7 @@ const PP = 'Poppins, sans-serif';
 const EMPTY: ClienteleContent = {
   heroEyebrow:  'Trusted Partners',
   heroHeadline: 'Our Esteemed Clientele',
-  heroSubtext:  'Trusted by 500+ corporations across India to navigate complex labour law and stay fully compliant.',
+  heroSubtext:  'Trusted by 300+ corporations across India to navigate complex labour law and stay fully compliant.',
   portfolio: [
     { sector: 'Manufacturing & Conglomerates', clients: [
       { name: 'Tata', logoUrl: '' }, { name: 'Mahindra', logoUrl: '' }, { name: 'L&T', logoUrl: '' },
@@ -24,8 +24,8 @@ const EMPTY: ClienteleContent = {
     ]},
   ],
   stats: [
-    { target: 500, suffix: '+', decimals: 0, label: 'Clients Served' },
-    { target: 15,  suffix: '+', decimals: 0, label: 'Years of Expertise' },
+    { target: 300, suffix: '+', decimals: 0, label: 'Clients Served' },
+    { target: 40,  suffix: '+', decimals: 0, label: 'Years of Expertise' },
     { target: 8,   suffix: '+', decimals: 0, label: 'Industries' },
     { target: 98,  suffix: '%', decimals: 0, label: 'Retention Rate' },
   ],
@@ -142,7 +142,7 @@ export default function AdminClientele() {
         </Field>
         <Field label="Subtext paragraph">
           <TextArea rows={2} value={data.heroSubtext} onChange={e => set('heroSubtext', e.target.value)}
-            placeholder="Trusted by 500+ corporations across India..." />
+            placeholder="Trusted by 300+ corporations across India..." />
         </Field>
       </Section>
 

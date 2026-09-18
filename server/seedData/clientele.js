@@ -2,11 +2,11 @@ export const clienteleSeed = {
   heroEyebrow: 'Trusted Partners',
   heroHeadline: 'Our Esteemed Clientele',
   heroSubtext:
-    'Trusted by 500+ corporations across India to navigate complex labour law and stay fully compliant.',
+    'Trusted by 300+ corporations across India to navigate complex labour law and stay fully compliant.',
 
   stats: [
-    { target: 500, suffix: '+', decimals: 0, label: 'Clients Served' },
-    { target: 15, suffix: '+', decimals: 0, label: 'Years of Expertise' },
+    { target: 300, suffix: '+', decimals: 0, label: 'Clients Served' },
+    { target: 40, suffix: '+', decimals: 0, label: 'Years of Expertise' },
     { target: 8, suffix: '+', decimals: 0, label: 'Industries' },
     { target: 98, suffix: '%', decimals: 0, label: 'Retention Rate' },
   ],

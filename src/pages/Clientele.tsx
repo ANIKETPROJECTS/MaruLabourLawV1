@@ -48,8 +48,8 @@ const FALLBACK_IMAGES = [
 ];
 
 const DEFAULT_STATS = [
-  { target: 500, suffix: '+', decimals: 0, label: 'Clients Served' },
-  { target: 15,  suffix: '+', decimals: 0, label: 'Years of Expertise' },
+  { target: 300, suffix: '+', decimals: 0, label: 'Clients Served' },
+  { target: 40,  suffix: '+', decimals: 0, label: 'Years of Expertise' },
   { target: 8,   suffix: '+', decimals: 0, label: 'Industries' },
   { target: 98,  suffix: '%', decimals: 0, label: 'Retention Rate' },
 ];
@@ -150,7 +150,7 @@ const Clientele = () => {
 
   const heroEyebrow  = apiData?.heroEyebrow  ?? 'Trusted Partners';
   const heroHeadline = apiData?.heroHeadline ?? 'Our Esteemed Clientele';
-  const heroSubtext  = apiData?.heroSubtext  ?? 'Trusted by 500+ corporations across India to navigate complex labour law and stay fully compliant.';
+  const heroSubtext  = apiData?.heroSubtext  ?? 'Trusted by 300+ corporations across India to navigate complex labour law and stay fully compliant.';
 
   const sectionIndustryLabel   = apiData?.sectionIndustryLabel   ?? 'Industry Spread';
   const sectionIndustryHeading = apiData?.sectionIndustryHeading ?? 'Sectors We Serve';
@@ -160,12 +160,12 @@ const Clientele = () => {
   const sectionPortfolioHeading = apiData?.sectionPortfolioHeading ?? "Companies We've Served";
   const sectionPortfolioSubtext = apiData?.sectionPortfolioSubtext ?? 'From nimble startups to Fortune 500 conglomerates — our expertise spans every scale of Indian industry.';
 
-  const marqueeText          = apiData?.marqueeText          ?? 'Serving 500+ Corporations Across India';
+  const marqueeText          = apiData?.marqueeText          ?? 'Serving 300+ Corporations Across India';
   const testimonialsHeading  = apiData?.testimonialsHeading  ?? 'Trusted by Industry Leaders';
   const testimonialsStats    = apiData?.testimonialsStats?.length ? apiData.testimonialsStats : [
-    { target: 500, decimals: 0, suffix: '+',  label: 'Clients Served' },
+    { target: 300, decimals: 0, suffix: '+',  label: 'Clients Served' },
     { target: 4.9, decimals: 1, suffix: '★', label: 'Average Rating' },
-    { target: 15,  decimals: 0, suffix: '+',  label: 'Years of Expertise' },
+    { target: 40,  decimals: 0, suffix: '+',  label: 'Years of Expertise' },
     { target: 98,  decimals: 0, suffix: '%',  label: 'Retention Rate' },
   ];
 

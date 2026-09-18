@@ -400,8 +400,8 @@ export default function AdminHome() {
 
       {/* ── Client Logos ── */}
       <Section title="Client Logos Section" description="The scrolling company logos strip.">
-        <Field label="Section label (e.g. Serving 500+ Corporations Across India)">
-          <TextInput value={data.clientsLabel} onChange={(e) => update('clientsLabel', e.target.value)} placeholder="Serving 500+ Corporations Across India" />
+        <Field label="Section label (e.g. Serving 300+ Corporations Across India)">
+          <TextInput value={data.clientsLabel} onChange={(e) => update('clientsLabel', e.target.value)} placeholder="Serving 300+ Corporations Across India" />
         </Field>
       </Section>
 

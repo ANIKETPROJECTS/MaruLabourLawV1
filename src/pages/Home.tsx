@@ -268,9 +268,9 @@ const oneStopAnims = [
 ];
 
 const defaultStats = [
-  { target: 500, decimals: 0, suffix: "+", label: "Clients Served" },
+  { target: 300, decimals: 0, suffix: "+", label: "Clients Served" },
   { target: 4.9, decimals: 1, suffix: "★", label: "Average Rating" },
-  { target: 15, decimals: 0, suffix: "+", label: "Years of Expertise" },
+  { target: 40, decimals: 0, suffix: "+", label: "Years of Expertise" },
   { target: 98, decimals: 0, suffix: "%", label: "Retention Rate" },
 ];
 
@@ -287,7 +287,7 @@ const fallbackClientLogos: PortfolioClient[] = [
 
 const defaultHeroStats = [
   { target: 1979, decimals: 0, suffix: "", label: "Established Since" },
-  { target: 45, decimals: 0, suffix: "+", label: "Years of Experience" },
+  { target: 40, decimals: 0, suffix: "+", label: "Years of Experience" },
   { target: 300, decimals: 0, suffix: "+", label: "Clients Served" },
   { target: 4, decimals: 0, suffix: "", label: "Labour Codes" },
 ];
@@ -366,7 +366,7 @@ const Home = () => {
   const labourCodesCalloutHeading = content?.labourCodesCalloutHeading || "Is Your Organisation Labour Codes Ready?";
   const labourCodesCalloutBody = content?.labourCodesCalloutBody || "Assess the impact on wages, payroll, PF, gratuity, bonus, employment documentation, HR policies, contractors, social security, industrial relations and working conditions.";
   const labourCodesCalloutCta = content?.labourCodesCalloutCta || "Request a Labour Codes Readiness Assessment";
-  const clientsLabel = content?.clientsLabel || "Serving 500+ Corporations Across India";
+  const clientsLabel = content?.clientsLabel || "Serving 300+ Corporations Across India";
   const insightsLabel = content?.insightsLabel || "Latest Insights";
   const insightsHeading = content?.insightsHeading || "Stay informed with expert guidance";
   const ctaBannerHeading = content?.ctaBannerHeading || "Ready to secure your compliance?";
