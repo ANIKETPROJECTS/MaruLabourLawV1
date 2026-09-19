@@ -16,9 +16,10 @@ export const aboutSeed = {
   ],
 
   heroStats: [
-    { value: '500+', label: 'Corporate Clients' },
-    { value: '21+', label: 'Years' },
-    { value: '15+', label: 'States' },
+    { value: '1979', label: 'Established Since' },
+    { value: '40+', label: 'Years of Experience' },
+    { value: '300+', label: 'Clients Served' },
+    { value: '4', label: 'Labour Codes' },
   ],
 
   marqueeServices: [
@@ -37,7 +38,7 @@ export const aboutSeed = {
     {
       heading: 'Founded on a vision of',
       headingHighlight: 'simplified compliance.',
-      body: "What started as a boutique advisory in Mumbai has grown into a pan-India powerhouse trusted by some of India's most respected corporations. We manage compliance for 500+ organisations — from dynamic startups to Fortune 500 conglomerates.",
+      body: "What started as a boutique advisory in Mumbai has grown into a pan-India powerhouse trusted by some of India's most respected corporations. We manage compliance for 300+ organisations — from dynamic startups to Fortune 500 conglomerates.",
     },
     {
       heading: 'Built on deep expertise,',

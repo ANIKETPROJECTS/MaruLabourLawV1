@@ -268,10 +268,10 @@ const oneStopAnims = [
 ];
 
 const defaultStats = [
+  { target: 1979, decimals: 0, suffix: "", label: "Established Since" },
+  { target: 40, decimals: 0, suffix: "+", label: "Years of Experience" },
   { target: 300, decimals: 0, suffix: "+", label: "Clients Served" },
-  { target: 4.9, decimals: 1, suffix: "★", label: "Average Rating" },
-  { target: 40, decimals: 0, suffix: "+", label: "Years of Expertise" },
-  { target: 98, decimals: 0, suffix: "%", label: "Retention Rate" },
+  { target: 4, decimals: 0, suffix: "", label: "Labour Codes" },
 ];
 
 const fallbackClientLogos: PortfolioClient[] = [

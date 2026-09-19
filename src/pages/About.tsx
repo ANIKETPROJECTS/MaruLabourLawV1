@@ -44,8 +44,9 @@ const DEFAULT_STORY_SLIDES = [
 ];
 
 const DEFAULT_HERO_STATS = [
-  { value: '1979', label: 'Established' },
-  { value: '45+',  label: 'Years of Experience' },
+  { value: '1979', label: 'Established Since' },
+  { value: '40+',  label: 'Years of Experience' },
+  { value: '300+', label: 'Clients Served' },
   { value: '4',    label: 'Labour Codes' },
 ];
 
@@ -280,7 +281,7 @@ const About = () => {
   const whyMcsHeadingEnd       = apiData?.whyMcsHeadingEnd       ?? 'Execution.';
   const whyMcsBadge1Value      = apiData?.whyMcsBadge1Value      ?? '98%';
   const whyMcsBadge1Label      = apiData?.whyMcsBadge1Label      ?? 'Client Retention';
-  const whyMcsBadge2Value      = apiData?.whyMcsBadge2Value      ?? '500+';
+  const whyMcsBadge2Value      = apiData?.whyMcsBadge2Value      ?? '300+';
   const whyMcsBadge2Label      = apiData?.whyMcsBadge2Label      ?? 'Clients Served';
   const whyMcsImageUrl         = apiData?.whyMcsImageUrl         || '';
 

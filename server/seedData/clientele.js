@@ -5,10 +5,10 @@ export const clienteleSeed = {
     'Trusted by 300+ corporations across India to navigate complex labour law and stay fully compliant.',
 
   stats: [
+    { target: 1979, suffix: '', decimals: 0, label: 'Established Since' },
+    { target: 40, suffix: '+', decimals: 0, label: 'Years of Experience' },
     { target: 300, suffix: '+', decimals: 0, label: 'Clients Served' },
-    { target: 40, suffix: '+', decimals: 0, label: 'Years of Expertise' },
-    { target: 8, suffix: '+', decimals: 0, label: 'Industries' },
-    { target: 98, suffix: '%', decimals: 0, label: 'Retention Rate' },
+    { target: 4, suffix: '', decimals: 0, label: 'Labour Codes' },
   ],
 
   industries: [

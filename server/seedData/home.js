@@ -103,10 +103,10 @@ export const homeSeed = {
     { text: "We have had a positive experience working with Maru Consultancy Services and appreciate their professional approach, responsiveness, and timely support. Their expertise in Labour Laws and Statutory Compliance has been valuable in helping us manage compliance requirements effectively. We appreciate their continued guidance and look forward to a long and successful association.", author: "Prashant Khachane", role: "Asst. Manager Accounts — POLYRUB EXTRUSIONS (INDIA) PVT LTD." },
   ],
   stats: [
+    { target: 1979, decimals: 0, suffix: '', label: 'Established Since' },
+    { target: 40, decimals: 0, suffix: '+', label: 'Years of Experience' },
     { target: 300, decimals: 0, suffix: '+', label: 'Clients Served' },
-    { target: 4.9, decimals: 1, suffix: '★', label: 'Average Rating' },
-    { target: 40, decimals: 0, suffix: '+', label: 'Years of Expertise' },
-    { target: 98, decimals: 0, suffix: '%', label: 'Retention Rate' },
+    { target: 4, decimals: 0, suffix: '', label: 'Labour Codes' },
   ],
 
   // ── Latest Insights ───────────────────────────────────

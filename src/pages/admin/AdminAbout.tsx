@@ -26,9 +26,10 @@ const EMPTY: AboutContent = {
   ],
   estYear: '1979',
   heroStats: [
-    { value: '500+', label: 'Corporate Clients' },
-    { value: '21+',  label: 'Years' },
-    { value: '15+',  label: 'States' },
+    { value: '1979', label: 'Established Since' },
+    { value: '40+',  label: 'Years of Experience' },
+    { value: '300+', label: 'Clients Served' },
+    { value: '4',    label: 'Labour Codes' },
   ],
   marqueeServices: [
     'Labour Law Compliance', 'Payroll & Salary Structuring', 'Statutory Compliance & Filings',
@@ -36,7 +37,7 @@ const EMPTY: AboutContent = {
     'HR Policy & Advisory', 'Legal Representation', 'Training & Workshops',
   ],
   storySlides: [
-    { heading: 'Founded on a vision of', headingHighlight: 'simplified compliance.', body: "What started as a boutique advisory in Mumbai has grown into a pan-India powerhouse trusted by some of India's most respected corporations. We manage compliance for 500+ organisations — from dynamic startups to Fortune 500 conglomerates." },
+    { heading: 'Founded on a vision of', headingHighlight: 'simplified compliance.', body: "What started as a boutique advisory in Mumbai has grown into a pan-India powerhouse trusted by some of India's most respected corporations. We manage compliance for 300+ organisations — from dynamic startups to Fortune 500 conglomerates." },
     { heading: 'Built on deep expertise,', headingHighlight: 'not guesswork.', body: "Every engagement is led by consultants who live and breathe labour law — tracking every amendment across 15+ states so our clients never have to. That rigor is what turned a single Mumbai office into a nationwide practice." },
     { heading: 'Powered by technology,', headingHighlight: 'guided by people.', body: "Our proprietary compliance dashboards give clients real-time visibility into every filing and audit — backed by a dedicated consultant who's always a call away. It's how we keep 98% of our clients year after year." },
   ],
@@ -81,7 +82,7 @@ const EMPTY: AboutContent = {
   whyMcsHeadingEnd: 'Execution.',
   whyMcsBadge1Value: '98%',
   whyMcsBadge1Label: 'Client Retention',
-  whyMcsBadge2Value: '500+',
+  whyMcsBadge2Value: '300+',
   whyMcsBadge2Label: 'Clients Served',
   whyMcsImageUrl: '',
   // Journey
@@ -335,12 +336,12 @@ export default function AdminAbout() {
       </Section>
 
       {/* ── Hero Stats ── */}
-      <Section title="Hero Stats" description="Three numbers shown at the bottom of the hero panel (e.g. 500+, Corporate Clients).">
+      <Section title="Hero Stats" description="The four numbers shown at the bottom of the hero panel (1979, 40+, 300+, and 4 Labour Codes).">
         {listOf<AboutHeroStat>(
           'heroStats', data.heroStats,
           (item, _i, onChange, onRemove) => (
             <div className="flex gap-2 items-center">
-              <TextInput placeholder="Value (e.g. 500+)" value={item.value}
+              <TextInput placeholder="Value (e.g. 300+)" value={item.value}
                 onChange={e => onChange({ ...item, value: e.target.value })} className="w-28" />
               <TextInput placeholder="Label (e.g. Corporate Clients)" value={item.label}
                 onChange={e => onChange({ ...item, label: e.target.value })} />
@@ -602,7 +603,7 @@ export default function AdminAbout() {
           <div className="p-3 rounded-xl border border-gray-100 space-y-2">
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider" style={{ fontFamily: PP }}>Dark badge (top-left)</p>
             <div className="flex gap-2">
-              <TextInput placeholder="Value (e.g. 500+)" value={data.whyMcsBadge2Value} onChange={e => set('whyMcsBadge2Value', e.target.value)} style={{ width: '90px' }} />
+              <TextInput placeholder="Value (e.g. 300+)" value={data.whyMcsBadge2Value} onChange={e => set('whyMcsBadge2Value', e.target.value)} style={{ width: '90px' }} />
               <TextInput placeholder="Label (e.g. Clients Served)" value={data.whyMcsBadge2Label} onChange={e => set('whyMcsBadge2Label', e.target.value)} />
             </div>
           </div>

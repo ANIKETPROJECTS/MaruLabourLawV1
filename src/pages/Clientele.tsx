@@ -48,10 +48,10 @@ const FALLBACK_IMAGES = [
 ];
 
 const DEFAULT_STATS = [
+  { target: 1979, suffix: '', decimals: 0, label: 'Established Since' },
+  { target: 40, suffix: '+', decimals: 0, label: 'Years of Experience' },
   { target: 300, suffix: '+', decimals: 0, label: 'Clients Served' },
-  { target: 40,  suffix: '+', decimals: 0, label: 'Years of Expertise' },
-  { target: 8,   suffix: '+', decimals: 0, label: 'Industries' },
-  { target: 98,  suffix: '%', decimals: 0, label: 'Retention Rate' },
+  { target: 4, suffix: '', decimals: 0, label: 'Labour Codes' },
 ];
 
 const DEFAULT_INDUSTRIES = [
@@ -163,10 +163,10 @@ const Clientele = () => {
   const marqueeText          = apiData?.marqueeText          ?? 'Serving 300+ Corporations Across India';
   const testimonialsHeading  = apiData?.testimonialsHeading  ?? 'Trusted by Industry Leaders';
   const testimonialsStats    = apiData?.testimonialsStats?.length ? apiData.testimonialsStats : [
-    { target: 300, decimals: 0, suffix: '+',  label: 'Clients Served' },
-    { target: 4.9, decimals: 1, suffix: '★', label: 'Average Rating' },
-    { target: 40,  decimals: 0, suffix: '+',  label: 'Years of Expertise' },
-    { target: 98,  decimals: 0, suffix: '%',  label: 'Retention Rate' },
+    { target: 1979, decimals: 0, suffix: '', label: 'Established Since' },
+    { target: 40, decimals: 0, suffix: '+', label: 'Years of Experience' },
+    { target: 300, decimals: 0, suffix: '+', label: 'Clients Served' },
+    { target: 4, decimals: 0, suffix: '', label: 'Labour Codes' },
   ];
 
   const ctaLabel      = apiData?.ctaLabel      ?? 'Join Our Clientele';

@@ -240,10 +240,10 @@ const home = {
   servicesPreviewDescription: 'From registrations and monthly compliance to audits, due diligence, notices, industrial relations and Labour Codes implementation.',
   testimonialsHeading: 'Trusted Across Industries for Decades',
   stats: [
-    { target: 1979, decimals: 0, suffix: '', label: 'Serving Since' },
-    { target: 45, decimals: 0, suffix: '+', label: 'Years of Experience' },
-    { target: 4, decimals: 0, suffix: '', label: 'Labour Codes' },
+    { target: 1979, decimals: 0, suffix: '', label: 'Established Since' },
+    { target: 40, decimals: 0, suffix: '+', label: 'Years of Experience' },
     { target: 300, decimals: 0, suffix: '+', label: 'Clients Served' },
+    { target: 4, decimals: 0, suffix: '', label: 'Labour Codes' },
   ],
   featuredServiceSlugs: services.slice(0, 8).map((service) => service.slug),
 };
@@ -255,8 +255,9 @@ const about = {
   heroHeadlineBottom: '',
   heroSubtext: 'Established in 1979 in Mumbai, MCS is a specialised Labour Law, Industrial Relations and Statutory Compliance consultancy supporting employers in managing India’s evolving employment regulatory framework.',
   heroStats: [
-    { value: '1979', label: 'Established' },
-    { value: '45+', label: 'Years of Experience' },
+    { value: '1979', label: 'Established Since' },
+    { value: '40+', label: 'Years of Experience' },
+    { value: '300+', label: 'Clients Served' },
     { value: '4', label: 'Labour Codes' },
   ],
   marqueeServices: ['Labour Codes Advisory', 'Statutory Compliance', 'Labour Audits', 'Contract Labour', 'Payroll & Wage Advisory', 'Industrial Relations', 'Inspections & Representation', 'HR Documentation'],
@@ -301,9 +302,9 @@ const clientele = {
   heroHeadline: 'Trusted Across Industries for Decades',
   heroSubtext: 'MCS supports organisations across diverse sectors and workforce environments. Client names and logos should be published only where permission or appropriate usage rights are confirmed.',
   stats: [
-    { target: 1979, suffix: '', decimals: 0, label: 'Serving Since' },
-    { target: 45, suffix: '+', decimals: 0, label: 'Years of Experience' },
-    { target: 8, suffix: '+', decimals: 0, label: 'Industries' },
+    { target: 1979, suffix: '', decimals: 0, label: 'Established Since' },
+    { target: 40, suffix: '+', decimals: 0, label: 'Years of Experience' },
+    { target: 300, suffix: '+', decimals: 0, label: 'Clients Served' },
     { target: 4, suffix: '', decimals: 0, label: 'Labour Codes' },
   ],
   industries: [

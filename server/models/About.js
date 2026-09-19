@@ -59,7 +59,7 @@ const AboutSchema = new mongoose.Schema({
   whyMcsHeadingEnd:       { type: String, default: 'Execution.' },
   whyMcsBadge1Value:      { type: String, default: '98%' },
   whyMcsBadge1Label:      { type: String, default: 'Client Retention' },
-  whyMcsBadge2Value:      { type: String, default: '500+' },
+  whyMcsBadge2Value:      { type: String, default: '300+' },
   whyMcsBadge2Label:      { type: String, default: 'Clients Served' },
   whyMcsImageUrl:         { type: String, default: '' },
 
