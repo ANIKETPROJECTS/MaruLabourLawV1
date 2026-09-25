@@ -7,18 +7,18 @@ import iconCall from '@assets/call_1783488542810.png';
 import iconMail from '@assets/communication_1783488559887.png';
 import { api } from '../lib/api';
 import { useLiveContent } from '../hooks/useLiveContent';
-import type { ServiceContent, FooterContent } from '../types/content';
+import type { ServiceContent, FooterContent, FooterSocialPlatform } from '../types/content';
 
-const SOCIAL_ICONS: Record<string, string> = {
-  whatsappUrl:  '/assets/social-whatsapp.png',
-  instagramUrl: '/assets/social-instagram.png',
-  linkedinUrl:  '/assets/social-linkedin.png',
-  facebookUrl:  '/assets/social-facebook.png',
-  twitterUrl:   '/assets/social-twitter.png',
+const SOCIAL_ICONS: Record<FooterSocialPlatform, string> = {
+  whatsapp: '/assets/social-whatsapp.png',
+  instagram: '/assets/social-instagram.png',
+  linkedin: '/assets/social-linkedin.png',
+  facebook: '/assets/social-facebook.png',
+  twitter: '/assets/social-twitter.png',
 };
-const SOCIAL_LABELS: Record<string, string> = {
-  whatsappUrl: 'WhatsApp', instagramUrl: 'Instagram', linkedinUrl: 'LinkedIn',
-  facebookUrl: 'Facebook', twitterUrl: 'Twitter',
+const SOCIAL_LABELS: Record<FooterSocialPlatform, string> = {
+  whatsapp: 'WhatsApp', instagram: 'Instagram', linkedin: 'LinkedIn',
+  facebook: 'Facebook', twitter: 'Twitter',
 };
 
 const FOOTER_DEFAULTS: FooterContent = {
@@ -28,6 +28,14 @@ const FOOTER_DEFAULTS: FooterContent = {
   linkedinUrl:  'https://linkedin.com/company/maruconsultancy',
   facebookUrl:  'https://facebook.com/maruconsultancy',
   twitterUrl:   'https://twitter.com/maruconsultancy',
+  socialLinks: [
+    { platform: 'whatsapp', href: 'https://wa.me/919876543210', enabled: true },
+    { platform: 'instagram', href: 'https://instagram.com/maruconsultancy', enabled: true },
+    { platform: 'linkedin', href: 'https://linkedin.com/company/maruconsultancy', enabled: true },
+    { platform: 'facebook', href: 'https://facebook.com/maruconsultancy', enabled: true },
+    { platform: 'twitter', href: 'https://twitter.com/maruconsultancy', enabled: true },
+  ],
+  socialLinksConfigured: true,
   address:      '614, Mulund - Goregaon Link Rd, Nahur West, Industrial Area, Bhandup West, Mumbai, Maharashtra 400080',
   phone1: '+91 98765 43210', phone1Href: 'tel:+919876543210',
   phone2: '022 4567 8900',   phone2Href: 'tel:02245678900',
@@ -59,7 +67,14 @@ const Layout = () => {
   };
   const fetchFooter = () => {
     api.get<FooterContent>('/footer')
-      .then((d) => setFooter({ ...FOOTER_DEFAULTS, ...d, bottomLinks: d.bottomLinks?.length ? d.bottomLinks : FOOTER_DEFAULTS.bottomLinks }))
+      .then((d) => setFooter({
+        ...FOOTER_DEFAULTS,
+        ...d,
+        socialLinks: d.socialLinksConfigured
+          ? (d.socialLinks ?? [])
+          : (d.socialLinks?.length ? d.socialLinks : FOOTER_DEFAULTS.socialLinks),
+        bottomLinks: d.bottomLinks?.length ? d.bottomLinks : FOOTER_DEFAULTS.bottomLinks,
+      }))
       .catch(() => {});
   };
   useEffect(fetchServices, []);
@@ -378,13 +393,12 @@ const Layout = () => {
                 {footer.tagline}
               </p>
               <div className="flex gap-2.5 flex-wrap">
-                {(Object.keys(SOCIAL_ICONS) as (keyof typeof SOCIAL_ICONS)[]).map((key) => {
-                  const href = footer[key as keyof FooterContent] as string;
-                  if (!href) return null;
+                {footer.socialLinks?.filter((link) => link.enabled && link.href).map((link) => {
+                  const label = SOCIAL_LABELS[link.platform];
                   return (
-                    <a key={key} href={href} target="_blank" rel="noreferrer" aria-label={SOCIAL_LABELS[key]}
+                    <a key={link.platform} href={link.href} target="_blank" rel="noopener noreferrer" aria-label={label}
                       className="w-8 h-8 lg:w-10 lg:h-10 hover:scale-110 transition-transform duration-200">
-                      <img src={SOCIAL_ICONS[key]} alt={SOCIAL_LABELS[key]} className="w-full h-full object-contain" />
+                      <img src={SOCIAL_ICONS[link.platform]} alt={label} className="w-full h-full object-contain" />
                     </a>
                   );
                 })}

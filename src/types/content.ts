@@ -436,15 +436,24 @@ export type JobContent = {
 };
 
 export type FooterBottomLink = { label: string; href: string };
+export type FooterSocialPlatform = 'whatsapp' | 'instagram' | 'linkedin' | 'facebook' | 'twitter';
+export type FooterSocialLink = {
+  platform: FooterSocialPlatform;
+  href: string;
+  enabled: boolean;
+};
 
 export type FooterContent = {
   _id?: string;
   tagline: string;
+  /** Legacy URL fields are retained for existing stored footer documents and integrations. */
   whatsappUrl: string;
   instagramUrl: string;
   linkedinUrl: string;
   facebookUrl: string;
   twitterUrl: string;
+  socialLinks: FooterSocialLink[];
+  socialLinksConfigured?: boolean;
   address: string;
   phone1: string;
   phone1Href: string;

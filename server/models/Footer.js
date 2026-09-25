@@ -5,6 +5,19 @@ const BottomLinkSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const SocialLinkSchema = new mongoose.Schema(
+  {
+    platform: {
+      type: String,
+      enum: ['whatsapp', 'instagram', 'linkedin', 'facebook', 'twitter'],
+      required: true,
+    },
+    href: { type: String, default: '' },
+    enabled: { type: Boolean, default: true },
+  },
+  { _id: false }
+);
+
 const FooterSchema = new mongoose.Schema({
   singleton:      { type: String, default: 'footer', unique: true },
   // Brand column
@@ -15,6 +28,8 @@ const FooterSchema = new mongoose.Schema({
   linkedinUrl:    String,
   facebookUrl:    String,
   twitterUrl:     String,
+  socialLinks: { type: [SocialLinkSchema], default: [] },
+  socialLinksConfigured: { type: Boolean, default: false },
   // Contact column
   address:        String,
   phone1:         String,

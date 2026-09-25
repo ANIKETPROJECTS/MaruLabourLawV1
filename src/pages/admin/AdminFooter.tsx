@@ -1,14 +1,36 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Save, Loader2, Plus, Trash2, CheckCircle2 } from 'lucide-react';
 import { api } from '../../lib/api';
-import type { FooterContent, FooterBottomLink } from '../../types/content';
+import type { FooterContent, FooterBottomLink, FooterSocialLink, FooterSocialPlatform } from '../../types/content';
 import { Section, Field, TextInput, TextArea, PrimaryButton, SecondaryButton } from '../../components/admin/FormBits';
 
 const PP = 'Poppins, sans-serif';
 
+const SOCIAL_PLATFORMS: {
+  value: FooterSocialPlatform;
+  label: string;
+  icon: string;
+  legacyField: keyof FooterContent;
+  defaultHref: string;
+}[] = [
+  { value: 'whatsapp', label: 'WhatsApp', icon: '/assets/social-whatsapp.png', legacyField: 'whatsappUrl', defaultHref: 'https://wa.me/919876543210' },
+  { value: 'instagram', label: 'Instagram', icon: '/assets/social-instagram.png', legacyField: 'instagramUrl', defaultHref: 'https://instagram.com/maruconsultancy' },
+  { value: 'linkedin', label: 'LinkedIn', icon: '/assets/social-linkedin.png', legacyField: 'linkedinUrl', defaultHref: 'https://linkedin.com/company/maruconsultancy' },
+  { value: 'facebook', label: 'Facebook', icon: '/assets/social-facebook.png', legacyField: 'facebookUrl', defaultHref: 'https://facebook.com/maruconsultancy' },
+  { value: 'twitter', label: 'Twitter / X', icon: '/assets/social-twitter.png', legacyField: 'twitterUrl', defaultHref: 'https://twitter.com/maruconsultancy' },
+];
+
+const DEFAULT_SOCIAL_LINKS: FooterSocialLink[] = SOCIAL_PLATFORMS.map(({ value, defaultHref }) => ({
+  platform: value,
+  href: defaultHref,
+  enabled: true,
+}));
+
 const DEFAULTS: FooterContent = {
   tagline: '',
   whatsappUrl: '', instagramUrl: '', linkedinUrl: '', facebookUrl: '', twitterUrl: '',
+  socialLinks: DEFAULT_SOCIAL_LINKS,
+  socialLinksConfigured: true,
   address: '',
   phone1: '', phone1Href: '',
   phone2: '', phone2Href: '',
@@ -27,10 +49,25 @@ export default function AdminFooter() {
   const [dirty, setDirty] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const [newSocialPlatform, setNewSocialPlatform] = useState<FooterSocialPlatform>('whatsapp');
+  const availableSocialPlatforms = useMemo(
+    () => SOCIAL_PLATFORMS.filter((platform) => !data.socialLinks.some((link) => link.platform === platform.value)),
+    [data.socialLinks],
+  );
+  const selectedSocialPlatform = availableSocialPlatforms.some((platform) => platform.value === newSocialPlatform)
+    ? newSocialPlatform
+    : availableSocialPlatforms[0]?.value ?? '';
 
   useEffect(() => {
     api.get<FooterContent>('/footer')
-      .then((d) => setData({ ...DEFAULTS, ...d, bottomLinks: d.bottomLinks ?? [] }))
+      .then((d) => setData({
+        ...DEFAULTS,
+        ...d,
+        socialLinks: d.socialLinksConfigured
+          ? (d.socialLinks ?? [])
+          : (d.socialLinks?.length ? d.socialLinks : DEFAULT_SOCIAL_LINKS),
+        bottomLinks: d.bottomLinks ?? [],
+      }))
       .catch((err) => setError(err instanceof Error ? err.message : 'Failed to load'))
       .finally(() => setLoading(false));
   }, []);
@@ -59,6 +96,18 @@ export default function AdminFooter() {
   };
   const addLink = () => set('bottomLinks', [...data.bottomLinks, { label: '', href: '#' }]);
   const removeLink = (i: number) => set('bottomLinks', data.bottomLinks.filter((_, idx) => idx !== i));
+
+  const updateSocialLink = <K extends 'href' | 'enabled'>(i: number, field: K, value: FooterSocialLink[K]) => {
+    const next = data.socialLinks.map((link, idx) => idx === i ? { ...link, [field]: value } : link);
+    set('socialLinks', next);
+  };
+  const addSocialLink = () => {
+    if (!selectedSocialPlatform) return;
+    set('socialLinks', [...data.socialLinks, { platform: selectedSocialPlatform, href: '', enabled: true }]);
+  };
+  const removeSocialLink = (i: number) => {
+    set('socialLinks', data.socialLinks.filter((_, idx) => idx !== i));
+  };
 
   if (loading) return <p className="text-gray-400 text-sm">Loading…</p>;
 
@@ -106,26 +155,72 @@ export default function AdminFooter() {
       </Section>
 
       {/* ── Social Links ── */}
-      <Section title="Social Links" description="URLs for each social platform icon in the footer.">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {(
-            [
-              ['whatsappUrl',  'WhatsApp URL (wa.me/…)'],
-              ['instagramUrl', 'Instagram URL'],
-              ['linkedinUrl',  'LinkedIn URL'],
-              ['facebookUrl',  'Facebook URL'],
-              ['twitterUrl',   'Twitter / X URL'],
-            ] as [keyof FooterContent, string][]
-          ).map(([field, label]) => (
-            <Field key={field} label={label}>
-              <TextInput
-                value={(data[field] as string) ?? ''}
-                onChange={(e) => set(field, e.target.value)}
-                placeholder="https://"
-              />
-            </Field>
-          ))}
+      <Section title="Social Links" description="Choose which fixed platform icons appear in the footer, update their URLs, or remove them. Changes appear on the public site after saving.">
+        <div className="space-y-3">
+          {data.socialLinks.map((link, index) => {
+            const platform = SOCIAL_PLATFORMS.find((item) => item.value === link.platform);
+            if (!platform) return null;
+            return (
+              <div key={link.platform} className="rounded-xl border border-gray-200 p-4">
+                <div className="flex flex-wrap items-center gap-3 mb-3">
+                  <img src={platform.icon} alt="" className="h-8 w-8 object-contain" />
+                  <span className="font-semibold text-sm text-gray-800 flex-1">{platform.label}</span>
+                  <label className="inline-flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={link.enabled}
+                      onChange={(e) => updateSocialLink(index, 'enabled', e.target.checked)}
+                      className="h-4 w-4 accent-[var(--primary)]"
+                    />
+                    Show in footer
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => removeSocialLink(index)}
+                    className="p-2 rounded-lg text-red-500 hover:bg-red-50 transition-colors"
+                    title={`Remove ${platform.label}`}
+                    aria-label={`Remove ${platform.label}`}
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+                <Field label={`${platform.label} link`}>
+                  <TextInput
+                    type="url"
+                    value={link.href}
+                    onChange={(e) => updateSocialLink(index, 'href', e.target.value)}
+                    placeholder="https://"
+                  />
+                </Field>
+              </div>
+            );
+          })}
+          {!data.socialLinks.length && (
+            <p className="rounded-xl border border-dashed border-gray-300 p-4 text-sm text-gray-500">
+              No social icons are currently configured. Add a platform below to show one in the footer.
+            </p>
+          )}
         </div>
+        <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
+          <select
+            value={selectedSocialPlatform}
+            onChange={(e) => setNewSocialPlatform(e.target.value as FooterSocialPlatform)}
+            disabled={!availableSocialPlatforms.length}
+            aria-label="Choose social platform"
+            className="px-4 py-2 rounded-xl border border-gray-200 bg-white text-sm"
+          >
+            {availableSocialPlatforms.map((platform) => (
+              <option key={platform.value} value={platform.value}>{platform.label}</option>
+            ))}
+            {!availableSocialPlatforms.length && <option value="">All fixed platforms are added</option>}
+          </select>
+          <SecondaryButton type="button" onClick={addSocialLink} disabled={!availableSocialPlatforms.length}>
+            <Plus size={13} /> Add social icon
+          </SecondaryButton>
+        </div>
+        <p className="text-xs text-gray-400">
+          The available icon designs are fixed to WhatsApp, Instagram, LinkedIn, Facebook, and Twitter / X. Delete removes an icon from the footer; it can be added again later.
+        </p>
       </Section>
 
       {/* ── Contact ── */}
